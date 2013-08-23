@@ -3,7 +3,8 @@ window.onload = function()
 	A = {};
 	
 	A.frame_number = 0;
-	A.input_mouse_position = [ 0, 0 ];
+	A.inputs = { mouse_position: [ 640, 360 ] };
+	A.inputs_prev = {};
 	A.scroll_x = 10; /* pixels */
 	A.scroll_y = 60; /* pixels */
 	A.map = {};
@@ -147,7 +148,7 @@ window.onload = function()
 	A.update_mouse_coordinates = function(event)
 	{
 		var a = A.cv.cv.getBoundingClientRect();
-		A.input_mouse_position = [ event.clientX - a.left, event.clientY - a.top ];
+		A.inputs.mouse_position = [ event.clientX - a.left, event.clientY - a.top ];
 	}
 	
 	A.init = function()
@@ -180,19 +181,19 @@ window.onload = function()
 	
 	A.process_input = function()
 	{
-		if (A.input_mouse_position[0] < 20)
+		if (A.inputs.mouse_position[0] < 20)
 		{
 			A.scroll_x -= 20;
 		}
-		else if (A.input_mouse_position[0] > 1260)
+		else if (A.inputs.mouse_position[0] > 1260)
 		{
 			A.scroll_x += 20;
 		}
-		if (A.input_mouse_position[1] < 20)
+		if (A.inputs.mouse_position[1] < 20)
 		{
 			A.scroll_y -= 20;
 		}
-		else if (A.input_mouse_position[1] > 700)
+		else if (A.inputs.mouse_position[1] > 700)
 		{
 			A.scroll_y += 20;
 		}
