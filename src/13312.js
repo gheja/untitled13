@@ -31,7 +31,7 @@ window.onload = function()
 	A._layer_position_to_world_position = function(x, y)
 	{
 		x -= (1280 / 2 - 64 / 2);
-		return [ (x/16 + y/32) / 2, (-x/32 + y/16) / 2];
+		return [ (y/16 + x/32) / 2, (-x/32 + y/16) / 2];
 	}
 	
 /*
