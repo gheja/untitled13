@@ -51,12 +51,10 @@ window.onload = function()
 		return [ (y/16 + x/32) / 2, (-x/32 + y/16) / 2];
 	}
 	
-/*
 	A._random_float = function(min, max)
 	{
 		return Math.random() * (max - min) + min;
 	}
-*/
 	
 	A._random_int = function(min, max, multiplier)
 	{
@@ -278,7 +276,7 @@ window.onload = function()
 		{
 			obj = A.BasicObject();
 			obj.position = [ A._random_int(2, 18, 1), A._random_int(2, 18, 1) ];
-			obj.sprites = [ [ 3, -0.2, -0.6, 0.1, 0.1 ] ];
+			obj.sprites = [ [ 6, 0.15, -0.2 ], [ 5, -0.2, -0.6, 0.05, 0.05 ], [ 4, -0.2, -0.6, 0.05, 0.05 ], [ 3, -0.2, -0.6, 0.1, 0.1 ] ];
 			
 			this.objects.push(obj);
 		}
@@ -290,6 +288,9 @@ window.onload = function()
 		A.texture_create(1, "p01fAAff//f.", 64, 32);
 		A.texture_create(2, "p45fAAff//f.", 64, 32);
 		A.texture_create(3, "p67M2W5etkvq702wOhJPQIM.p87VUfdmR.", 32, 32);
+		A.texture_create(4, "p678lvybeHZEsQ0gt.", 32, 32);
+		A.texture_create(5, "p67MTcpwopV.", 32, 32);
+		A.texture_create(6, "p00Qwb3o1wsioWq.", 32, 32);
 	}
 	
 	A.process_input = function()
