@@ -25,12 +25,14 @@ window.onload = function()
 	
 	A._world_position_to_layer_position = function(a, b)
 	{
-		return [ a * 32 - b * 32 + (1280 / 2 - 64 / 2), a * 16 + b * 16 ];
+		b += 0.5;
+		a -= 0.5;
+		return [ a * 32 - b * 32 + (1280 / 2), a * 16 + b * 16 ];
 	}
 	
 	A._layer_position_to_world_position = function(x, y)
 	{
-		x -= (1280 / 2 - 64 / 2);
+		x -= (1280 / 2);
 		return [ (y/16 + x/32) / 2, (-x/32 + y/16) / 2];
 	}
 	
