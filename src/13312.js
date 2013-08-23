@@ -5,6 +5,7 @@ window.onload = function()
 	A.frame_number = 0;
 	A.inputs = { modified: 0, mouse_position: [ 640, 360 ] };
 	A.inputs_prev = {};
+	A.cursor_position_in_world = [ 10, 10 ]; /* tiles */
 	A.scroll = [ 0, -40 ] /* pixels */
 	A.map = {};
 	A.layers = {};
@@ -155,6 +156,8 @@ window.onload = function()
 				A.texture_show(0, 0, p[0], p[1]);
 			}
 		}
+		p = A._world_position_to_layer_position(Math.floor(A.cursor_position_in_world[0]), Math.floor(A.cursor_position_in_world[1]));
+		A.texture_show(0, 1, p[0], p[1]);
 	}
 	
 	A.update_mouse_coordinates = function(event)
@@ -210,6 +213,8 @@ window.onload = function()
 		{
 			A.scroll[1] += 20;
 		}
+		
+		A.cursor_position_in_world = A._layer_position_to_world_position(A.inputs.mouse_position[0] + A.scroll[0], A.inputs.mouse_position[1] + A.scroll[1]);
 	}
 	
 	A.tick = function()
