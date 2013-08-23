@@ -126,6 +126,11 @@ window.onload = function()
 		A.textures[id] = cv;
 	}
 	
+	A.layer_clear = function(layer_id)
+	{
+		A.layers[layer_id].ctx.clearRect(0, 0, 1280, 720);
+	}
+	
 	A.texture_show = function(layer_id, texture_id, x, y)
 	{
 		A.layers[layer_id].ctx.drawImage(A.textures[texture_id].cv, x, y);
@@ -156,8 +161,13 @@ window.onload = function()
 				A.texture_show(0, 0, p[0], p[1]);
 			}
 		}
+	}
+	
+	A.render_layer1 = function()
+	{
 		p = A._world_position_to_layer_position(Math.floor(A.cursor_position_in_world[0]), Math.floor(A.cursor_position_in_world[1]));
-		A.texture_show(0, 1, p[0], p[1]);
+		A.layer_clear(1);
+		A.texture_show(1, 1, p[0], p[1]);
 	}
 	
 	A.update_mouse_coordinates = function(event)
@@ -222,6 +232,7 @@ window.onload = function()
 		A.frame_number++;
 		A.process_input();
 		A.render_layer_map();
+		A.render_layer1();
 		A.render_canvas();
 	}
 	
