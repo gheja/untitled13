@@ -149,7 +149,6 @@ window.onload = function()
 				A.texture_show(0, 0, p[0], p[1]);
 			}
 		}
-		A.texture_show(0, 1, 96, 48);
 	}
 	
 	A.update_mouse_coordinates = function(event)
