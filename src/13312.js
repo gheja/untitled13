@@ -12,6 +12,19 @@ window.onload = function()
 	A.palette = { 0: "rgba(0,0,0,0.2)", 1: "rgba(0,0,0.4)", 2: "#4a3", 3: "#391", 4: "#682", 5: "#462" };
 	A.textures = {};
 	
+	A.BasicObject = function()
+	{
+		var obj = {};
+		
+		obj.position = [ 0, 0, 0 ]; /* tiles on map */
+		obj.speed = [ 0, 0, 0 ];
+		obj.class = 0;
+		obj.owner_player = 0;
+		obj.sprites = [];
+		
+		return obj;
+	}
+	
 	A._decode = function(s, start, length)
 	{
 		var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
