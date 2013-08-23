@@ -236,28 +236,14 @@ window.onload = function()
 	
 	A.process_input = function()
 	{
-		if (A.inputs.mouse_position[0] < 20)
-		{
-			A.scroll[0] -= 20;
-		}
-		else if (A.inputs.mouse_position[0] > 1260)
-		{
-			A.scroll[0] += 20;
-		}
-		if (A.inputs.mouse_position[1] < 20)
-		{
-			A.scroll[1] -= 20;
-		}
-		else if (A.inputs.mouse_position[1] > 700)
-		{
-			A.scroll[1] += 20;
-		}
 		
 		A.cursor_position_in_world = A._layer_position_to_world_position(A.inputs.mouse_position[0] + A.scroll[0], A.inputs.mouse_position[1] + A.scroll[1]);
 		
 		if (A.inputs.mouse_button_statuses[0] & 1)
 		{
 			// pressed
+			A.scroll[0] -= A.inputs.mouse_position[0] - A.inputs_prev.mouse_position[0];
+			A.scroll[1] -= A.inputs.mouse_position[1] - A.inputs_prev.mouse_position[1];
 		}
 		
 		if (A.inputs.mouse_button_statuses[0] & 2)
@@ -265,6 +251,8 @@ window.onload = function()
 			// released
 			A.inputs.mouse_button_statuses[0] = 0;
 		}
+		
+		A.inputs_prev.mouse_position = A.inputs.mouse_position;
 	}
 	
 	A.tick = function()
