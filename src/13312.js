@@ -22,6 +22,11 @@ window.onload = function()
 		return args;
 	}
 	
+	A._world_position_to_layer_position = function(x, y)
+	{
+		return [ x * 32 - y * 32 + (1280 / 2 - 64 / 2), x * 16 + y * 16 ];
+	}
+	
 /*
 	A._random_float = function(min, max)
 	{
@@ -138,7 +143,8 @@ window.onload = function()
 		{
 			for (i=0; i<20; i++)
 			{
-				A.texture_show(0, 0, 1280 / 2 - 64 / 2 + i * 32 - j * 32, i * 16 + j * 16);
+				p = A._world_position_to_layer_position(i, j);
+				A.texture_show(0, 0, p[0], p[1]);
 			}
 		}
 		A.texture_show(0, 1, 96, 48);
