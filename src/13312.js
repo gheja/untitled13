@@ -11,11 +11,13 @@ window.onload = function()
 	A.layers = {};
 	A.palette = { 0: "rgba(0,0,0,0.2)", 1: "rgba(0,0,0.4)", 2: "#4a3", 3: "#391", 4: "#682", 5: "#462" };
 	A.textures = {};
+	A.objects = [];
 	
 	A.BasicObject = function()
 	{
 		var obj = {};
 		
+		obj.destroyed = 0;
 		obj.position = [ 0, 0, 0 ]; /* tiles on map */
 		obj.speed = [ 0, 0, 0 ];
 		obj.class = 0;
@@ -157,7 +159,7 @@ window.onload = function()
 		A.cv.ctx.fillRect(0, 0, 1280, 720);
 		A.cv.ctx.save();
 		A.cv.ctx.translate(-A.scroll[0], -A.scroll[1]);
-		for (var i=0; i<2; i++)
+		for (var i=0; i<3; i++)
 		{
 			A.cv.ctx.drawImage(A.layers[i].cv, 0, 0);
 		}
@@ -183,6 +185,26 @@ window.onload = function()
 		p = A._world_position_to_layer_position(Math.floor(A.cursor_position_in_world[0]), Math.floor(A.cursor_position_in_world[1]));
 		A.layer_clear(1);
 		A.texture_show(1, 1, p[0], p[1]);
+	}
+	
+	A.render_layer2 = function()
+	{
+		var i, obj, sprite, p;
+		
+		// TODO: do proper depth ordering for sprites
+		
+		A.layer_clear(2);
+		for (i in A.objects)
+		{
+			obj = A.objects[i];
+			
+			if (obj.destroyed)
+			{
+				continue;
+			}
+			
+			// draw the object
+		}
 	}
 	
 	A.handle_mousemove = function(event)
@@ -222,6 +244,7 @@ window.onload = function()
 		A.cv = A._create_cv(1280, 720);
 		A.layers[0] = A._create_cv(1280, 720);
 		A.layers[1] = A._create_cv(1280, 720);
+		A.layers[2] = A._create_cv(1280, 720);
 		A.cv.cv.addEventListener("mousemove", A.handle_mousemove);
 		A.cv.cv.addEventListener("mousedown", A.handle_mousedown);
 		A.cv.cv.addEventListener("mouseup", A.handle_mouseup);
@@ -279,6 +302,7 @@ window.onload = function()
 		A.process_input();
 		A.render_layer_map();
 		A.render_layer1();
+		A.render_layer2();
 		A.render_canvas();
 	}
 	
