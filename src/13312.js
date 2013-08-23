@@ -1,6 +1,8 @@
 window.onload = function()
 {
 	A = {};
+	A.scroll_x = 10; /* pixels */
+	A.scroll_y = 60; /* pixels */
 	A.map = {};
 	A.layers = {};
 	A.palette = { 0: "rgba(0,0,0,0.2)", 1: "#4a3", 2: "#aaa", 3: "#391" };
@@ -116,10 +118,13 @@ window.onload = function()
 	
 	A.render_canvas = function()
 	{
+		A.cv.ctx.save();
+		A.cv.ctx.translate(-A.scroll_x, -A.scroll_y);
 		for (var i=0; i<2; i++)
 		{
 			A.cv.ctx.drawImage(A.layers[i].cv, 0, 0);
 		}
+		A.cv.ctx.restore();
 	}
 	
 	A.render_layer_map = function()
