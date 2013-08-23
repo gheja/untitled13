@@ -3,7 +3,7 @@ window.onload = function()
 	A = {};
 	
 	A.frame_number = 0;
-	A.inputs = { mouse_position: [ 640, 360 ] };
+	A.inputs = { modified: 0, mouse_position: [ 640, 360 ] };
 	A.inputs_prev = {};
 	A.scroll = [ 0, -40 ] /* pixels */
 	A.map = {};
@@ -147,6 +147,7 @@ window.onload = function()
 	A.update_mouse_coordinates = function(event)
 	{
 		var a = A.cv.cv.getBoundingClientRect();
+		A.inputs.modified = 1;
 		A.inputs.mouse_position = [ event.clientX - a.left, event.clientY - a.top ];
 	}
 	
