@@ -236,9 +236,6 @@ window.onload = function()
 	
 	A.process_input = function()
 	{
-		
-		A.cursor_position_in_world = A._layer_position_to_world_position(A.inputs.mouse_position[0] + A.scroll[0], A.inputs.mouse_position[1] + A.scroll[1]);
-		
 		if (A.inputs.mouse_button_statuses[0] & 1)
 		{
 			// pressed
@@ -253,6 +250,8 @@ window.onload = function()
 		}
 		
 		A.inputs_prev.mouse_position = A.inputs.mouse_position;
+		
+		A.cursor_position_in_world = A._layer_position_to_world_position(A.inputs.mouse_position[0] + A.scroll[0], A.inputs.mouse_position[1] + A.scroll[1]);
 	}
 	
 	A.tick = function()
