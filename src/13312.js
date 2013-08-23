@@ -274,11 +274,14 @@ window.onload = function()
 			A.map[4 + i][4] = 2;
 		}
 		
-		obj = A.BasicObject();
-		obj.position = [ 4, 4 ];
-		obj.sprites = [ [ 3, -0.2, -0.6, 0.1, 0.1 ] ];
-		
-		this.objects.push(obj);
+		for (i=0; i<20; i++)
+		{
+			obj = A.BasicObject();
+			obj.position = [ A._random_int(2, 18, 1), A._random_int(2, 18, 1) ];
+			obj.sprites = [ [ 3, -0.2, -0.6, 0.1, 0.1 ] ];
+			
+			this.objects.push(obj);
+		}
 	}
 	
 	A.init_textures = function()
