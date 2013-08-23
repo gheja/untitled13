@@ -1,6 +1,8 @@
 window.onload = function()
 {
 	A = {};
+	
+	A.frame_number = 0;
 	A.scroll_x = 10; /* pixels */
 	A.scroll_y = 60; /* pixels */
 	A.map = {};
@@ -166,13 +168,24 @@ window.onload = function()
 		A.texture_create(1, "p23fAAff//f.", 64, 32);
 	}
 	
+	A.tick = function()
+	{
+		A.frame_number++;
+		A.render_layer_map();
+		A.render_canvas();
+	}
+	
+	A.init_tick = function()
+	{
+		window.setInterval(A.tick, 1000 / 30);
+	}
+	
 	A.start = function()
 	{
 		A.init();
 		A.init_map();
 		A.init_textures();
-		A.render_layer_map();
-		A.render_canvas();
+		A.init_tick();
 	}
 	
 	A.start();
