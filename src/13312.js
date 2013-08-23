@@ -3,6 +3,8 @@ window.onload = function()
 	A = {};
 	
 	A.frame_number = 0;
+	A.time_passed_since_last_tick = 0;
+	A.last_tick_timestamp = 0;
 	A.inputs = { modified: 0, mouse_position: [ 640, 360 ], mouse_click_position: [ 0, 0 ], mouse_button_statuses: [ 0, 0, 0 ] };
 	A.inputs_prev = {};
 	A.cursor_position_in_world = [ 10, 10 ]; /* tiles */
@@ -293,6 +295,13 @@ window.onload = function()
 		A.texture_create(6, "p00Qwb3o1wsioWq.", 32, 32);
 	}
 	
+	A.process_tick_begin = function()
+	{
+		var now = (new Date()).getTime();
+		A.time_passed_since_last_tick = (now - A.last_tick_timestamp) / 1000;
+		A.last_tick_timestamp = now;
+	}
+	
 	A.process_input = function()
 	{
 		if (A.inputs.mouse_button_statuses[0] & 1)
@@ -316,6 +325,7 @@ window.onload = function()
 	A.tick = function()
 	{
 		A.frame_number++;
+		A.process_tick_begin();
 		A.process_input();
 		A.render_layer_map();
 		A.render_layer1();
@@ -325,6 +335,7 @@ window.onload = function()
 	
 	A.init_tick = function()
 	{
+		A.last_tick_timestamp = (new Date()).getTime();
 		window.setInterval(A.tick, 1000 / 30);
 	}
 	
