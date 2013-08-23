@@ -146,7 +146,8 @@ window.onload = function()
 	
 	A.update_mouse_coordinates = function(event)
 	{
-		A.input_mouse_position = [ event.layerX, event.layerY ];
+		var a = A.cv.cv.getBoundingClientRect();
+		A.input_mouse_position = [ event.clientX - a.left, event.clientY - a.top ];
 	}
 	
 	A.init = function()
