@@ -27,6 +27,12 @@ window.onload = function()
 		return [ a * 32 - b * 32 + (1280 / 2 - 64 / 2), a * 16 + b * 16 ];
 	}
 	
+	A._layer_position_to_world_position = function(x, y)
+	{
+		x -= (1280 / 2 - 64 / 2);
+		return [ (x/16 + y/32) / 2, (-x/32 + y/16) / 2];
+	}
+	
 /*
 	A._random_float = function(min, max)
 	{
