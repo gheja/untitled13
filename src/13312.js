@@ -9,7 +9,7 @@ window.onload = function()
 	A.scroll = [ 0, -40 ] /* pixels */
 	A.map = {};
 	A.layers = {};
-	A.palette = { 0: "rgba(0,0,0,0.2)", 1: "#4a3", 2: "rgba(0,0,0.4)", 3: "#391" };
+	A.palette = { 0: "rgba(0,0,0,0.2)", 1: "#4a3", 2: "rgba(0,0,0.4)", 3: "#391", 4: "#682", 5: "#462" };
 	A.textures = {};
 	
 	A._decode = function(s, start, length)
@@ -160,7 +160,7 @@ window.onload = function()
 			for (a=0; a<20; a++)
 			{
 				p = A._world_position_to_layer_position(a, b);
-				A.texture_show(0, 0, p[0], p[1]);
+				A.texture_show(0, A.map[b][a], p[0], p[1]);
 			}
 		}
 	}
@@ -226,12 +226,18 @@ window.onload = function()
 				A.map[j][i] = 0;
 			}
 		}
+		
+		for (i=0; i<10; i++)
+		{
+			A.map[4 + i][4] = 2;
+		}
 	}
 	
 	A.init_textures = function()
 	{
 		A.texture_create(0, "p13fAAff//f.", 64, 32);
 		A.texture_create(1, "p02fAAff//f.", 64, 32);
+		A.texture_create(2, "p45fAAff//f.", 64, 32);
 	}
 	
 	A.process_input = function()
