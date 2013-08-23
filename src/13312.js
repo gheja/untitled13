@@ -172,7 +172,7 @@ window.onload = function()
 		A.texture_show(1, 1, p[0], p[1]);
 	}
 	
-	A.update_mouse_coordinates = function(event)
+	A.handle_mousemove = function(event)
 	{
 		var a = A.cv.cv.getBoundingClientRect();
 		A.inputs.modified = 1;
@@ -186,7 +186,7 @@ window.onload = function()
 		{
 			return;
 		}
-		A.update_mouse_coordinates(event);
+		A.handle_mousemove(event);
 		if (A.inputs.mouse_button_statuses[0] & 1 == 0)
 		{
 			A.inputs.mouse_click_position = A.inputs.mouse_position;
@@ -209,7 +209,7 @@ window.onload = function()
 		A.cv = A._create_cv(1280, 720);
 		A.layers[0] = A._create_cv(1280, 720);
 		A.layers[1] = A._create_cv(1280, 720);
-		A.cv.cv.addEventListener("mousemove", A.update_mouse_coordinates);
+		A.cv.cv.addEventListener("mousemove", A.handle_mousemove);
 		A.cv.cv.addEventListener("mousedown", A.handle_mousedown);
 		A.cv.cv.addEventListener("mouseup", A.handle_mouseup);
 		document.getElementById("canvas0").appendChild(A.cv.cv);
