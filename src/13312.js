@@ -121,6 +121,8 @@ window.onload = function()
 	
 	A.render_canvas = function()
 	{
+		A.cv.ctx.fillStyle = "#111";
+		A.cv.ctx.fillRect(0, 0, 1280, 720);
 		A.cv.ctx.save();
 		A.cv.ctx.translate(-A.scroll_x, -A.scroll_y);
 		for (var i=0; i<2; i++)
