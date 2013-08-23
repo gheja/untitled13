@@ -9,7 +9,7 @@ window.onload = function()
 	A.scroll = [ 0, -40 ] /* pixels */
 	A.map = {};
 	A.layers = {};
-	A.palette = { 0: "rgba(0,0,0,0.2)", 1: "#4a3", 2: "rgba(0,0,0.4)", 3: "#391", 4: "#682", 5: "#462" };
+	A.palette = { 0: "rgba(0,0,0,0.2)", 1: "rgba(0,0,0.4)", 2: "#4a3", 3: "#391", 4: "#682", 5: "#462" };
 	A.textures = {};
 	
 	A._decode = function(s, start, length)
@@ -235,8 +235,8 @@ window.onload = function()
 	
 	A.init_textures = function()
 	{
-		A.texture_create(0, "p13fAAff//f.", 64, 32);
-		A.texture_create(1, "p02fAAff//f.", 64, 32);
+		A.texture_create(0, "p23fAAff//f.", 64, 32);
+		A.texture_create(1, "p01fAAff//f.", 64, 32);
 		A.texture_create(2, "p45fAAff//f.", 64, 32);
 	}
 	
