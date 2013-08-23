@@ -279,6 +279,7 @@ window.onload = function()
 			obj = A.BasicObject();
 			obj.position = [ A._random_int(2, 18, 1), A._random_int(2, 18, 1) ];
 			obj.sprites = [ [ 6, 0.15, -0.2 ], [ 5, -0.2, -0.6, 0.05, 0.05 ], [ 4, -0.2, -0.6, 0.05, 0.05 ], [ 3, -0.2, -0.6, 0.1, 0.1 ] ];
+			obj.speed = [ 1, 0, 0 ];
 			
 			this.objects.push(obj);
 		}
@@ -322,11 +323,22 @@ window.onload = function()
 		A.cursor_position_in_world = A._layer_position_to_world_position(A.inputs.mouse_position[0] + A.scroll[0], A.inputs.mouse_position[1] + A.scroll[1]);
 	}
 	
+	A.process_objects = function()
+	{
+		var i;
+		for (i in A.objects)
+		{
+			A.objects[i].position[0] += A.objects[i].speed[0] * A.time_passed_since_last_tick;
+			A.objects[i].position[1] += A.objects[i].speed[1] * A.time_passed_since_last_tick;
+		}
+	}
+	
 	A.tick = function()
 	{
 		A.frame_number++;
 		A.process_tick_begin();
 		A.process_input();
+		A.process_objects();
 		A.render_layer_map();
 		A.render_layer1();
 		A.render_layer2();
