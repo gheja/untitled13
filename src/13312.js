@@ -3,6 +3,7 @@ window.onload = function()
 	A = {};
 	
 	A.frame_number = 0;
+	A.input_mouse_position = [ 0, 0 ];
 	A.scroll_x = 10; /* pixels */
 	A.scroll_y = 60; /* pixels */
 	A.map = {};
@@ -141,11 +142,17 @@ window.onload = function()
 		A.texture_show(0, 1, 96, 48);
 	}
 	
+	A.update_mouse_coordinates = function(event)
+	{
+		A.input_mouse_position = [ event.layerX, event.layerY ];
+	}
+	
 	A.init = function()
 	{
 		A.cv = A._create_cv(1280, 720);
 		A.layers[0] = A._create_cv(1280, 720);
 		A.layers[1] = A._create_cv(1280, 720);
+		A.cv.cv.addEventListener("mousemove", A.update_mouse_coordinates);
 		document.getElementById("canvas0").appendChild(A.cv.cv);
 	}
 	
@@ -168,9 +175,30 @@ window.onload = function()
 		A.texture_create(1, "p23fAAff//f.", 64, 32);
 	}
 	
+	A.process_input = function()
+	{
+		if (A.input_mouse_position[0] < 20)
+		{
+			A.scroll_x -= 20;
+		}
+		else if (A.input_mouse_position[0] > 1260)
+		{
+			A.scroll_x += 20;
+		}
+		if (A.input_mouse_position[1] < 20)
+		{
+			A.scroll_y -= 20;
+		}
+		else if (A.input_mouse_position[1] > 700)
+		{
+			A.scroll_y += 20;
+		}
+	}
+	
 	A.tick = function()
 	{
 		A.frame_number++;
+		A.process_input();
 		A.render_layer_map();
 		A.render_canvas();
 	}
