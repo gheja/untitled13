@@ -9,7 +9,7 @@ window.onload = function()
 	A.scroll = [ 0, -40 ] /* pixels */
 	A.map = {};
 	A.layers = {};
-	A.palette = { 0: "rgba(0,0,0,0.2)", 1: "rgba(0,0,0.4)", 2: "#4a3", 3: "#391", 4: "#682", 5: "#462" };
+	A.palette = { 0: "rgba(0,0,0,0.2)", 1: "rgba(0,0,0.4)", 2: "#4a3", 3: "#391", 4: "#682", 5: "#462", 6: "rgba(190, 60, 5, 0.7)", 7: "#821", 8: "#ddd" };
 	A.textures = {};
 	A.objects = [];
 	
@@ -203,7 +203,12 @@ window.onload = function()
 				continue;
 			}
 			
-			// draw the object
+			for (j in obj.sprites)
+			{
+				sprite = obj.sprites[j];
+				p = A._world_position_to_layer_position(obj.position[0] + sprite[1], obj.position[1] + sprite[2]);
+				A.texture_show(2, sprite[0], p[0], p[1]);
+			}
 		}
 	}
 	
@@ -253,7 +258,8 @@ window.onload = function()
 	
 	A.init_map = function()
 	{
-		var i, j;
+		var i, j, obj;
+		
 		for (j=0; j<32; j++)
 		{
 			A.map[j] = {};
@@ -267,6 +273,12 @@ window.onload = function()
 		{
 			A.map[4 + i][4] = 2;
 		}
+		
+		obj = A.BasicObject();
+		obj.position = [ 4, 4 ];
+		obj.sprites = [ [ 3, -0.2, -0.6, 0.1, 0.1 ] ];
+		
+		this.objects.push(obj);
 	}
 	
 	A.init_textures = function()
@@ -274,6 +286,7 @@ window.onload = function()
 		A.texture_create(0, "p23fAAff//f.", 64, 32);
 		A.texture_create(1, "p01fAAff//f.", 64, 32);
 		A.texture_create(2, "p45fAAff//f.", 64, 32);
+		A.texture_create(3, "p67M2W5etkvq702wOhJPQIM.p87VUfdmR.", 32, 32);
 	}
 	
 	A.process_input = function()
