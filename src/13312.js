@@ -5,8 +5,7 @@ window.onload = function()
 	A.frame_number = 0;
 	A.inputs = { mouse_position: [ 640, 360 ] };
 	A.inputs_prev = {};
-	A.scroll_x = 10; /* pixels */
-	A.scroll_y = 60; /* pixels */
+	A.scroll = [ 0, -40 ] /* pixels */
 	A.map = {};
 	A.layers = {};
 	A.palette = { 0: "rgba(0,0,0,0.2)", 1: "#4a3", 2: "#aaa", 3: "#391" };
@@ -125,7 +124,7 @@ window.onload = function()
 		A.cv.ctx.fillStyle = "#111";
 		A.cv.ctx.fillRect(0, 0, 1280, 720);
 		A.cv.ctx.save();
-		A.cv.ctx.translate(-A.scroll_x, -A.scroll_y);
+		A.cv.ctx.translate(-A.scroll[0], -A.scroll[1]);
 		for (var i=0; i<2; i++)
 		{
 			A.cv.ctx.drawImage(A.layers[i].cv, 0, 0);
@@ -183,19 +182,19 @@ window.onload = function()
 	{
 		if (A.inputs.mouse_position[0] < 20)
 		{
-			A.scroll_x -= 20;
+			A.scroll[0] -= 20;
 		}
 		else if (A.inputs.mouse_position[0] > 1260)
 		{
-			A.scroll_x += 20;
+			A.scroll[0] += 20;
 		}
 		if (A.inputs.mouse_position[1] < 20)
 		{
-			A.scroll_y -= 20;
+			A.scroll[1] -= 20;
 		}
 		else if (A.inputs.mouse_position[1] > 700)
 		{
-			A.scroll_y += 20;
+			A.scroll[1] += 20;
 		}
 	}
 	
