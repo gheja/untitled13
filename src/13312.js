@@ -22,9 +22,9 @@ window.onload = function()
 		return args;
 	}
 	
-	A._world_position_to_layer_position = function(x, y)
+	A._world_position_to_layer_position = function(a, b)
 	{
-		return [ x * 32 - y * 32 + (1280 / 2 - 64 / 2), x * 16 + y * 16 ];
+		return [ a * 32 - b * 32 + (1280 / 2 - 64 / 2), a * 16 + b * 16 ];
 	}
 	
 /*
@@ -139,11 +139,13 @@ window.onload = function()
 	
 	A.render_layer_map = function()
 	{
-		for (j=0; j<20; j++)
+		var a, b, p;
+		
+		for (b=0; b<20; b++)
 		{
-			for (i=0; i<20; i++)
+			for (a=0; a<20; a++)
 			{
-				p = A._world_position_to_layer_position(i, j);
+				p = A._world_position_to_layer_position(a, b);
 				A.texture_show(0, 0, p[0], p[1]);
 			}
 		}
