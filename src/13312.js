@@ -3,7 +3,7 @@ window.onload = function()
 	A = {};
 	
 	A.frame_number = 0;
-	A.inputs = { modified: 0, mouse_position: [ 640, 360 ] };
+	A.inputs = { modified: 0, mouse_position: [ 640, 360 ], mouse_click_position: [ 0, 0 ], mouse_button_statuses: [ 0, 0, 0 ] };
 	A.inputs_prev = {};
 	A.cursor_position_in_world = [ 10, 10 ]; /* tiles */
 	A.scroll = [ 0, -40 ] /* pixels */
@@ -179,12 +179,39 @@ window.onload = function()
 		A.inputs.mouse_position = [ event.clientX - a.left, event.clientY - a.top ];
 	}
 	
+	A.handle_mousedown = function(event)
+	{
+		// handle left click only
+		if (event.which != 1)
+		{
+			return;
+		}
+		A.update_mouse_coordinates(event);
+		if (A.inputs.mouse_button_statuses[0] & 1 == 0)
+		{
+			A.inputs.mouse_click_position = A.inputs.mouse_position;
+		}
+		A.inputs.mouse_button_statuses[0] |= 1; // press happened
+	}
+	
+	A.handle_mouseup = function(event)
+	{
+		// handle left click only
+		if (event.which != 1)
+		{
+			return;
+		}
+		A.inputs.mouse_button_statuses[0] |= 2; // release happened
+	}
+	
 	A.init = function()
 	{
 		A.cv = A._create_cv(1280, 720);
 		A.layers[0] = A._create_cv(1280, 720);
 		A.layers[1] = A._create_cv(1280, 720);
 		A.cv.cv.addEventListener("mousemove", A.update_mouse_coordinates);
+		A.cv.cv.addEventListener("mousedown", A.handle_mousedown);
+		A.cv.cv.addEventListener("mouseup", A.handle_mouseup);
 		document.getElementById("canvas0").appendChild(A.cv.cv);
 	}
 	
@@ -227,6 +254,17 @@ window.onload = function()
 		}
 		
 		A.cursor_position_in_world = A._layer_position_to_world_position(A.inputs.mouse_position[0] + A.scroll[0], A.inputs.mouse_position[1] + A.scroll[1]);
+		
+		if (A.inputs.mouse_button_statuses[0] & 1)
+		{
+			// pressed
+		}
+		
+		if (A.inputs.mouse_button_statuses[0] & 2)
+		{
+			// released
+			A.inputs.mouse_button_statuses[0] = 0;
+		}
 	}
 	
 	A.tick = function()
