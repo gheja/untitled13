@@ -206,7 +206,14 @@ window.onload = function()
 			for (j in obj.sprites)
 			{
 				sprite = obj.sprites[j];
-				p = A._world_position_to_layer_position(obj.position[0] + sprite[1], obj.position[1] + sprite[2]);
+				
+				// this is heavily eyecandy, that's why it's here and not in process_objects()
+				sprite[5] += sprite[7] * A.time_passed_since_last_tick;
+				sprite[6] += sprite[8] * A.time_passed_since_last_tick;
+				rx = (Math.cos(sprite[5]) * sprite[3]) || 0;
+				ry = (Math.sin(sprite[6]) * sprite[4]) || 0;
+				
+				p = A._world_position_to_layer_position(obj.position[0] + sprite[1] + rx, obj.position[1] + sprite[2] + ry);
 				A.texture_show(2, sprite[0], p[0], p[1]);
 			}
 		}
@@ -279,7 +286,16 @@ window.onload = function()
 			obj = A.BasicObject();
 			obj.position = [ A._random_int(2, 18, 1), A._random_int(2, 18, 1) ];
 			obj.sprites = [ [ 6, 0.15, -0.2 ], [ 5, -0.2, -0.6, 0.05, 0.05 ], [ 4, -0.2, -0.6, 0.05, 0.05 ], [ 3, -0.2, -0.6, 0.1, 0.1 ] ];
-			obj.speed = [ 1, 0, 0 ];
+			obj.speed = [ 0.5, 0, 0 ];
+			
+			// candy for the eye!
+			for (j=1; j<4; j++)
+			{
+				obj.sprites[j][5] = A._random_float(0, 1);
+				obj.sprites[j][6] = A._random_float(0, 1);
+				obj.sprites[j][7] = A._random_float(1, 4);
+				obj.sprites[j][8] = A._random_float(1, 4);
+			}
 			
 			this.objects.push(obj);
 		}
