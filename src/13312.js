@@ -36,9 +36,9 @@ window.onload = function()
 		return obj;
 	}
 	
-	A.ArrowObject = function(valid_directions, direction)
+	A.ArrowObject = function(position, valid_directions, direction)
 	{
-		var obj = new A.BasicObject(0, [ 0, 0 ], 0, 0, []);
+		var obj = new A.BasicObject(1, position, 0, 0, []);
 		
 		obj.valid_directions = valid_directions;
 		obj.direction = direction;
@@ -367,7 +367,7 @@ window.onload = function()
 			A.objects.push(new A.Ghost1Object([ A._random_int(2, 18, 1), A._random_int(2, 18, 1) ], 0.5, A._random_int(0, 3, 1)));
 		}
 		
-		obj = new A.ArrowObject([0, 1, 0, 1], 2);
+		obj = new A.ArrowObject([0, 10], [0, 1, 0, 1], 2);
 		A.objects.push(obj);
 	}
 	
