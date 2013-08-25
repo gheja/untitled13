@@ -278,10 +278,7 @@ window.onload = function()
 			return;
 		}
 		A.handle_mousemove(event);
-		if (A.inputs.mouse_button_statuses[0] & 1 == 0)
-		{
-			A.inputs.mouse_click_position = A.inputs.mouse_position;
-		}
+		A.inputs.mouse_click_position = A.inputs.mouse_position;
 		A.inputs.mouse_button_statuses[0] |= 1; // press happened
 	}
 	
@@ -373,6 +370,11 @@ window.onload = function()
 		{
 			// released
 			A.inputs.mouse_button_statuses[0] = 0;
+			
+			// clicked (no move made)
+			if (A.inputs.mouse_position[0] == A.inputs.mouse_click_position[0] && A.inputs.mouse_position[1] == A.inputs.mouse_click_position[1])
+			{
+			}
 		}
 		
 		A.inputs_prev.mouse_position = A.inputs.mouse_position;
