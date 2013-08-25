@@ -15,7 +15,7 @@ window.onload = function()
 	A.scroll = [ 0, -40 ] /* pixels */
 	A.map = {};
 	A.layers = {};
-	A.palette = { 0: "rgba(0,0,0,0.2)", 1: "rgba(0,0,0.4)", 2: "#4a3", 3: "#391", 4: "#682", 5: "#462", 6: "rgba(190, 60, 5, 0.7)", 7: "#821", 8: "#ddd", 9: "#dd0", "a": "#ee0" };
+	A.palette = { 0: "rgba(0,0,0,0.2)", 1: "rgba(0,0,0.4)", 2: "#4a3", 3: "#391", 4: "#682", 5: "#462", 6: "rgba(190, 60, 5, 0.7)", 7: "#821", 8: "#ddd", 9: "#dd0", "a": "#ee0", "b": "#bbb", "c": "#ccc", "d": "#ddd", "e": "#248", "f": "rgba(0,128,255,0.7)" };
 	A.textures = {};
 	A.objects = [];
 	
@@ -484,6 +484,10 @@ window.onload = function()
 			A.objects.push(new A.Ghost1Object([ -2 - i, 1 ], 1));
 			A.objects.push(new A.Ghost1Object([ -2 - i, 14 ], 1));
 		}
+		
+		A.map[7][7] = 7;
+		A.map[7][8] = 7;
+		A.map[7][9] = 7;
 	}
 	
 	A.init_textures = function()
@@ -495,6 +499,7 @@ window.onload = function()
 		A.texture_create(4, "p678lvybeHZEsQ0gt.", TEXTURE_SIZE_32X32);
 		A.texture_create(5, "p67MTcpwopV.", TEXTURE_SIZE_32X32);
 		A.texture_create(6, "p00eZYcamgonlmc.", TEXTURE_SIZE_64X32);
+		A.texture_create(7, "pb0fAAff//f.aDM", TEXTURE_SIZE_64X32);
 		A.texture_create("a0", "p00gSsesS.", TEXTURE_SIZE_64X32);
 		A.texture_create("a1", "p00gssssg.", TEXTURE_SIZE_64X32);
 		A.texture_create("a2", "p00SgSses.", TEXTURE_SIZE_64X32);
