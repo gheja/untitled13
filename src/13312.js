@@ -208,6 +208,28 @@ window.onload = function()
 		return obj;
 	}
 	
+	A._place_roads_on_map = function(roads, arrows)
+	{
+		var i, a, b;
+		
+		for (i in roads)
+		{
+			for (a=roads[i][0]; a<=roads[i][2]; a++)
+			{
+				for (b=roads[i][1]; b<=roads[i][3]; b++)
+				{
+					A.map[a][b] = 2;
+				}
+			}
+		}
+		
+		// this should be replaced with auto-placement by the previous road tiles
+		for (i in arrows)
+		{
+			A.objects.push(new A.ArrowObject([ arrows[i][0], arrows[i][1] ], [ arrows[i][2] & 1, arrows[i][2] & 2, arrows[i][2] & 4, arrows[i][2] & 8 ], arrows[i][3]));
+		}
+	}
+	
 	A.texture_create = function(id, recipe, w, h)
 	{
 		w = w ? w : 32;
@@ -414,10 +436,24 @@ window.onload = function()
 			}
 		}
 		
-		for (i=0; i<10; i++)
-		{
-			A.map[4 + i][4] = 2;
-		}
+		A._place_roads_on_map(
+			[
+				[ 0, 1, 12, 1 ],
+				[ 12, 1, 12, 10 ],
+				[ 13, 6, 18, 6 ],
+				[ 0, 14, 6, 14 ],
+				[ 6, 1, 6, 14 ],
+				[ 6, 10, 12, 10 ]
+			],
+			[
+				[ 6, 1, 14, 1 ],
+				[ 12, 1, 12, 2 ],
+				[ 12, 6, 7, 1 ],
+				[ 6, 14, 9, 0 ],
+				[ 6, 10, 7, 1 ],
+				[ 12, 10, 9, 0 ]
+			]
+		);
 		
 		for (i=0; i<20; i++)
 		{
