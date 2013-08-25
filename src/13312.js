@@ -111,6 +111,13 @@ window.onload = function()
 			}
 		}
 		
+		obj.on_collision_middle = function(obj2, i, distance)
+		{
+			obj2.position = [ Math.round(obj2.position[0]), Math.round(obj2.position[1]) ];
+			obj2.position_prev = [ obj2.position[0], obj2.position[1] ];
+			obj2.direction = this.direction;
+		}
+		
 		obj.on_tick = function()
 		{
 			this.collision_check();
