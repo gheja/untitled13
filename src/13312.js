@@ -22,7 +22,7 @@ window.onload = function()
 		obj.owner_player = owner_player;
 		obj.position = position; /* tiles on map */
 		obj.speed = speed; /* tiles per second */
-		obj.sprites = sprites; /* array of sprites and properties: [ [ sprite_id, position_x, positon_y ], ... ] */
+		obj.sprites = sprites; /* array of sprites and properties: [ [ sprite_id, screen_position_x, screen_positon_y ], ... ] */
 		
 		obj.shadow_sprite_id = 6;
 		obj.destroyed = 0;
@@ -41,19 +41,19 @@ window.onload = function()
 		
 		if (valid_directions & 1)
 		{
-			obj.sprites.push([ "a1", 0, 0 ]);
+			obj.sprites.push([ "a1", -32, -16 ]);
 		}
 		if (valid_directions & 2)
 		{
-			obj.sprites.push([ "a2", 0, 0 ]);
+			obj.sprites.push([ "a2", -32, -16 ]);
 		}
 		if (valid_directions & 4)
 		{
-			obj.sprites.push([ "a3", 0, 0 ]);
+			obj.sprites.push([ "a3", -32, -16 ]);
 		}
 		if (valid_directions & 8)
 		{
-			obj.sprites.push([ "a4", 0, 0 ]);
+			obj.sprites.push([ "a4", -32, -16 ]);
 		}
 		
 		return obj;
@@ -61,10 +61,10 @@ window.onload = function()
 	
 	A.Ghost1Object = function(position, speed)
 	{
-		var obj = new A.BasicObject(1, position, speed, [ [ 6, 0.15, -0.2 ], [ 5, -0.2, -0.6, 0.05, 0.05 ], [ 4, -0.2, -0.6, 0.05, 0.05 ], [ 3, -0.2, -0.6, 0.1, 0.1 ] ]);
+		var obj = new A.BasicObject(1, position, speed, [ [ 5, -16, -32, 2, 2 ], [ 4, -16, -32, 2, 2 ], [ 3, -16, -32, 2, 2 ] ]);
 		
 		// candy for the eye!
-		for (j=1; j<4; j++)
+		for (j=0; j<3; j++)
 		{
 			obj.sprites[j][5] = A._random_float(0, 1);
 			obj.sprites[j][6] = A._random_float(0, 1);
@@ -266,8 +266,7 @@ window.onload = function()
 				rx = (Math.cos(sprite[5]) * sprite[3]) || 0;
 				ry = (Math.sin(sprite[6]) * sprite[4]) || 0;
 				
-				p = A._world_position_to_layer_position(obj.position[0] + sprite[1] + rx, obj.position[1] + sprite[2] + ry);
-				A.texture_show(2, sprite[0], p[0], p[1]);
+				A.texture_show(2, sprite[0], p[0] + sprite[1] + rx, p[1] + sprite[2] + ry);
 			}
 		}
 	}
