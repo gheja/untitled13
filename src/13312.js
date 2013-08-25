@@ -324,11 +324,11 @@ window.onload = function()
 		
 		for (i=0; i<20; i++)
 		{
-			this.objects.push(new A.Ghost1Object([ A._random_int(2, 18, 1), A._random_int(2, 18, 1) ], [ 0.5, 0, 0 ]));
+			A.objects.push(new A.Ghost1Object([ A._random_int(2, 18, 1), A._random_int(2, 18, 1) ], [ 0.5, 0, 0 ]));
 		}
 		
 		obj = A.ArrowObject(15, 1);
-		this.objects.push(obj);
+		A.objects.push(obj);
 	}
 	
 	A.init_textures = function()
