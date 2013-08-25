@@ -43,7 +43,7 @@ window.onload = function()
 		}
 		
 		// object is just passing by the middle of the object
-		obj.on_collision_middle = function(obj, id, distance)
+		obj.on_collision_middle = function(obj2, id, distance)
 		{
 		}
 		
