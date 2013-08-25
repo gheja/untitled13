@@ -57,9 +57,10 @@ window.onload = function()
 				if (distance < 0.5)
 				{
 					this.on_collision(A.objects[i], i, distance);
-					distance_prev = Math.sqrt(Math.pow(this.position[0] - A.objects[i].position_prev[0], 2) + Math.pow(this.position[1] - A.objects[i].position_prev[1], 2));
 					
-					/* approx */
+					// TODO: BUG: the following needs to be rethought as it misses some pass-bys... sometimes...
+					
+					distance_prev = Math.sqrt(Math.pow(this.position[0] - A.objects[i].position_prev[0], 2) + Math.pow(this.position[1] - A.objects[i].position_prev[1], 2));
 					distance_next = Math.sqrt(
 						Math.pow(this.position[0] - (A.objects[i].position[0] + (A.objects[i].position[0] - A.objects[i].position_prev[0])), 2) + 
 						Math.pow(this.position[1] - (A.objects[i].position[1] + (A.objects[i].position[1] - A.objects[i].position_prev[1])), 2)
