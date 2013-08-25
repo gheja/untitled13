@@ -267,6 +267,25 @@ window.onload = function()
 					i += 7;
 				break;
 				
+				case "a": // random [a]lpha overlay (min_alpha, max_alpha)
+					var pixels = c.getImageData(0, 0, w, h);
+					
+					args = A._decode(recipe, i + 1, 2);
+					for (k = 0; k < h; k++)
+					{
+						for (j = 0; j < w; j++)
+						{
+							var a = (k * w + j) * 4 + 3;
+							if (pixels.data[a] > 0)
+							{
+								c.fillStyle = "rgba(0,0,0," + A._random_float(args[0], args[1]) + ")";
+								c.fillRect(j, k, 1, 1);
+							}
+						}
+					}
+					i += 2;
+				break;
+				
 				case "p": // [p]olygon (color, pos_x, pos_y, [pos_x, pos_y], ".")
 					c.fillStyle = A.palette[recipe[++i]];
 					c.strokeStyle =  A.palette[recipe[++i]];
@@ -333,6 +352,7 @@ window.onload = function()
 				A.texture_show(0, A.map[a][b], p[0] - 32, p[1] - 16);
 			}
 		}
+		// A.texture_show(0, "r1", 0, 0);
 	}
 	
 	A.render_layer1 = function()
@@ -464,9 +484,9 @@ window.onload = function()
 	
 	A.init_textures = function()
 	{
-		A.texture_create(0, "p23fAAff//f.", 64, 32);
+		A.texture_create(0, "p23fAAff//f.aAF", 64, 32);
 		A.texture_create(1, "p01fAAff//f.", 64, 32);
-		A.texture_create(2, "p45fAAff//f.", 64, 32);
+		A.texture_create(2, "p45fAAff//f.aAF", 64, 32);
 		A.texture_create(3, "p67M2W5etkvq702wOhJPQIM.p87VUfdmR.", 32, 32);
 		A.texture_create(4, "p678lvybeHZEsQ0gt.", 32, 32);
 		A.texture_create(5, "p67MTcpwopV.", 32, 32);
