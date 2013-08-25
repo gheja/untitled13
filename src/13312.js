@@ -86,8 +86,6 @@ window.onload = function()
 	
 	A._world_position_to_layer_position = function(a, b)
 	{
-		b += 0.5;
-		a -= 0.5;
 		return [ a * 32 - b * 32 + (1280 / 2), a * 16 + b * 16 ];
 	}
 	
@@ -219,14 +217,14 @@ window.onload = function()
 			for (a=0; a<20; a++)
 			{
 				p = A._world_position_to_layer_position(a, b);
-				A.texture_show(0, A.map[b][a], p[0], p[1]);
+				A.texture_show(0, A.map[b][a], p[0] - 32, p[1] - 16);
 			}
 		}
 	}
 	
 	A.render_layer1 = function()
 	{
-		p = A._world_position_to_layer_position(Math.floor(A.cursor_position_in_world[0]), Math.floor(A.cursor_position_in_world[1]));
+		p = A._world_position_to_layer_position(Math.floor(A.cursor_position_in_world[0] - 0.5), Math.floor(A.cursor_position_in_world[1] + 0.5));
 		A.layer_clear(1);
 		A.texture_show(1, 1, p[0], p[1]);
 	}
