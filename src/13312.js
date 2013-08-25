@@ -25,6 +25,7 @@ window.onload = function()
 		obj.direction = direction; /* 0: up, 1: right, 2: down, 3: left */
 		obj.sprites = sprites; /* array of sprites and properties: [ [ sprite_id, screen_position_x, screen_positon_y ], ... ] */
 		
+		obj.position_prev = obj.position;
 		obj.shadow_sprite_id = 6;
 		obj.destroyed = 0;
 		obj.class = 0;
@@ -37,9 +38,14 @@ window.onload = function()
 		{
 		}
 		
+		// object is just passing by the middle of the object
+		obj.on_collision_middle = function(obj, id, distance)
+		{
+		}
+		
 		obj.collision_check = function()
 		{
-			var i, distance;
+			var i, distance, distance_prev, distance_next;
 			for (i in A.objects)
 			{
 				if (A.objects[i] == this)
@@ -51,6 +57,18 @@ window.onload = function()
 				if (distance < 0.5)
 				{
 					this.on_collision(A.objects[i], i, distance);
+					distance_prev = Math.sqrt(Math.pow(this.position[0] - A.objects[i].position_prev[0], 2) + Math.pow(this.position[1] - A.objects[i].position_prev[1], 2));
+					
+					/* approx */
+					distance_next = Math.sqrt(
+						Math.pow(this.position[0] - (A.objects[i].position[0] + (A.objects[i].position[0] - A.objects[i].position_prev[0])), 2) + 
+						Math.pow(this.position[1] - (A.objects[i].position[1] + (A.objects[i].position[1] - A.objects[i].position_prev[1])), 2)
+					);
+					
+					if (distance_prev >  distance && distance_next > distance)
+					{
+						this.on_collision_middle(A.objects[i], i, distance);
+					}
 				}
 			}
 		}
@@ -469,6 +487,8 @@ window.onload = function()
 		}
 		for (i in A.objects)
 		{
+			A.objects[i].position_prev = [ A.objects[i].position[0], A.objects[i].position[1] ];
+			
 			moved =  A.objects[i].speed * A.time_passed_since_last_tick;
 			if (A.objects[i].direction == 0)
 			{
