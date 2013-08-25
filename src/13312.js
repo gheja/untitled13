@@ -15,23 +15,24 @@ window.onload = function()
 	A.textures = {};
 	A.objects = [];
 	
-	A.BasicObject = function()
+	A.BasicObject = function(owner_player, position, speed, sprites)
 	{
 		var obj = {};
 		
+		obj.owner_player = owner_player;
+		obj.position = position; /* tiles on map */
+		obj.speed = speed; /* tiles per second */
+		obj.sprites = sprites; /* array of sprites and properties: [ [ sprite_id, position_x, positon_y ], ... ] */
+		
 		obj.destroyed = 0;
-		obj.position = [ 0, 0, 0 ]; /* tiles on map */
-		obj.speed = [ 0, 0, 0 ];
 		obj.class = 0;
-		obj.owner_player = 0;
-		obj.sprites = [];
 		
 		return obj;
 	}
 	
 	A.ArrowObject = function(valid_directions, direction)
 	{
-		var obj = A.BasicObject();
+		var obj = A.BasicObject(0, [ 0, 0 ], [ 0, 0 ], []);
 		
 		obj.valid_directions = valid_directions;
 		obj.direction = direction;
@@ -51,6 +52,22 @@ window.onload = function()
 		if (valid_directions & 8)
 		{
 			obj.sprites.push([ "a4", 0, 0 ]);
+		}
+		
+		return obj;
+	}
+	
+	A.Ghost1Object = function(position, speed)
+	{
+		var obj = A.BasicObject(1, position, speed, [ [ 6, 0.15, -0.2 ], [ 5, -0.2, -0.6, 0.05, 0.05 ], [ 4, -0.2, -0.6, 0.05, 0.05 ], [ 3, -0.2, -0.6, 0.1, 0.1 ] ]);
+		
+		// candy for the eye!
+		for (j=1; j<4; j++)
+		{
+			obj.sprites[j][5] = A._random_float(0, 1);
+			obj.sprites[j][6] = A._random_float(0, 1);
+			obj.sprites[j][7] = A._random_float(1, 4);
+			obj.sprites[j][8] = A._random_float(1, 4);
 		}
 		
 		return obj;
@@ -310,21 +327,7 @@ window.onload = function()
 		
 		for (i=0; i<20; i++)
 		{
-			obj = A.BasicObject();
-			obj.position = [ A._random_int(2, 18, 1), A._random_int(2, 18, 1) ];
-			obj.sprites = [ [ 6, 0.15, -0.2 ], [ 5, -0.2, -0.6, 0.05, 0.05 ], [ 4, -0.2, -0.6, 0.05, 0.05 ], [ 3, -0.2, -0.6, 0.1, 0.1 ] ];
-			obj.speed = [ 0.5, 0, 0 ];
-			
-			// candy for the eye!
-			for (j=1; j<4; j++)
-			{
-				obj.sprites[j][5] = A._random_float(0, 1);
-				obj.sprites[j][6] = A._random_float(0, 1);
-				obj.sprites[j][7] = A._random_float(1, 4);
-				obj.sprites[j][8] = A._random_float(1, 4);
-			}
-			
-			this.objects.push(obj);
+			this.objects.push(new A.Ghost1Object([ A._random_int(2, 18, 1), A._random_int(2, 18, 1) ], [ 0.5, 0, 0 ]));
 		}
 		
 		obj = A.ArrowObject(15, 1);
