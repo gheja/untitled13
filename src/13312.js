@@ -127,9 +127,9 @@ window.onload = function()
 		{
 			var first = 1;
 			
-			while (first || this.valid_directions[this.direction] != 1)
+			while (first || this.valid_directions[this.direction] == 0)
 			{
-				this.direction = (this.direction + 1) % 5;
+				this.direction = (this.direction + 1) % 4;
 				first = 0;
 			}
 			
