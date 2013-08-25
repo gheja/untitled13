@@ -143,7 +143,7 @@ window.onload = function()
 	
 	A.Ghost1Object = function(position, direction)
 	{
-		var obj = new A.BasicObject(1, position, 0.5, direction, [ [ 5, -16, -32, 2, 2 ], [ 4, -16, -32, 2, 2 ], [ 3, -16, -32, 2, 2 ] ]);
+		var obj = new A.BasicObject(1, position, 0.75, direction, [ [ 5, -16, -32, 2, 2 ], [ 4, -16, -32, 2, 2 ], [ 3, -16, -32, 2, 2 ] ]);
 		
 		// candy for the eye!
 		for (j=0; j<3; j++)
