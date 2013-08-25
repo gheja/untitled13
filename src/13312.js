@@ -32,7 +32,7 @@ window.onload = function()
 	
 	A.ArrowObject = function(valid_directions, direction)
 	{
-		var obj = A.BasicObject(0, [ 0, 0 ], [ 0, 0 ], []);
+		var obj = new A.BasicObject(0, [ 0, 0 ], [ 0, 0 ], []);
 		
 		obj.valid_directions = valid_directions;
 		obj.direction = direction;
@@ -59,7 +59,7 @@ window.onload = function()
 	
 	A.Ghost1Object = function(position, speed)
 	{
-		var obj = A.BasicObject(1, position, speed, [ [ 6, 0.15, -0.2 ], [ 5, -0.2, -0.6, 0.05, 0.05 ], [ 4, -0.2, -0.6, 0.05, 0.05 ], [ 3, -0.2, -0.6, 0.1, 0.1 ] ]);
+		var obj = new A.BasicObject(1, position, speed, [ [ 6, 0.15, -0.2 ], [ 5, -0.2, -0.6, 0.05, 0.05 ], [ 4, -0.2, -0.6, 0.05, 0.05 ], [ 3, -0.2, -0.6, 0.1, 0.1 ] ]);
 		
 		// candy for the eye!
 		for (j=1; j<4; j++)
@@ -327,7 +327,7 @@ window.onload = function()
 			A.objects.push(new A.Ghost1Object([ A._random_int(2, 18, 1), A._random_int(2, 18, 1) ], [ 0.5, 0, 0 ]));
 		}
 		
-		obj = A.ArrowObject(15, 1);
+		obj = new A.ArrowObject(15, 1);
 		A.objects.push(obj);
 	}
 	
