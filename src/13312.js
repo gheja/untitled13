@@ -28,6 +28,10 @@ window.onload = function()
 		obj.destroyed = 0;
 		obj.class = 0;
 		
+		obj.on_click = function()
+		{
+		}
+		
 		return obj;
 	}
 	
@@ -56,6 +60,11 @@ window.onload = function()
 			obj.sprites.push([ "a4", -32, -16 ]);
 		}
 		
+		obj.on_click = function()
+		{
+			alert('clicked!');
+		}
+		
 		return obj;
 	}
 	
@@ -70,6 +79,11 @@ window.onload = function()
 			obj.sprites[j][6] = A._random_float(0, 1);
 			obj.sprites[j][7] = A._random_float(1, 4);
 			obj.sprites[j][8] = A._random_float(1, 4);
+		}
+		
+		obj.on_click = function()
+		{
+			this.position = [ 10, 10 ];
 		}
 		
 		return obj;
@@ -383,6 +397,13 @@ window.onload = function()
 			// clicked (no move made)
 			if (A.inputs.mouse_position[0] == A.inputs.mouse_click_position[0] && A.inputs.mouse_position[1] == A.inputs.mouse_click_position[1])
 			{
+				for (var i in A.objects)
+				{
+					if (Math.round(A.cursor_position_in_world[0]) == Math.round(A.objects[i].position[0]) && Math.round(A.cursor_position_in_world[1]) == Math.round(A.objects[i].position[1]))
+					{
+						A.objects[i].on_click();
+					}
+				}
 			}
 		}
 		
