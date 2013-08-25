@@ -24,6 +24,7 @@ window.onload = function()
 		obj.speed = speed; /* tiles per second */
 		obj.sprites = sprites; /* array of sprites and properties: [ [ sprite_id, position_x, positon_y ], ... ] */
 		
+		obj.shadow_sprite_id = 6;
 		obj.destroyed = 0;
 		obj.class = 0;
 		
@@ -36,6 +37,7 @@ window.onload = function()
 		
 		obj.valid_directions = valid_directions;
 		obj.direction = direction;
+		obj.shadow_sprite_id = -1;
 		
 		if (valid_directions & 1)
 		{
@@ -245,6 +247,15 @@ window.onload = function()
 				continue;
 			}
 			
+			p = A._world_position_to_layer_position(obj.position[0], obj.position[1]);
+			
+			// shadow
+			if (obj.shadow_sprite_id != -1)
+			{
+				// TODO: this is for 64x32 sprites only
+				A.texture_show(2, obj.shadow_sprite_id, p[0] - 32, p[1] - 16);
+			}
+			
 			for (j in obj.sprites)
 			{
 				sprite = obj.sprites[j];
@@ -337,7 +348,7 @@ window.onload = function()
 		A.texture_create(3, "p67M2W5etkvq702wOhJPQIM.p87VUfdmR.", 32, 32);
 		A.texture_create(4, "p678lvybeHZEsQ0gt.", 32, 32);
 		A.texture_create(5, "p67MTcpwopV.", 32, 32);
-		A.texture_create(6, "p00Qwb3o1wsioWq.", 32, 32);
+		A.texture_create(6, "p00eZYcamgonlmc.", 64, 32);
 		A.texture_create("a1", "p00SSSeeS.", 64, 32);
 		A.texture_create("a2", "p00SgSses.", 64, 32);
 		A.texture_create("a3", "p00gssssg.", 64, 32);
