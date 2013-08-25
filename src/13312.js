@@ -33,7 +33,7 @@ window.onload = function()
 		{
 		}
 		
-		obj.on_collision = function()
+		obj.on_collision = function(obj2, id, distance)
 		{
 		}
 		
@@ -50,7 +50,7 @@ window.onload = function()
 				distance = Math.sqrt(Math.pow(this.position[0] - A.objects[i].position[0], 2) + Math.pow(this.position[1] - A.objects[i].position[1], 2));
 				if (distance < 0.5)
 				{
-					this.on_collision(A.objects[i], i);
+					this.on_collision(A.objects[i], i, distance);
 				}
 			}
 		}
