@@ -44,27 +44,43 @@ window.onload = function()
 		obj.direction = direction;
 		obj.shadow_sprite_id = -1;
 		
-		if (valid_directions & 1)
+		
+		obj.update = function()
 		{
-			obj.sprites.push([ "a1", -32, -16 ]);
-		}
-		if (valid_directions & 2)
-		{
-			obj.sprites.push([ "a2", -32, -16 ]);
-		}
-		if (valid_directions & 4)
-		{
-			obj.sprites.push([ "a3", -32, -16 ]);
-		}
-		if (valid_directions & 8)
-		{
-			obj.sprites.push([ "a4", -32, -16 ]);
+			this.sprites = [];
+			
+			if (valid_directions[0])
+			{
+				this.sprites.push([ this.direction == 1 ? "b1" : "a1", -32, -16 ]);
+			}
+			if (valid_directions[1])
+			{
+				this.sprites.push([ this.direction == 2 ? "b2" : "a2", -32, -16 ]);
+			}
+			if (valid_directions[2])
+			{
+				this.sprites.push([ this.direction == 3 ? "b3" : "a3", -32, -16 ]);
+			}
+			if (valid_directions[3])
+			{
+				this.sprites.push([ this.direction == 4 ? "b4" : "a4", -32, -16 ]);
+			}
 		}
 		
 		obj.on_click = function()
 		{
-			alert('clicked!');
+			var first = 1;
+			
+			while (first || this.valid_directions[this.direction - 1] != 1)
+			{
+				this.direction = (this.direction + 1) % 5;
+				first = 0;
+			}
+			
+			this.update();
 		}
+		
+		obj.update();
 		
 		return obj;
 	}
@@ -351,7 +367,7 @@ window.onload = function()
 			A.objects.push(new A.Ghost1Object([ A._random_int(2, 18, 1), A._random_int(2, 18, 1) ], 0.5, A._random_int(0, 3, 1)));
 		}
 		
-		obj = new A.ArrowObject(15, 1);
+		obj = new A.ArrowObject([0, 1, 0, 1], 2);
 		A.objects.push(obj);
 	}
 	
