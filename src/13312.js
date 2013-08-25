@@ -11,7 +11,7 @@ window.onload = function()
 	A.scroll = [ 0, -40 ] /* pixels */
 	A.map = {};
 	A.layers = {};
-	A.palette = { 0: "rgba(0,0,0,0.2)", 1: "rgba(0,0,0.4)", 2: "#4a3", 3: "#391", 4: "#682", 5: "#462", 6: "rgba(190, 60, 5, 0.7)", 7: "#821", 8: "#ddd" };
+	A.palette = { 0: "rgba(0,0,0,0.2)", 1: "rgba(0,0,0.4)", 2: "#4a3", 3: "#391", 4: "#682", 5: "#462", 6: "rgba(190, 60, 5, 0.7)", 7: "#821", 8: "#ddd", 9: "#dd0", "a": "#ee0" };
 	A.textures = {};
 	A.objects = [];
 	
@@ -25,6 +25,33 @@ window.onload = function()
 		obj.class = 0;
 		obj.owner_player = 0;
 		obj.sprites = [];
+		
+		return obj;
+	}
+	
+	A.ArrowObject = function(valid_directions, direction)
+	{
+		var obj = A.BasicObject();
+		
+		obj.valid_directions = valid_directions;
+		obj.direction = direction;
+		
+		if (valid_directions & 1)
+		{
+			obj.sprites.push([ "a1", 0, 0 ]);
+		}
+		if (valid_directions & 2)
+		{
+			obj.sprites.push([ "a2", 0, 0 ]);
+		}
+		if (valid_directions & 4)
+		{
+			obj.sprites.push([ "a3", 0, 0 ]);
+		}
+		if (valid_directions & 8)
+		{
+			obj.sprites.push([ "a4", 0, 0 ]);
+		}
 		
 		return obj;
 	}
@@ -299,6 +326,9 @@ window.onload = function()
 			
 			this.objects.push(obj);
 		}
+		
+		obj = A.ArrowObject(15, 1);
+		this.objects.push(obj);
 	}
 	
 	A.init_textures = function()
@@ -310,6 +340,14 @@ window.onload = function()
 		A.texture_create(4, "p678lvybeHZEsQ0gt.", 32, 32);
 		A.texture_create(5, "p67MTcpwopV.", 32, 32);
 		A.texture_create(6, "p00Qwb3o1wsioWq.", 32, 32);
+		A.texture_create("a1", "p00SSSeeS.", 64, 32);
+		A.texture_create("a2", "p00SgSses.", 64, 32);
+		A.texture_create("a3", "p00gssssg.", 64, 32);
+		A.texture_create("a4", "p00gSsesS.", 64, 32);
+		A.texture_create("b1", "p9aSSSeeS.", 64, 32);
+		A.texture_create("b2", "p9aSgSses.", 64, 32);
+		A.texture_create("b3", "p9agssssg.", 64, 32);
+		A.texture_create("b4", "p9agSsesS.", 64, 32);
 	}
 	
 	A.process_tick_begin = function()
