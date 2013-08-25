@@ -95,19 +95,19 @@ window.onload = function()
 			
 			if (valid_directions[0])
 			{
-				this.sprites.push([ this.direction == 1 ? "b1" : "a1", -32, -16 ]);
+				this.sprites.push([ this.direction == 0 ? "b0" : "a0", -32, -16 ]);
 			}
 			if (valid_directions[1])
 			{
-				this.sprites.push([ this.direction == 2 ? "b2" : "a2", -32, -16 ]);
+				this.sprites.push([ this.direction == 1 ? "b1" : "a1", -32, -16 ]);
 			}
 			if (valid_directions[2])
 			{
-				this.sprites.push([ this.direction == 3 ? "b3" : "a3", -32, -16 ]);
+				this.sprites.push([ this.direction == 2 ? "b2" : "a2", -32, -16 ]);
 			}
 			if (valid_directions[3])
 			{
-				this.sprites.push([ this.direction == 4 ? "b4" : "a4", -32, -16 ]);
+				this.sprites.push([ this.direction == 3 ? "b3" : "a3", -32, -16 ]);
 			}
 		}
 		
@@ -127,7 +127,7 @@ window.onload = function()
 		{
 			var first = 1;
 			
-			while (first || this.valid_directions[this.direction - 1] != 1)
+			while (first || this.valid_directions[this.direction] != 1)
 			{
 				this.direction = (this.direction + 1) % 5;
 				first = 0;
@@ -423,7 +423,7 @@ window.onload = function()
 			A.objects.push(new A.Ghost1Object([ A._random_int(2, 18, 1), A._random_int(2, 18, 1) ], 0.5, A._random_int(0, 3, 1)));
 		}
 		
-		obj = new A.ArrowObject([0, 10], [0, 1, 0, 1], 2);
+		obj = new A.ArrowObject([0, 10], [1, 1, 1, 1], 2);
 		A.objects.push(obj);
 	}
 	
@@ -436,14 +436,14 @@ window.onload = function()
 		A.texture_create(4, "p678lvybeHZEsQ0gt.", 32, 32);
 		A.texture_create(5, "p67MTcpwopV.", 32, 32);
 		A.texture_create(6, "p00eZYcamgonlmc.", 64, 32);
-		A.texture_create("a1", "p00SSSeeS.", 64, 32);
+		A.texture_create("a0", "p00gSsesS.", 64, 32);
+		A.texture_create("a1", "p00gssssg.", 64, 32);
 		A.texture_create("a2", "p00SgSses.", 64, 32);
-		A.texture_create("a3", "p00gssssg.", 64, 32);
-		A.texture_create("a4", "p00gSsesS.", 64, 32);
-		A.texture_create("b1", "p9aSSSeeS.", 64, 32);
+		A.texture_create("a3", "p00SSSeeS.", 64, 32);
+		A.texture_create("b0", "p9agSsesS.", 64, 32);
+		A.texture_create("b1", "p9agssssg.", 64, 32);
 		A.texture_create("b2", "p9aSgSses.", 64, 32);
-		A.texture_create("b3", "p9agssssg.", 64, 32);
-		A.texture_create("b4", "p9agSsesS.", 64, 32);
+		A.texture_create("b3", "p9aSSSeeS.", 64, 32);
 	}
 	
 	A.process_tick_begin = function()
