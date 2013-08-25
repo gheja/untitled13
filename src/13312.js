@@ -141,9 +141,9 @@ window.onload = function()
 		return obj;
 	}
 	
-	A.Ghost1Object = function(position, speed, direction)
+	A.Ghost1Object = function(position, direction)
 	{
-		var obj = new A.BasicObject(1, position, speed, direction, [ [ 5, -16, -32, 2, 2 ], [ 4, -16, -32, 2, 2 ], [ 3, -16, -32, 2, 2 ] ]);
+		var obj = new A.BasicObject(1, position, 0.5, direction, [ [ 5, -16, -32, 2, 2 ], [ 4, -16, -32, 2, 2 ], [ 3, -16, -32, 2, 2 ] ]);
 		
 		// candy for the eye!
 		for (j=0; j<3; j++)
@@ -457,8 +457,8 @@ window.onload = function()
 		
 		for (i=0; i<5; i++)
 		{
-			A.objects.push(new A.Ghost1Object([ -2 - i, 1 ], 0.5, 1));
-			A.objects.push(new A.Ghost1Object([ -2 - i, 14 ], 0.5, 1));
+			A.objects.push(new A.Ghost1Object([ -2 - i, 1 ], 1));
+			A.objects.push(new A.Ghost1Object([ -2 - i, 14 ], 1));
 		}
 	}
 	
