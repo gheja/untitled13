@@ -33,6 +33,32 @@ window.onload = function()
 		{
 		}
 		
+		obj.on_collision = function()
+		{
+		}
+		
+		obj.collision_check = function()
+		{
+			var i, distance;
+			for (i in A.objects)
+			{
+				if (A.objects[i] == this)
+				{
+					continue;
+				}
+				
+				distance = Math.sqrt(Math.pow(this.position[0] - A.objects[i].position[0], 2) + Math.pow(this.position[1] - A.objects[i].position[1], 2));
+				if (distance < 0.5)
+				{
+					this.on_collision(A.objects[i], i);
+				}
+			}
+		}
+		
+		obj.on_tick = function()
+		{
+		}
+		
 		return obj;
 	}
 	
@@ -65,6 +91,11 @@ window.onload = function()
 			{
 				this.sprites.push([ this.direction == 4 ? "b4" : "a4", -32, -16 ]);
 			}
+		}
+		
+		obj.on_tick = function()
+		{
+			this.collision_check();
 		}
 		
 		obj.on_click = function()
@@ -432,6 +463,10 @@ window.onload = function()
 	A.process_objects = function()
 	{
 		var i, moved;
+		for (i in A.objects)
+		{
+			A.objects[i].on_tick();
+		}
 		for (i in A.objects)
 		{
 			moved =  A.objects[i].speed * A.time_passed_since_last_tick;
