@@ -15,13 +15,14 @@ window.onload = function()
 	A.textures = {};
 	A.objects = [];
 	
-	A.BasicObject = function(owner_player, position, speed, sprites)
+	A.BasicObject = function(owner_player, position, speed, direction, sprites)
 	{
 		var obj = {};
 		
 		obj.owner_player = owner_player;
 		obj.position = position; /* tiles on map */
 		obj.speed = speed; /* tiles per second */
+		obj.direction = direction; /* 0: up, 1: right, 2: down, 3: left */
 		obj.sprites = sprites; /* array of sprites and properties: [ [ sprite_id, screen_position_x, screen_positon_y ], ... ] */
 		
 		obj.shadow_sprite_id = 6;
@@ -37,7 +38,7 @@ window.onload = function()
 	
 	A.ArrowObject = function(valid_directions, direction)
 	{
-		var obj = new A.BasicObject(0, [ 0, 0 ], [ 0, 0 ], []);
+		var obj = new A.BasicObject(0, [ 0, 0 ], 0, 0, []);
 		
 		obj.valid_directions = valid_directions;
 		obj.direction = direction;
@@ -68,9 +69,9 @@ window.onload = function()
 		return obj;
 	}
 	
-	A.Ghost1Object = function(position, speed)
+	A.Ghost1Object = function(position, speed, direction)
 	{
-		var obj = new A.BasicObject(1, position, speed, [ [ 5, -16, -32, 2, 2 ], [ 4, -16, -32, 2, 2 ], [ 3, -16, -32, 2, 2 ] ]);
+		var obj = new A.BasicObject(1, position, speed, direction, [ [ 5, -16, -32, 2, 2 ], [ 4, -16, -32, 2, 2 ], [ 3, -16, -32, 2, 2 ] ]);
 		
 		// candy for the eye!
 		for (j=0; j<3; j++)
@@ -347,7 +348,7 @@ window.onload = function()
 		
 		for (i=0; i<20; i++)
 		{
-			A.objects.push(new A.Ghost1Object([ A._random_int(2, 18, 1), A._random_int(2, 18, 1) ], [ 0.5, 0, 0 ]));
+			A.objects.push(new A.Ghost1Object([ A._random_int(2, 18, 1), A._random_int(2, 18, 1) ], 0.5, A._random_int(0, 3, 1)));
 		}
 		
 		obj = new A.ArrowObject(15, 1);
@@ -414,11 +415,26 @@ window.onload = function()
 	
 	A.process_objects = function()
 	{
-		var i;
+		var i, moved;
 		for (i in A.objects)
 		{
-			A.objects[i].position[0] += A.objects[i].speed[0] * A.time_passed_since_last_tick;
-			A.objects[i].position[1] += A.objects[i].speed[1] * A.time_passed_since_last_tick;
+			moved =  A.objects[i].speed * A.time_passed_since_last_tick;
+			if (A.objects[i].direction == 0)
+			{
+				A.objects[i].position[1] -= moved;
+			}
+			else if (A.objects[i].direction == 1)
+			{
+				A.objects[i].position[0] += moved;
+			}
+			else if (A.objects[i].direction == 2)
+			{
+				A.objects[i].position[1] += moved;
+			}
+			else if (A.objects[i].direction == 3)
+			{
+				A.objects[i].position[0] -= moved;
+			}
 		}
 	}
 	
