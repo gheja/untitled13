@@ -4,7 +4,8 @@ window.onload = function()
 	
 	TEXTURE_SIZE_32X32 = 0;
 	TEXTURE_SIZE_64X32 = 1;
-	A.texture_sizes = [ [ 32, 32 ], [ 64, 32 ] ];
+	TEXTURE_SIZE_64X64 = 2;
+	A.texture_sizes = [ [ 32, 32 ], [ 64, 32 ], [ 64, 64 ] ];
 	
 	A.frame_number = 0;
 	A.time_passed_since_last_tick = 0;
@@ -142,6 +143,14 @@ window.onload = function()
 		}
 		
 		obj.update();
+		
+		return obj;
+	}
+	
+	A.Tower1Object = function(position, valid_directions, direction)
+	{
+		var obj = new A.BasicObject(1, position, 0, 0, [ [ 20, -32, -48 ], [ 21, -32, -48 ] ]);
+		obj.shadow_sprite_id = -1;
 		
 		return obj;
 	}
@@ -488,6 +497,8 @@ window.onload = function()
 		A.map[7][7] = 7;
 		A.map[7][8] = 7;
 		A.map[7][9] = 7;
+		
+		A.objects.push(new A.Tower1Object([ 10, 11 ]));
 	}
 	
 	A.init_textures = function()
@@ -508,6 +519,8 @@ window.onload = function()
 		A.texture_create("b1", "p9agssssg.", TEXTURE_SIZE_64X32);
 		A.texture_create("b2", "p9aSgSses.", TEXTURE_SIZE_64X32);
 		A.texture_create("b3", "p9aSSSeeS.", TEXTURE_SIZE_64X32);
+		A.texture_create(20, "pbbf7f//w/s.aAFpdbAsAwf/f7.aAFpdbAsf7/sfc.aAF", TEXTURE_SIZE_64X64);
+		A.texture_create(21, "peebgYrftmrjg.pfeLiutmV.peecabgfjjgia.pfeaTUete.peeeRcafciagR.pcffIYMYQZRfUkRmOkK.", TEXTURE_SIZE_64X64);
 	}
 	
 	A.process_tick_begin = function()
