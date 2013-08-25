@@ -455,13 +455,11 @@ window.onload = function()
 			]
 		);
 		
-		for (i=0; i<20; i++)
+		for (i=0; i<5; i++)
 		{
-			A.objects.push(new A.Ghost1Object([ A._random_int(2, 18), A._random_int(2, 18) ], 0.5, A._random_int(0, 3)));
+			A.objects.push(new A.Ghost1Object([ -2 - i, 1 ], 0.5, 1));
+			A.objects.push(new A.Ghost1Object([ -2 - i, 14 ], 0.5, 1));
 		}
-		
-		obj = new A.ArrowObject([0, 10], [1, 1, 1, 1], 2);
-		A.objects.push(obj);
 	}
 	
 	A.init_textures = function()
