@@ -2,6 +2,10 @@ window.onload = function()
 {
 	A = {};
 	
+	TEXTURE_SIZE_32X32 = 0;
+	TEXTURE_SIZE_64X32 = 1;
+	A.texture_sizes = [ [ 32, 32 ], [ 64, 32 ] ];
+	
 	A.frame_number = 0;
 	A.time_passed_since_last_tick = 0;
 	A.last_tick_timestamp = 0;
@@ -231,12 +235,11 @@ window.onload = function()
 		}
 	}
 	
-	A.texture_create = function(id, recipe, w, h)
+	A.texture_create = function(id, recipe, texture_size_id)
 	{
-		w = w ? w : 32;
-		h = h ? h : 32;
-		
-		var i, j, k, r, g, b, args, s
+		var i, j, k, r, g, b, args, s,
+			w = A.texture_sizes[texture_size_id][0],
+			h = A.texture_sizes[texture_size_id][1],
 			cv = A._create_cv(w, h),
 			c = cv.ctx;
 		
@@ -485,21 +488,21 @@ window.onload = function()
 	
 	A.init_textures = function()
 	{
-		A.texture_create(0, "p23fAAff//f.aAF", 64, 32);
-		A.texture_create(1, "p01fAAff//f.", 64, 32);
-		A.texture_create(2, "p45fAAff//f.aAF", 64, 32);
-		A.texture_create(3, "p67M2W5etkvq702wOhJPQIM.p87VUfdmR.", 32, 32);
-		A.texture_create(4, "p678lvybeHZEsQ0gt.", 32, 32);
-		A.texture_create(5, "p67MTcpwopV.", 32, 32);
-		A.texture_create(6, "p00eZYcamgonlmc.", 64, 32);
-		A.texture_create("a0", "p00gSsesS.", 64, 32);
-		A.texture_create("a1", "p00gssssg.", 64, 32);
-		A.texture_create("a2", "p00SgSses.", 64, 32);
-		A.texture_create("a3", "p00SSSeeS.", 64, 32);
-		A.texture_create("b0", "p9agSsesS.", 64, 32);
-		A.texture_create("b1", "p9agssssg.", 64, 32);
-		A.texture_create("b2", "p9aSgSses.", 64, 32);
-		A.texture_create("b3", "p9aSSSeeS.", 64, 32);
+		A.texture_create(0, "p23fAAff//f.aAF", TEXTURE_SIZE_64X32);
+		A.texture_create(1, "p01fAAff//f.", TEXTURE_SIZE_64X32);
+		A.texture_create(2, "p45fAAff//f.aAF", TEXTURE_SIZE_64X32);
+		A.texture_create(3, "p67M2W5etkvq702wOhJPQIM.p87VUfdmR.", TEXTURE_SIZE_32X32);
+		A.texture_create(4, "p678lvybeHZEsQ0gt.", TEXTURE_SIZE_32X32);
+		A.texture_create(5, "p67MTcpwopV.", TEXTURE_SIZE_32X32);
+		A.texture_create(6, "p00eZYcamgonlmc.", TEXTURE_SIZE_64X32);
+		A.texture_create("a0", "p00gSsesS.", TEXTURE_SIZE_64X32);
+		A.texture_create("a1", "p00gssssg.", TEXTURE_SIZE_64X32);
+		A.texture_create("a2", "p00SgSses.", TEXTURE_SIZE_64X32);
+		A.texture_create("a3", "p00SSSeeS.", TEXTURE_SIZE_64X32);
+		A.texture_create("b0", "p9agSsesS.", TEXTURE_SIZE_64X32);
+		A.texture_create("b1", "p9agssssg.", TEXTURE_SIZE_64X32);
+		A.texture_create("b2", "p9aSgSses.", TEXTURE_SIZE_64X32);
+		A.texture_create("b3", "p9aSSSeeS.", TEXTURE_SIZE_64X32);
 	}
 	
 	A.process_tick_begin = function()
