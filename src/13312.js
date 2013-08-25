@@ -302,12 +302,12 @@ window.onload = function()
 	{
 		var a, b, p;
 		
-		for (b=0; b<20; b++)
+		for (a=0; a<20; a++)
 		{
-			for (a=0; a<20; a++)
+			for (b=0; b<20; b++)
 			{
 				p = A._world_position_to_layer_position(a, b);
-				A.texture_show(0, A.map[b][a], p[0] - 32, p[1] - 16);
+				A.texture_show(0, A.map[a][b], p[0] - 32, p[1] - 16);
 			}
 		}
 	}
