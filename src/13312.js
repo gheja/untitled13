@@ -492,7 +492,7 @@ window.onload = function()
 		A.gui_render_button(4, 0, "c0", color1);
 		A.gui_render_button(5, 0, "c0", color1);
 		
-		A.texture_show(3, A.current_player == 1 ? 8 : 9, A.inputs.mouse_position[0], A.inputs.mouse_position[1]);
+		A.texture_show(3, 8, A.inputs.mouse_position[0], A.inputs.mouse_position[1]);
 	}
 	
 	A.handle_mousemove = function(event)
@@ -592,8 +592,7 @@ window.onload = function()
 		A.texture_create(5, "p67MTcpwopV.", TEXTURE_SIZE_32X32);
 		A.texture_create(6, "p00eZYcamgonlmc.", TEXTURE_SIZE_64X32);
 		A.texture_create(7, "pb0fAAff//f.aDM", TEXTURE_SIZE_64X32);
-		A.texture_create(8, "p67AAArObgb.", TEXTURE_SIZE_32X32);
-		A.texture_create(9, "pfeAAArObgb.", TEXTURE_SIZE_32X32);
+		A.texture_create(8, "pggAAAkKWbW.", TEXTURE_SIZE_32X32);
 		A.texture_create("a0", "p00gSsesS.", TEXTURE_SIZE_64X32);
 		A.texture_create("a1", "p00gssssg.", TEXTURE_SIZE_64X32);
 		A.texture_create("a2", "p00SgSses.", TEXTURE_SIZE_64X32);
