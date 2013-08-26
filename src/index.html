@@ -18,8 +18,18 @@
 				cursor: none;
 			}
 		</style>
+		<script type="text/javascript">
+			var player = 1;
+			
+			function toggle_player()
+			{
+				player = player == 1 ? 2 : 1;
+				A.set_player(player);
+			}
+		</script>
 	</head>
 	<body>
 		<div id="canvas0"></div>
+		<a href="#" onclick="toggle_player(); return false;" style="color: #fff;"/>Switch player</a>
 	</body>
 </html>
