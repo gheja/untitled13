@@ -7,6 +7,7 @@ window.onload = function()
 	TEXTURE_SIZE_64X64 = 2;
 	A.texture_sizes = [ [ 32, 32 ], [ 64, 32 ], [ 64, 64 ] ];
 	
+	A.current_player = 1;
 	A.frame_number = 0;
 	A.time_passed_since_last_tick = 0;
 	A.last_tick_timestamp = 0;
@@ -244,6 +245,11 @@ window.onload = function()
 		}
 	}
 	
+	A.set_player = function(player_id)
+	{
+		A.current_player = player_id;
+	}
+	
 	A.texture_create = function(id, recipe, texture_size_id)
 	{
 		var i, j, k, r, g, b, args, s,
@@ -421,7 +427,7 @@ window.onload = function()
 	A.render_layer3 = function()
 	{
 		A.layer_clear(3);
-		A.texture_show(3, 8, A.inputs.mouse_position[0], A.inputs.mouse_position[1]);
+		A.texture_show(3, A.current_player == 1 ? 8 : 9, A.inputs.mouse_position[0], A.inputs.mouse_position[1]);
 	}
 	
 	A.handle_mousemove = function(event)
@@ -631,6 +637,7 @@ window.onload = function()
 		A.init_map();
 		A.init_textures();
 		A.init_tick();
+		A.set_player(1);
 	}
 	
 	A.start();
