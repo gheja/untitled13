@@ -37,8 +37,24 @@ window.onload = function()
 		obj.class = 0;
 		obj.hidden_from_other_player = 0;
 		
+		obj.on_owner_click = function()
+		{
+		}
+		
+		obj.on_enemy_click = function()
+		{
+		}
+		
 		obj.on_click = function()
 		{
+			if (A.current_player == this.owner_player)
+			{
+				this.on_owner_click();
+			}
+			else
+			{
+				this.on_enemy_click();
+			}
 		}
 		
 		obj.on_collision = function(obj2, id, distance)
@@ -131,13 +147,8 @@ window.onload = function()
 			this.collision_check();
 		}
 		
-		obj.on_click = function()
+		obj.on_owner_click = function()
 		{
-			if (A.current_player != this.owner_player)
-			{
-				return;
-			}
-			
 			var first = 1;
 			
 			while (first || this.valid_directions[this.direction] == 0)
