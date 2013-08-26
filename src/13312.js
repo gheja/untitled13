@@ -186,11 +186,6 @@ window.onload = function()
 			obj.sprites[j][8] = A._random_float(1, 4);
 		}
 		
-		obj.on_click = function()
-		{
-			this.position = [ 10, 10 ];
-		}
-		
 		return obj;
 	}
 	
