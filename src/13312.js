@@ -433,6 +433,31 @@ window.onload = function()
 	A.render_layer3 = function()
 	{
 		A.layer_clear(3);
+		
+		var c = A.layers[3].ctx;
+		if (A.current_player == 1)
+		{
+			var gradient = c.createLinearGradient(0,0,0,120)
+			gradient.addColorStop(0, "rgba(140,0,0,0.9)");
+			gradient.addColorStop(0.9, "rgba(70,0,0,0.9)");
+			gradient.addColorStop(1, "rgba(90,0,0,0.9)");
+			c.fillStyle = gradient;
+			c.fillRect(4, 4, 300, 120);
+			c.fillStyle = "rgba(0,0,0,0.2)";
+			c.fillRect(8, 8, 292, 112);
+		}
+		else
+		{
+			var gradient = c.createLinearGradient(0,0,0,120)
+			gradient.addColorStop(0, "rgba(0,60,140,0.9)");
+			gradient.addColorStop(0.9, "rgba(0,20,70,0.9)");
+			gradient.addColorStop(1, "rgba(0,30,90,0.9)");
+			c.fillStyle = gradient;
+			c.fillRect(976, 4, 300, 120);
+			c.fillStyle = "rgba(0,0,0,0.2)";
+			c.fillRect(980, 8, 292, 112);
+		}
+		
 		A.texture_show(3, A.current_player == 1 ? 8 : 9, A.inputs.mouse_position[0], A.inputs.mouse_position[1]);
 	}
 	
