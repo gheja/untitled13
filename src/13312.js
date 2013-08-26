@@ -132,6 +132,11 @@ window.onload = function()
 		
 		obj.on_click = function()
 		{
+			if (A.current_player != this.owner_player)
+			{
+				return;
+			}
+			
 			var first = 1;
 			
 			while (first || this.valid_directions[this.direction] == 0)
