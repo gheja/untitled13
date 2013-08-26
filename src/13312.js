@@ -374,7 +374,7 @@ window.onload = function()
 		else
 		{
 			A.texture_show(3, texture_id, 8 + button_order * 28, 8);
-			c.fillStyle = "rgba(0,0,0,0.5)";
+			c.fillStyle = "rgba(0,0,0,0.3)";
 			c.fillRect(8 + button_order * 28, 8, 24, 24);
 		}
 	}
@@ -462,35 +462,35 @@ window.onload = function()
 		A.layer_clear(3);
 		
 		var c = A.layers[3].ctx;
-		var gradient = c.createLinearGradient(0,4,0,120);
+		var gradient = c.createLinearGradient(0,4,0,32);
 		var color1;
 		
 		if (A.current_player == 1)
 		{
-			gradient.addColorStop(0, "rgba(140,0,0,0.9)");
-			gradient.addColorStop(0.9, "rgba(70,0,0,0.9)");
-			gradient.addColorStop(1, "rgba(90,0,0,0.9)");
-			color1 = "#920";
+			gradient.addColorStop(0, "#b00");
+			gradient.addColorStop(0.8, "#600");
+			gradient.addColorStop(1, "#800");
+			color1 = "#a20";
 		}
 		else
 		{
-			gradient.addColorStop(0, "rgba(0,60,140,0.9)");
-			gradient.addColorStop(0.9, "rgba(0,20,70,0.9)");
-			gradient.addColorStop(1, "rgba(0,30,90,0.9)");
-			color1 = "#04a";
+			gradient.addColorStop(0, "#06e");
+			gradient.addColorStop(0.8, "#038");
+			gradient.addColorStop(1, "#04a");
+			color1 = "#04c";
 		}
 		c.fillStyle = gradient;
-		c.fillRect(4, 4, 300, 120);
+		c.fillRect(4, 4, 300, 32);
 		
 		c.fillStyle = "rgba(0,0,0,0.2)";
-		c.fillRect(6, 6, 296, 116);
+		c.fillRect(6, 6, 296, 28);
 		
 		A.gui_render_button(0, 1, "c1", color1);
 		A.gui_render_button(1, 0, "c2", color1);
-		A.gui_render_button(2, 0, "c1", color1);
-		A.gui_render_button(3, 0, "c1", color1);
-		A.gui_render_button(4, 0, "c1", color1);
-		A.gui_render_button(5, 0, "c1", color1);
+		A.gui_render_button(2, 0, "c0", color1);
+		A.gui_render_button(3, 0, "c0", color1);
+		A.gui_render_button(4, 0, "c0", color1);
+		A.gui_render_button(5, 0, "c0", color1);
 		
 		A.texture_show(3, A.current_player == 1 ? 8 : 9, A.inputs.mouse_position[0], A.inputs.mouse_position[1]);
 	}
@@ -607,6 +607,7 @@ window.onload = function()
 		// A.texture_create(21, "peebgYrftmrjg.pfeLiutmV.aAKpeecabgfjjgia.pfeaTUete.aAKpeeeRcafciagR.pcffIYMYQZRfUkRmOkK.aAF", TEXTURE_SIZE_64X64);
 		A.texture_create("c1", "pggRRR1chuh.", TEXTURE_SIZE_24X24);
 		A.texture_create("c2", "pgghJZbGbbmQ2kp7xpg4WmW.", TEXTURE_SIZE_24X24);
+		A.texture_create("c0", "p11RdRTcKjKuTuyRyRdqdqTjOcOVTVd.", TEXTURE_SIZE_24X24);
 	}
 	
 	A.process_tick_begin = function()
