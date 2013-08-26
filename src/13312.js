@@ -35,6 +35,7 @@ window.onload = function()
 		obj.shadow_sprite_id = 6;
 		obj.destroyed = 0;
 		obj.class = 0;
+		obj.hidden_from_other_player = 0;
 		
 		obj.on_click = function()
 		{
@@ -94,7 +95,7 @@ window.onload = function()
 		obj.valid_directions = valid_directions;
 		obj.direction = direction;
 		obj.shadow_sprite_id = -1;
-		
+		obj.hidden_from_other_player = 1;
 		
 		obj.update = function()
 		{
@@ -400,7 +401,7 @@ window.onload = function()
 		{
 			obj = A.objects[i];
 			
-			if (obj.destroyed)
+			if (obj.destroyed || (obj.owner_player != A.current_player && obj.hidden_from_other_player))
 			{
 				continue;
 			}
