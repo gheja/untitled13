@@ -521,6 +521,7 @@ window.onload = function()
 		A.texture_create("b3", "p9aSSSeeS.", TEXTURE_SIZE_64X32);
 		A.texture_create(20, "pbbf7f//w/s.aAFpdbAsAwf/f7.aAFpdbAsf7/sfc.aAF", TEXTURE_SIZE_64X64);
 		A.texture_create(21, "peebgYrftmrjg.pfeLiutmV.peecabgfjjgia.pfeaTUete.peeeRcafciagR.pcffIYMYQZRfUkRmOkK.", TEXTURE_SIZE_64X64);
+		// A.texture_create(21, "peebgYrftmrjg.pfeLiutmV.aAKpeecabgfjjgia.pfeaTUete.aAKpeeeRcafciagR.pcffIYMYQZRfUkRmOkK.aAF", TEXTURE_SIZE_64X64);
 	}
 	
 	A.process_tick_begin = function()
