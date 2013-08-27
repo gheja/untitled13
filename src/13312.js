@@ -9,6 +9,7 @@ window.onload = function()
 	A.texture_sizes = [ [ 32, 32 ], [ 64, 32 ], [ 64, 64 ], [ 24, 24 ] ];
 	
 	A.current_player = 1;
+	A.selected_tool = 0;
 	A.frame_number = 0;
 	A.time_passed_since_last_tick = 0;
 	A.last_tick_timestamp = 0;
@@ -258,9 +259,16 @@ window.onload = function()
 		}
 	}
 	
+	A.set_tool = function(button_order)
+	{
+		// TODO: validate selection
+		A.selected_tool = button_order;
+	}
+	
 	A.set_player = function(player_id)
 	{
 		A.current_player = player_id;
+		A.set_tool(0);
 	}
 	
 	A.texture_create = function(id, recipe, texture_size_id)
@@ -363,7 +371,7 @@ window.onload = function()
 	{
 		var c = A.layers[3].ctx;
 		
-		if (style == 1)
+		if (A.selected_tool == button_order)
 		{
 			c.fillStyle = color;
 			c.fillRect(8 + button_order * 28, 8, 24, 24);
@@ -507,7 +515,7 @@ window.onload = function()
 		if (A.inputs.mouse_position[0] > 4 && A.inputs.mouse_position[0] < 304 &&
 			A.inputs.mouse_position[1] > 4 && A.inputs.mouse_position[1] < 36)
 		{
-			// TODO: handle tool selection
+			A.set_tool(Math.floor((A.inputs.mouse_position[0] - 8) / 28));
 			return true;
 		}
 		return false;
