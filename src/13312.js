@@ -39,8 +39,18 @@ window.onload = function()
 		obj.class = 0;
 		obj.hidden_from_other_player = 0;
 		
+		obj.explode = function()
+		{
+			// TODO: hurt the nearby enemies
+			this.destroyed = 1;
+		}
+		
 		obj.on_owner_click = function()
 		{
+			if (A.selected_tool == 1)
+			{
+				this.explode(); // or sell
+			}
 		}
 		
 		obj.on_enemy_click = function()
