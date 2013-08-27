@@ -367,7 +367,7 @@ window.onload = function()
 		A.layers[layer_id].ctx.drawImage(A.textures[texture_id].cv, x, y);
 	}
 	
-	A.gui_render_button = function(button_order, style, texture_id, color)
+	A.gui_render_button = function(button_order, texture_id, color)
 	{
 		var c = A.layers[3].ctx;
 		
@@ -493,12 +493,12 @@ window.onload = function()
 		c.fillStyle = "rgba(0,0,0,0.2)";
 		c.fillRect(6, 6, 296, 28);
 		
-		A.gui_render_button(0, 1, "c1", color1);
-		A.gui_render_button(1, 0, "c2", color1);
-		A.gui_render_button(2, 0, "c0", color1);
-		A.gui_render_button(3, 0, "c0", color1);
-		A.gui_render_button(4, 0, "c0", color1);
-		A.gui_render_button(5, 0, "c0", color1);
+		A.gui_render_button(0, "c1", color1);
+		A.gui_render_button(1, "c2", color1);
+		A.gui_render_button(2, "c0", color1);
+		A.gui_render_button(3, "c0", color1);
+		A.gui_render_button(4, "c0", color1);
+		A.gui_render_button(5, "c0", color1);
 		
 		A.texture_show(3, 8, A.inputs.mouse_position[0], A.inputs.mouse_position[1]);
 	}
