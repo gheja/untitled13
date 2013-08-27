@@ -44,6 +44,8 @@ window.onload = function()
 		{
 			// TODO: hurt the nearby enemies
 			this.destroyed = 1;
+			this.speed = [ 0, 0 ];
+			this.position = [ -10, -10 ];
 			A.shake += 10;
 		}
 		
@@ -728,6 +730,12 @@ window.onload = function()
 		}
 		for (i in A.objects)
 		{
+			// dead objects don't move...
+			if (A.objects[i].destroyed)
+			{
+				continue;
+			}
+			
 			A.objects[i].position_prev = [ A.objects[i].position[0], A.objects[i].position[1] ];
 			
 			moved =  A.objects[i].speed * A.time_passed_since_last_tick;
