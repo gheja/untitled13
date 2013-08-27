@@ -9,6 +9,7 @@ window.onload = function()
 	A.texture_sizes = [ [ 32, 32 ], [ 64, 32 ], [ 64, 64 ], [ 24, 24 ] ];
 	
 	A.current_player = 1;
+	A.shake = 0;
 	A.selected_tool = 0;
 	A.frame_number = 0;
 	A.time_passed_since_last_tick = 0;
@@ -43,6 +44,7 @@ window.onload = function()
 		{
 			// TODO: hurt the nearby enemies
 			this.destroyed = 1;
+			A.shake += 10;
 		}
 		
 		obj.on_owner_click = function()
@@ -407,6 +409,15 @@ window.onload = function()
 	{
 		A.cv.ctx.fillStyle = "#111";
 		A.cv.ctx.fillRect(0, 0, 1280, 720);
+		
+		A.cv.ctx.save();
+		if (A.shake > 0)
+		{
+			A.cv.ctx.translate(A._random_int(-A.shake, A.shake), A._random_int(-A.shake, A.shake));
+			// TODO: this does not calculate the passed time (effect is fps-dependent)
+			A.shake = Math.floor(A.shake / 2);
+		}
+		
 		A.cv.ctx.save();
 		A.cv.ctx.translate(-A.scroll[0], -A.scroll[1]);
 		for (var i=0; i<3; i++)
@@ -417,6 +428,8 @@ window.onload = function()
 		
 		// fixed to the screen not to the world
 		A.cv.ctx.drawImage(A.layers[3].cv, 0, 0);
+		
+		A.cv.ctx.restore();
 	}
 	
 	A.render_layer_map = function()
