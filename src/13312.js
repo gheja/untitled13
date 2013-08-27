@@ -186,6 +186,7 @@ window.onload = function()
 	{
 		var obj = new A.BasicObject(1, position, 0, 0, [ [ 20, -32, -48 ], [ 21, -32, -48 ] ]);
 		obj.shadow_sprite_id = -1;
+		obj.owner_player = 2;
 		
 		return obj;
 	}
