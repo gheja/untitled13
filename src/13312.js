@@ -161,6 +161,11 @@ window.onload = function()
 		
 		obj.on_owner_click = function()
 		{
+			if (A.selected_tool != 0)
+			{
+				return;
+			}
+			
 			var first = 1;
 			
 			while (first || this.valid_directions[this.direction] == 0)
