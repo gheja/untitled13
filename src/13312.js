@@ -502,6 +502,28 @@ window.onload = function()
 		A.inputs.mouse_position = [ event.clientX - a.left, event.clientY - a.top ];
 	}
 	
+	A.handle_mousedown_gui = function()
+	{
+		if (A.inputs.mouse_position[0] > 4 && A.inputs.mouse_position[0] < 304 &&
+			A.inputs.mouse_position[1] > 4 && A.inputs.mouse_position[1] < 36)
+		{
+			// TODO: handle tool selection
+			return true;
+		}
+		return false;
+	}
+	
+	A.handle_mousedown_object = function()
+	{
+		return false;
+	}
+	
+	A.handle_mousedown_tile = function()
+	{
+		A.inputs.mouse_click_position = A.inputs.mouse_position;
+		A.inputs.mouse_button_statuses[0] |= 1; // press happened
+	}
+	
 	A.handle_mousedown = function(event)
 	{
 		// handle left click only
@@ -509,9 +531,16 @@ window.onload = function()
 		{
 			return;
 		}
+		
 		A.handle_mousemove(event);
-		A.inputs.mouse_click_position = A.inputs.mouse_position;
-		A.inputs.mouse_button_statuses[0] |= 1; // press happened
+		
+		if (!A.handle_mousedown_gui())
+		{
+			if (!A.handle_mousedown_object())
+			{
+				A.handle_mousedown_tile();
+			}
+		}
 	}
 	
 	A.handle_mouseup = function(event)
@@ -521,7 +550,12 @@ window.onload = function()
 		{
 			return;
 		}
-		A.inputs.mouse_button_statuses[0] |= 2; // release happened
+		
+		// if pressed...
+		if (A.inputs.mouse_button_statuses[0] & 1)
+		{
+			A.inputs.mouse_button_statuses[0] |= 2; // release happened
+		}
 	}
 	
 	A.init = function()
