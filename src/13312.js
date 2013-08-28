@@ -25,7 +25,7 @@ window.onload = function()
 	A.objects = [];
 	A.fog = []; /* hidden tiles from the current player */
 	
-	A.ObjectBase = function(owner_player, position, speed, direction, sprites)
+	A.ObjectBase = function(owner_player, position, speed, direction, health, sprites)
 	{
 		var obj = {};
 		
@@ -34,6 +34,7 @@ window.onload = function()
 		obj.speed = speed; /* tiles per second */
 		obj.direction = direction; /* 0: up, 1: right, 2: down, 3: left */
 		obj.sprites = sprites; /* array of sprites and properties: [ [ sprite_id, screen_position_x, screen_positon_y ], ... ] */
+		obj.health = [ health, health ]; /* current, maximal */
 		
 		obj.position_prev = obj.position;
 		obj.shadow_sprite_id = 6;
@@ -122,22 +123,22 @@ window.onload = function()
 		return obj;
 	}
 	
-	A.ObjectPlayer1Base = function(position, speed, direction, sprites)
+	A.ObjectPlayer1Base = function(position, speed, direction, health, sprites)
 	{
-		var obj = new A.ObjectBase(1, position, speed, direction, sprites);
+		var obj = new A.ObjectBase(1, position, speed, direction, health, sprites);
 		return obj;
 	}
 	
-	A.ObjectPlayer2Base = function(position, sprites)
+	A.ObjectPlayer2Base = function(position, health, sprites)
 	{
-		var obj = new A.ObjectBase(2, position, 0, 0, sprites);
+		var obj = new A.ObjectBase(2, position, 0, 0, health, sprites);
 		obj.shadow_sprite_id = -1;
 		return obj;
 	}
 	
 	A.ObjectPlayer1Switch = function(position, valid_directions, direction)
 	{
-		var obj = new A.ObjectPlayer1Base(position, 0, 0, []);
+		var obj = new A.ObjectPlayer1Base(position, 0, 0, -1, []);
 		
 		obj.valid_directions = valid_directions;
 		obj.direction = direction;
@@ -204,13 +205,13 @@ window.onload = function()
 	
 	A.ObjectPlayer2Tower1 = function(position, valid_directions, direction)
 	{
-		var obj = new A.ObjectPlayer2Base(position, [ [ 20, -32, -48 ], [ 21, -32, -48 ] ]);
+		var obj = new A.ObjectPlayer2Base(position, 100, [ [ 20, -32, -48 ], [ 21, -32, -48 ] ]);
 		return obj;
 	}
 	
 	A.ObjectPlayer1Ghost1 = function(position, direction)
 	{
-		var obj = new A.ObjectPlayer1Base(position, 0.75, direction, [ [ 5, -16, -32, 2, 2 ], [ 4, -16, -32, 2, 2 ], [ 3, -16, -32, 2, 2 ] ]);
+		var obj = new A.ObjectPlayer1Base(position, 0.75, direction, 100, [ [ 5, -16, -32, 2, 2 ], [ 4, -16, -32, 2, 2 ], [ 3, -16, -32, 2, 2 ] ]);
 		
 		// candy for the eye!
 		for (j=0; j<3; j++)
