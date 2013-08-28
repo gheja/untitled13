@@ -441,6 +441,23 @@ window.onload = function()
 				}
 			}
 		}
+		
+		for (i=1; i<19; i++)
+		{
+			for (j=1; j<19; j++)
+			{
+				if (A.fog[i][j] == 0)
+				{
+					if (A.fog[i-1][j-1] == 1 || A.fog[i][j-1] == 1 || A.fog[i+1][j-1] == 1 ||
+						A.fog[i-1][j] == 1 || A.fog[i+1][j] == 1 ||
+						A.fog[i-1][j+1] == 1 || A.fog[i][j+1] == 1 || A.fog[i+1][j+1] == 1)
+					{
+						A.fog[i][j] = 2;
+					}
+				}
+			}
+		}
+		
 	}
 	
 	A.render_canvas = function()
@@ -509,6 +526,11 @@ window.onload = function()
 				{
 					p = A._world_position_to_layer_position(i, j);
 					A.texture_show(2, 9, p[0] - 32, p[1] - 16);
+				}
+				else if (A.fog[i][j] == 2)
+				{
+					p = A._world_position_to_layer_position(i, j);
+					A.texture_show(2, 10, p[0] - 32, p[1] - 16);
 				}
 			}
 		}
@@ -730,6 +752,7 @@ window.onload = function()
 		A.texture_create(7, "pb0fAAff//f.aDM", TEXTURE_SIZE_64X32);
 		A.texture_create(8, "pggAAAkKWbW.", TEXTURE_SIZE_32X32);
 		A.texture_create(9, "p00fAAff//f.aHK", TEXTURE_SIZE_64X32);
+		A.texture_create(10, "p00fAAff//f.", TEXTURE_SIZE_64X32);
 		A.texture_create("a0", "p00gSsesS.", TEXTURE_SIZE_64X32);
 		A.texture_create("a1", "p00gssssg.", TEXTURE_SIZE_64X32);
 		A.texture_create("a2", "p00SgSses.", TEXTURE_SIZE_64X32);
