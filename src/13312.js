@@ -442,6 +442,7 @@ window.onload = function()
 			}
 		}
 		
+		// TODO: process the tiles on the edge
 		for (i=1; i<19; i++)
 		{
 			for (j=1; j<19; j++)
