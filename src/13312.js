@@ -317,6 +317,7 @@ window.onload = function()
 		{
 			switch (recipe[i])
 			{
+/*
 				case "f": // [f]ill (color, start_x, start_y, end_x, end_y)
 				break;
 				
@@ -340,7 +341,7 @@ window.onload = function()
 					}
 					i += 7;
 				break;
-				
+*/
 				case "a": // random [a]lpha overlay (min_alpha, max_alpha)
 					var pixels = c.getImageData(0, 0, w, h);
 					
