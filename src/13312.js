@@ -25,7 +25,7 @@ window.onload = function()
 	A.objects = [];
 	A.fog = []; /* hidden tiles from the current player */
 	
-	A.BasicObject = function(owner_player, position, speed, direction, sprites)
+	A.ObjectBase = function(owner_player, position, speed, direction, sprites)
 	{
 		var obj = {};
 		
@@ -122,9 +122,22 @@ window.onload = function()
 		return obj;
 	}
 	
-	A.ArrowObject = function(position, valid_directions, direction)
+	A.ObjectPlayer1Base = function(position, speed, direction, sprites)
 	{
-		var obj = new A.BasicObject(1, position, 0, 0, []);
+		var obj = new A.ObjectBase(1, position, speed, direction, sprites);
+		return obj;
+	}
+	
+	A.ObjectPlayer2Base = function(position, sprites)
+	{
+		var obj = new A.ObjectBase(2, position, 0, 0, sprites);
+		obj.shadow_sprite_id = -1;
+		return obj;
+	}
+	
+	A.ObjectPlayer1Switch = function(position, valid_directions, direction)
+	{
+		var obj = new A.ObjectPlayer1Base(position, 0, 0, []);
 		
 		obj.valid_directions = valid_directions;
 		obj.direction = direction;
@@ -189,18 +202,15 @@ window.onload = function()
 		return obj;
 	}
 	
-	A.Tower1Object = function(position, valid_directions, direction)
+	A.ObjectPlayer2Tower1 = function(position, valid_directions, direction)
 	{
-		var obj = new A.BasicObject(1, position, 0, 0, [ [ 20, -32, -48 ], [ 21, -32, -48 ] ]);
-		obj.shadow_sprite_id = -1;
-		obj.owner_player = 2;
-		
+		var obj = new A.ObjectPlayer2Base(position, [ [ 20, -32, -48 ], [ 21, -32, -48 ] ]);
 		return obj;
 	}
 	
-	A.Ghost1Object = function(position, direction)
+	A.ObjectPlayer1Ghost1 = function(position, direction)
 	{
-		var obj = new A.BasicObject(1, position, 0.75, direction, [ [ 5, -16, -32, 2, 2 ], [ 4, -16, -32, 2, 2 ], [ 3, -16, -32, 2, 2 ] ]);
+		var obj = new A.ObjectPlayer1Base(position, 0.75, direction, [ [ 5, -16, -32, 2, 2 ], [ 4, -16, -32, 2, 2 ], [ 3, -16, -32, 2, 2 ] ]);
 		
 		// candy for the eye!
 		for (j=0; j<3; j++)
@@ -278,7 +288,7 @@ window.onload = function()
 		// this should be replaced with auto-placement by the previous road tiles
 		for (i in arrows)
 		{
-			A.objects.push(new A.ArrowObject([ arrows[i][0], arrows[i][1] ], [ arrows[i][2] & 1, arrows[i][2] & 2, arrows[i][2] & 4, arrows[i][2] & 8 ], arrows[i][3]));
+			A.objects.push(new A.ObjectPlayer1Switch([ arrows[i][0], arrows[i][1] ], [ arrows[i][2] & 1, arrows[i][2] & 2, arrows[i][2] & 4, arrows[i][2] & 8 ], arrows[i][3]));
 		}
 	}
 	
@@ -730,15 +740,15 @@ window.onload = function()
 		
 		for (i=0; i<5; i++)
 		{
-			A.objects.push(new A.Ghost1Object([ -2 - i, 1 ], 1));
-			A.objects.push(new A.Ghost1Object([ -2 - i, 14 ], 1));
+			A.objects.push(new A.ObjectPlayer1Ghost1([ -2 - i, 1 ], 1));
+			A.objects.push(new A.ObjectPlayer1Ghost1([ -2 - i, 14 ], 1));
 		}
 		
 		A.map[7][7] = 7;
 		A.map[7][8] = 7;
 		A.map[7][9] = 7;
 		
-		A.objects.push(new A.Tower1Object([ 10, 11 ]));
+		A.objects.push(new A.ObjectPlayer2Tower1([ 10, 11 ]));
 	}
 	
 	A.init_textures = function()
