@@ -2,10 +2,10 @@ window.onload = function()
 {
 	A = {};
 	
-	TEXTURE_SIZE_32X32 = 0;
-	TEXTURE_SIZE_64X32 = 1;
-	TEXTURE_SIZE_64X64 = 2;
-	TEXTURE_SIZE_24X24 = 3;
+	/** @const */ A.TEXTURE_SIZE_32X32 = 0;
+	/** @const */ A.TEXTURE_SIZE_64X32 = 1;
+	/** @const */ A.TEXTURE_SIZE_64X64 = 2;
+	/** @const */ A.TEXTURE_SIZE_24X24 = 3;
 	A.texture_sizes = [ [ 32, 32 ], [ 64, 32 ], [ 64, 64 ], [ 24, 24 ] ];
 	
 	A.current_player = 1;
@@ -761,31 +761,31 @@ window.onload = function()
 	
 	A.init_textures = function()
 	{
-		A.texture_create(0, "p23fAAff//f.aAF", TEXTURE_SIZE_64X32);
-		A.texture_create(1, "p01fAAff//f.", TEXTURE_SIZE_64X32);
-		A.texture_create(2, "p45fAAff//f.aAF", TEXTURE_SIZE_64X32);
-		A.texture_create(3, "p67M2W5etkvq702wOhJPQIM.p87VUfdmR.", TEXTURE_SIZE_32X32);
-		A.texture_create(4, "p678lvybeHZEsQ0gt.", TEXTURE_SIZE_32X32);
-		A.texture_create(5, "p67MTcpwopV.", TEXTURE_SIZE_32X32);
-		A.texture_create(6, "p00eZYcamgonlmc.", TEXTURE_SIZE_64X32);
-		A.texture_create(7, "pb0fAAff//f.aDM", TEXTURE_SIZE_64X32);
-		A.texture_create(8, "pggAAAkKWbW.", TEXTURE_SIZE_32X32);
-		A.texture_create(9, "p00fAAff//f.aHK", TEXTURE_SIZE_64X32);
-		A.texture_create(10, "p00fAAff//f.", TEXTURE_SIZE_64X32);
-		A.texture_create("a0", "p00gSsesS.", TEXTURE_SIZE_64X32);
-		A.texture_create("a1", "p00gssssg.", TEXTURE_SIZE_64X32);
-		A.texture_create("a2", "p00SgSses.", TEXTURE_SIZE_64X32);
-		A.texture_create("a3", "p00SSSeeS.", TEXTURE_SIZE_64X32);
-		A.texture_create("b0", "p9agSsesS.", TEXTURE_SIZE_64X32);
-		A.texture_create("b1", "p9agssssg.", TEXTURE_SIZE_64X32);
-		A.texture_create("b2", "p9aSgSses.", TEXTURE_SIZE_64X32);
-		A.texture_create("b3", "p9aSSSeeS.", TEXTURE_SIZE_64X32);
-		A.texture_create(20, "pbbf7f//w/s.aAFpdbAsAwf/f7.aAFpdbAsf7/sfc.aAF", TEXTURE_SIZE_64X64);
-		A.texture_create(21, "peebgYrftmrjg.pfeLiutmV.peecabgfjjgia.pfeaTUete.peeeRcafciagR.pcffIYMYQZRfUkRmOkK.", TEXTURE_SIZE_64X64);
-		// A.texture_create(21, "peebgYrftmrjg.pfeLiutmV.aAKpeecabgfjjgia.pfeaTUete.aAKpeeeRcafciagR.pcffIYMYQZRfUkRmOkK.aAF", TEXTURE_SIZE_64X64);
-		A.texture_create("c1", "pggRRR1chuh.", TEXTURE_SIZE_24X24);
-		A.texture_create("c2", "pgghJZbGbbmQ2kp7xpg4WmW.", TEXTURE_SIZE_24X24);
-		A.texture_create("c0", "p11RdRTcKjKuTuyRyRdqdqTjOcOVTVd.", TEXTURE_SIZE_24X24);
+		A.texture_create(0, "p23fAAff//f.aAF", A.TEXTURE_SIZE_64X32);
+		A.texture_create(1, "p01fAAff//f.", A.TEXTURE_SIZE_64X32);
+		A.texture_create(2, "p45fAAff//f.aAF", A.TEXTURE_SIZE_64X32);
+		A.texture_create(3, "p67M2W5etkvq702wOhJPQIM.p87VUfdmR.", A.TEXTURE_SIZE_32X32);
+		A.texture_create(4, "p678lvybeHZEsQ0gt.", A.TEXTURE_SIZE_32X32);
+		A.texture_create(5, "p67MTcpwopV.", A.TEXTURE_SIZE_32X32);
+		A.texture_create(6, "p00eZYcamgonlmc.", A.TEXTURE_SIZE_64X32);
+		A.texture_create(7, "pb0fAAff//f.aDM", A.TEXTURE_SIZE_64X32);
+		A.texture_create(8, "pggAAAkKWbW.", A.TEXTURE_SIZE_32X32);
+		A.texture_create(9, "p00fAAff//f.aHK", A.TEXTURE_SIZE_64X32);
+		A.texture_create(10, "p00fAAff//f.", A.TEXTURE_SIZE_64X32);
+		A.texture_create("a0", "p00gSsesS.", A.TEXTURE_SIZE_64X32);
+		A.texture_create("a1", "p00gssssg.", A.TEXTURE_SIZE_64X32);
+		A.texture_create("a2", "p00SgSses.", A.TEXTURE_SIZE_64X32);
+		A.texture_create("a3", "p00SSSeeS.", A.TEXTURE_SIZE_64X32);
+		A.texture_create("b0", "p9agSsesS.", A.TEXTURE_SIZE_64X32);
+		A.texture_create("b1", "p9agssssg.", A.TEXTURE_SIZE_64X32);
+		A.texture_create("b2", "p9aSgSses.", A.TEXTURE_SIZE_64X32);
+		A.texture_create("b3", "p9aSSSeeS.", A.TEXTURE_SIZE_64X32);
+		A.texture_create(20, "pbbf7f//w/s.aAFpdbAsAwf/f7.aAFpdbAsf7/sfc.aAF", A.TEXTURE_SIZE_64X64);
+		A.texture_create(21, "peebgYrftmrjg.pfeLiutmV.peecabgfjjgia.pfeaTUete.peeeRcafciagR.pcffIYMYQZRfUkRmOkK.", A.TEXTURE_SIZE_64X64);
+		// A.texture_create(21, "peebgYrftmrjg.pfeLiutmV.aAKpeecabgfjjgia.pfeaTUete.aAKpeeeRcafciagR.pcffIYMYQZRfUkRmOkK.aAF", A.TEXTURE_SIZE_64X64);
+		A.texture_create("c1", "pggRRR1chuh.", A.TEXTURE_SIZE_24X24);
+		A.texture_create("c2", "pgghJZbGbbmQ2kp7xpg4WmW.", A.TEXTURE_SIZE_24X24);
+		A.texture_create("c0", "p11RdRTcKjKuTuyRyRdqdqTjOcOVTVd.", A.TEXTURE_SIZE_24X24);
 	}
 	
 	A.process_tick_begin = function()
