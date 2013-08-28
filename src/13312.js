@@ -422,6 +422,31 @@ window.onload = function()
 		}
 	}
 	
+	A.gui_render_bar_background = function(x, y, width, height)
+	{
+		A.layers[2].ctx.fillStyle = "rgba(0,0,0,0.3)";
+		A.layers[2].ctx.fillRect(x, y, width, height);
+	}
+	
+	A.gui_render_bar = function(x, y, width, value, color)
+	{
+		var gradient;
+		
+		A.layers[2].ctx.fillStyle = color;
+		A.layers[2].ctx.fillRect(x, y, width, 4);
+		
+		A.layers[2].ctx.fillStyle = "rgba(0,0,0,0.8)";
+		A.layers[2].ctx.fillRect(x + (width * value), y, width - (width * value), 4);
+		
+		gradient = A.layers[2].ctx.createLinearGradient(x,y,x,y + 4);
+		gradient.addColorStop(0, "rgba(0,0,0,0.1)");
+		gradient.addColorStop(0.7, "rgba(0,0,0,0.4)");
+		gradient.addColorStop(1, "rgba(0,0,0,0.3)");
+		A.layers[2].ctx.fillStyle = gradient;
+		A.layers[2].ctx.fillRect(x, y, width, 4);
+		
+	}
+	
 	A.process_fog = function()
 	{
 		var i, j, k, x, y, obj;
@@ -596,7 +621,7 @@ window.onload = function()
 	{
 		A.layer_clear(3);
 		
-		var c = A.layers[3].ctx;
+		var i, p, c = A.layers[3].ctx;
 		var gradient = c.createLinearGradient(0,4,0,32);
 		var color1;
 		
@@ -628,6 +653,28 @@ window.onload = function()
 		A.gui_render_button(5, "c0", color1);
 		
 		A.texture_show(3, 8, A.inputs.mouse_position[0], A.inputs.mouse_position[1]);
+		
+		for (i in A.objects)
+		{
+			if (A.objects[i].owner_player != A.current_player || A.objects[i].health[1] == -1)
+			{
+				continue;
+			}
+			p = A._world_position_to_layer_position(A.objects[i].position[0], A.objects[i].position[1]);
+			if (A.objects[i].owner_player == 1)
+			{
+				A.gui_render_bar_background(p[0] - 18, p[1] + 6, 36, 8);
+				A.gui_render_bar(p[0] - 16, p[1] + 8, 32, 1, "#5d0");
+			}
+			else
+			{
+				A.gui_render_bar_background(p[0] - 34, p[1] + 6, 68, 14);
+				A.gui_render_bar(p[0] - 32, p[1] + 8, 64, 0.5, "#7f0");
+				A.gui_render_bar(p[0] - 32, p[1] + 14, 48, 0.5, "#ee0");
+				A.gui_render_bar(p[0] + 16, p[1] + 14, 16, 0.5, "#eee");
+			}
+//			A.gui_render_bar(p[0] - 16, p[1] + 8, 32, 20, "#3c0");
+		}
 	}
 	
 	A.handle_mousemove = function(event)
