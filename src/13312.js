@@ -633,6 +633,8 @@ window.onload = function()
 		var a = A.cv.cv.getBoundingClientRect();
 		A.inputs.modified = 1;
 		A.inputs.mouse_position = [ event.clientX - a.left, event.clientY - a.top ];
+		
+		event.preventDefault();
 	}
 	
 	A.handle_mousedown_gui = function()
@@ -674,6 +676,8 @@ window.onload = function()
 				A.handle_mousedown_tile();
 			}
 		}
+		
+		event.preventDefault();
 	}
 	
 	A.handle_mouseup = function(event)
@@ -689,6 +693,8 @@ window.onload = function()
 		{
 			A.inputs.mouse_button_statuses[0] |= 2; // release happened
 		}
+		
+		event.preventDefault();
 	}
 	
 	A.init = function()
