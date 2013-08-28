@@ -23,6 +23,7 @@ window.onload = function()
 	A.palette = { 0: "rgba(0,0,0,0.2)", 1: "rgba(0,0,0.4)", 2: "#4a3", 3: "#391", 4: "#682", 5: "#462", 6: "rgba(190, 60, 5, 0.7)", 7: "#821", 8: "#ddd", 9: "#dd0", "a": "#ee0", "b": "#bbb", "c": "#ccc", "d": "#ddd", "e": "#248", "f": "rgba(0,128,255,0.7)", "g": "#fff" };
 	A.textures = {};
 	A.objects = [];
+	A.fog = []; /* hidden tiles from the current player */
 	
 	A.BasicObject = function(owner_player, position, speed, direction, sprites)
 	{
@@ -39,6 +40,7 @@ window.onload = function()
 		obj.destroyed = 0;
 		obj.class = 0;
 		obj.hidden_from_other_player = 0;
+		obj.detection_distance = 3;
 		
 		obj.explode = function()
 		{
@@ -128,6 +130,7 @@ window.onload = function()
 		obj.direction = direction;
 		obj.shadow_sprite_id = -1;
 		obj.hidden_from_other_player = 1;
+		obj.detection_distance = 0;
 		
 		obj.update = function()
 		{
@@ -407,6 +410,39 @@ window.onload = function()
 		}
 	}
 	
+	A.process_fog = function()
+	{
+		var i, j, k, x, y, obj;
+		for (i=0; i<20; i++)
+		{
+			for (j=0; j<20; j++)
+			{
+				A.fog[i][j] = 1;
+			}
+		}
+		
+		for (i in A.objects)
+		{
+			if (A.objects[i].owner_player == A.current_player)
+			{
+				obj = A.objects[i];
+				x = Math.round(obj.position[0]);
+				y = Math.round(obj.position[1]);
+				
+				for (j=-obj.detection_distance; j<=obj.detection_distance; j++)
+				{
+					for (k=-obj.detection_distance; k<=obj.detection_distance; k++)
+					{
+						if (x+j >= 0 && y+k >= 0 && x+j < 20 && y+k < 20)
+						{
+							A.fog[x+j][y+k] = 0;
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	A.render_canvas = function()
 	{
 		A.cv.ctx.fillStyle = "#111";
@@ -463,11 +499,36 @@ window.onload = function()
 		// TODO: do proper depth ordering for sprites
 		
 		A.layer_clear(2);
+		
+		// out of sight
+		for (i=0; i<20; i++)
+		{
+			for (j=0; j<20; j++)
+			{
+				if (A.fog[i][j] == 1)
+				{
+					p = A._world_position_to_layer_position(i, j);
+					A.texture_show(2, 9, p[0] - 32, p[1] - 16);
+				}
+			}
+		}
+		
 		for (i in A.objects)
 		{
 			obj = A.objects[i];
 			
 			if (obj.destroyed || (obj.owner_player != A.current_player && obj.hidden_from_other_player))
+			{
+				continue;
+			}
+			
+			// out of screen
+			if (!(obj.position[0] >= 0 && obj.position[0] < 20 && obj.position[1] >= 0 && obj.position[1] < 20))
+			{
+				continue;
+			}
+			
+			if (A.fog[Math.round(obj.position[0])][Math.round(obj.position[1])] == 1)
 			{
 				continue;
 			}
@@ -616,9 +677,11 @@ window.onload = function()
 		
 		for (j=0; j<32; j++)
 		{
+			A.fog[j] = [];
 			A.map[j] = {};
 			for (i=0; i<32; i++)
 			{
+				A.fog[j][i] = 1;
 				A.map[j][i] = 0;
 			}
 		}
@@ -666,6 +729,7 @@ window.onload = function()
 		A.texture_create(6, "p00eZYcamgonlmc.", TEXTURE_SIZE_64X32);
 		A.texture_create(7, "pb0fAAff//f.aDM", TEXTURE_SIZE_64X32);
 		A.texture_create(8, "pggAAAkKWbW.", TEXTURE_SIZE_32X32);
+		A.texture_create(9, "p00fAAff//f.aHK", TEXTURE_SIZE_64X32);
 		A.texture_create("a0", "p00gSsesS.", TEXTURE_SIZE_64X32);
 		A.texture_create("a1", "p00gssssg.", TEXTURE_SIZE_64X32);
 		A.texture_create("a2", "p00SgSses.", TEXTURE_SIZE_64X32);
@@ -764,6 +828,7 @@ window.onload = function()
 		A.process_tick_begin();
 		A.process_input();
 		A.process_objects();
+		A.process_fog();
 		A.render_layer_map();
 		A.render_layer1();
 		A.render_layer2();
