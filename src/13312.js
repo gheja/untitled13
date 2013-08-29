@@ -619,7 +619,7 @@ window.onload = function()
 	A.render_canvas = function()
 	{
 		A.cv.ctx.fillStyle = "#111";
-		A.cv.ctx.fillRect(0, 0, 1280, 720);
+		A.cv.ctx.fillRect(0, 0, A.cv.cv.width, A.cv.cv.height);
 		
 		A.cv.ctx.save();
 		if (A.shake > 0)
@@ -872,6 +872,14 @@ window.onload = function()
 		event.preventDefault();
 	}
 	
+	A.handle_resize = function()
+	{
+		A.scroll[0] -= (window.innerWidth - A.cv.cv.width) / 2;
+		A.scroll[1] -= (window.innerHeight - A.cv.cv.height) / 2;
+		A.cv.cv.width = window.innerWidth;
+		A.cv.cv.height = window.innerHeight;
+	}
+	
 	A.init = function()
 	{
 		A.cv = A._create_cv(1280, 720);
@@ -882,6 +890,9 @@ window.onload = function()
 		A.cv.cv.addEventListener("mousemove", A.handle_mousemove);
 		A.cv.cv.addEventListener("mousedown", A.handle_mousedown);
 		A.cv.cv.addEventListener("mouseup", A.handle_mouseup);
+		window.addEventListener("resize", A.handle_resize);
+		/* move the world to the middle of the page */
+		A.handle_resize();
 		document.getElementById("canvas0").appendChild(A.cv.cv);
 	}
 	
