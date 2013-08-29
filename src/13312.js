@@ -897,17 +897,18 @@ window.onload = function()
 	
 	A.init_textures = function()
 	{
-		A.texture_create(0, "p23fAAff//f.aAF", A.TEXTURE_SIZE_64X32);
-		A.texture_create(1, "p01fAAff//f.", A.TEXTURE_SIZE_64X32);
-		A.texture_create(2, "p45fAAff//f.aAF", A.TEXTURE_SIZE_64X32);
+		var grid = "fAAff//f.";
+		A.texture_create(0, "p23" + grid + "aAF", A.TEXTURE_SIZE_64X32);
+		A.texture_create(1, "p01" + grid, A.TEXTURE_SIZE_64X32);
+		A.texture_create(2, "p45" + grid + ".aAF", A.TEXTURE_SIZE_64X32);
 		A.texture_create(3, "p67M2W5etkvq702wOhJPQIM.p87VUfdmR.", A.TEXTURE_SIZE_32X32);
 		A.texture_create(4, "p678lvybeHZEsQ0gt.", A.TEXTURE_SIZE_32X32);
 		A.texture_create(5, "p67MTcpwopV.", A.TEXTURE_SIZE_32X32);
 		A.texture_create(6, "p00eZYcamgonlmc.", A.TEXTURE_SIZE_64X32);
-		A.texture_create(7, "pb0fAAff//f.aDM", A.TEXTURE_SIZE_64X32);
+		A.texture_create(7, "pb0" + grid + "aDM", A.TEXTURE_SIZE_64X32);
 		A.texture_create(8, "pggAAAkKWbW.", A.TEXTURE_SIZE_32X32);
-		A.texture_create(9, "p00fAAff//f.aHK", A.TEXTURE_SIZE_64X32);
-		A.texture_create(10, "p00fAAff//f.", A.TEXTURE_SIZE_64X32);
+		A.texture_create(9, "p00" + grid + "aHK", A.TEXTURE_SIZE_64X32);
+		A.texture_create(10, "p00" + grid, A.TEXTURE_SIZE_64X32);
 		A.texture_create("a0", "p00gSsesS.", A.TEXTURE_SIZE_64X32);
 		A.texture_create("a1", "p00gssssg.", A.TEXTURE_SIZE_64X32);
 		A.texture_create("a2", "p00SgSses.", A.TEXTURE_SIZE_64X32);
