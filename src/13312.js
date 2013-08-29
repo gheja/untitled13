@@ -51,11 +51,32 @@ window.onload = function()
 				return;
 			}
 			
-			// TODO: hurt the nearby enemies
 			this.destroyed = 1;
+			A.hit_nearby_objects(this.position, 50, 3, this.owner_player);
 			this.speed = [ 0, 0 ];
 			this.position = [ -10, -10 ];
 			A.shake += 10;
+		}
+		
+		obj.on_hit = function(damage, attacker_player)
+		{
+			// no friendly fire :)
+			if (attacker_player == this.owner_player)
+			{
+				return;
+			}
+			
+			if (this.health == -1 || this.destroyed)
+			{
+				return;
+			}
+			
+			this.health[0] -= damage;
+			if (this.health[0] <= 0)
+			{
+				this.health[0] = 0;
+				this.explode();
+			}
 		}
 		
 		obj.on_owner_click = function()
@@ -839,6 +860,28 @@ window.onload = function()
 		A.texture_create("c1", "pggRRR1chuh.", A.TEXTURE_SIZE_24X24);
 		A.texture_create("c2", "pgghJZbGbbmQ2kp7xpg4WmW.", A.TEXTURE_SIZE_24X24);
 		A.texture_create("c0", "p11RdRTcKjKuTuyRyRdqdqTjOcOVTVd.", A.TEXTURE_SIZE_24X24);
+	}
+	
+	A.hit_nearby_objects = function(position, damage, distance, attacker_player)
+	{
+		var i, obj_distance, obj_damage;
+		
+		for (i in A.objects)
+		{
+			if (A.objects[i].destroyed == 1)
+			{
+				continue;
+			}
+			
+			obj_distance = Math.sqrt(Math.pow(position[0] - A.objects[i].position[0], 2)+ Math.pow(position[1] - A.objects[i].position[1], 2));
+			if (obj_distance >= distance)
+			{
+				continue;
+			}
+			
+			obj_damage = damage * ((distance - obj_distance) / distance);
+			A.objects[i].on_hit(obj_damage, attacker_player);
+		}
 	}
 	
 	A.process_tick_begin = function()
