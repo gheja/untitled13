@@ -170,6 +170,7 @@ window.onload = function()
 		obj.on_ready_to_attack = function()
 		{
 			// attack
+			A.hit_nearby_objects(this.position, 25, 3, this.owner_player);
 			this.attack_cycle_time[0] = 0;
 			this.attack_ammo[0]--;
 			
