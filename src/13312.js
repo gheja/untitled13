@@ -2,18 +2,30 @@ window.onload = function()
 {
 	A = {};
 	
+	A.config = {
+		ticks_per_seconds: 30,
+		target_frames_per_seconds: 30
+	};
+	
 	/** @const */ A.TEXTURE_SIZE_32X32 = 0;
 	/** @const */ A.TEXTURE_SIZE_64X32 = 1;
 	/** @const */ A.TEXTURE_SIZE_64X64 = 2;
 	/** @const */ A.TEXTURE_SIZE_24X24 = 3;
 	A.texture_sizes = [ [ 32, 32 ], [ 64, 32 ], [ 64, 64 ], [ 24, 24 ] ];
 	
+	A.tick_number = 0;
+	A.tick_interval = 1000 / A.config.ticks_per_seconds; /* milliseconds */
+	A.seconds_passed_since_last_tick = A.tick_interval / 1000; /* fixed value, ticks will always catch up if called late */
+	A.last_tick_timestamp = 0;
+	
+	A.frame_number = 0;
+	A.frame_interval = 1000 / A.config.target_frames_per_seconds; /* milliseconds */
+	A.seconds_passed_since_last_frame = 0;
+	A.last_frame_timestamp = 0;
+	
 	A.current_player = 1;
 	A.shake = 0;
 	A.selected_tool = 0;
-	A.frame_number = 0;
-	A.time_passed_since_last_tick = 0;
-	A.last_tick_timestamp = 0;
 	A.inputs = { modified: 0, mouse_position: [ 640, 360 ], mouse_click_position: [ 0, 0 ], mouse_button_statuses: [ 0, 0, 0 ] };
 	A.inputs_prev = {};
 	A.cursor_position_in_world = [ 10, 10 ]; /* tiles */
@@ -200,7 +212,7 @@ window.onload = function()
 			}
 			else if (this.attack_status == "cycling")
 			{
-				this.attack_cycle_time[0] += A.time_passed_since_last_tick;
+				this.attack_cycle_time[0] += A.seconds_passed_since_last_tick;
 				if (this.attack_cycle_time[0] >= this.attack_cycle_time[1])
 				{
 					this.attack_cycle_time[0] = this.attack_cycle_time[1];
@@ -209,7 +221,7 @@ window.onload = function()
 			}
 			else if (this.attack_status == "reloading")
 			{
-				this.attack_reload_time[0] += A.time_passed_since_last_tick;
+				this.attack_reload_time[0] += A.seconds_passed_since_last_tick;
 				if (this.attack_reload_time[0] >= this.attack_reload_time[1])
 				{
 					this.attack_reload_time[0] = this.attack_reload_time[1];
@@ -713,8 +725,8 @@ window.onload = function()
 				sprite = obj.sprites[j];
 				
 				// this is heavily eyecandy, that's why it's here and not in process_objects()
-				sprite[5] += sprite[7] * A.time_passed_since_last_tick;
-				sprite[6] += sprite[8] * A.time_passed_since_last_tick;
+				sprite[5] += sprite[7] * A.seconds_passed_since_last_frame;
+				sprite[6] += sprite[8] * A.seconds_passed_since_last_frame;
 				rx = (Math.cos(sprite[5]) * sprite[3]) || 0;
 				ry = (Math.sin(sprite[6]) * sprite[4]) || 0;
 				
@@ -972,13 +984,6 @@ window.onload = function()
 		}
 	}
 	
-	A.process_tick_begin = function()
-	{
-		var now = (new Date()).getTime();
-		A.time_passed_since_last_tick = (now - A.last_tick_timestamp) / 1000;
-		A.last_tick_timestamp = now;
-	}
-	
 	A.process_input = function()
 	{
 		if (A.inputs.mouse_button_statuses[0] & 1)
@@ -1028,7 +1033,7 @@ window.onload = function()
 			
 			A.objects[i].position_prev = [ A.objects[i].position[0], A.objects[i].position[1] ];
 			
-			moved =  A.objects[i].speed * A.time_passed_since_last_tick;
+			moved =  A.objects[i].speed * A.seconds_passed_since_last_tick;
 			if (A.objects[i].direction == 0)
 			{
 				A.objects[i].position[1] -= moved;
@@ -1050,22 +1055,42 @@ window.onload = function()
 	
 	A.tick = function()
 	{
-		A.frame_number++;
-		A.process_tick_begin();
-		A.process_input();
+		A.tick_number++;
 		A.process_objects();
+	}
+	
+	A.render_frame = function()
+	{
+		var now = (new Date()).getTime();
+		var ticks_needed = Math.floor((now - A.last_tick_timestamp) / A.tick_interval);
+		var i;
+		
+		A.process_input();
+		
+		for (i=0; i<ticks_needed; i++)
+		{
+			A.tick();
+		}
+		
+		A.frame_number++;
+		A.seconds_passed_since_last_frame = (now - A.last_frame_timestamp) / 1000;
+		
 		A.process_fog();
 		A.render_layer_map();
 		A.render_layer1();
 		A.render_layer2();
 		A.render_layer3();
 		A.render_canvas();
+		
+		A.last_tick_timestamp = A.last_tick_timestamp + ticks_needed * A.tick_interval;
+		A.last_frame_timestamp = now;
 	}
 	
-	A.init_tick = function()
+	A.init_ticks = function()
 	{
 		A.last_tick_timestamp = (new Date()).getTime();
-		window.setInterval(A.tick, 1000 / 30);
+		A.last_frame_timestamp = A.last_tick_timestamp;
+		window.setInterval(A.render_frame, A.frame_interval);
 	}
 	
 	A.start = function()
@@ -1073,7 +1098,7 @@ window.onload = function()
 		A.init();
 		A.init_map();
 		A.init_textures();
-		A.init_tick();
+		A.init_ticks();
 		A.set_player(1);
 	}
 	
