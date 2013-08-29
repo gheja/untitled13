@@ -167,6 +167,35 @@ window.onload = function()
 		obj.attack_cycle_time = [ 0, shoot_cycle_time ]; /* seconds */
 		obj.attack_reload_time = [ 0, reload_time ]; /* seconds */
 		
+		obj.on_tick = function()
+		{
+			if (this.attack_status == "ready")
+			{
+				// attack!
+			}
+			else if (this.attack_status == "cycling")
+			{
+				this.attack_cycle_time[0] += A.time_passed_since_last_tick;
+				if (this.attack_cycle_time[0] >= this.attack_cycle_time[1])
+				{
+					this.attack_cycle_time[0] = this.attack_cycle_time[1];
+					this.attack_status = "ready";
+				}
+			}
+			else if (this.attack_status == "reloading")
+			{
+				this.attack_reload_time[0] += A.time_passed_since_last_tick;
+				if (this.attack_reload_time[0] >= this.attack_reload_time[1])
+				{
+					this.attack_reload_time[0] = this.attack_reload_time[1];
+					this.attack_ammo[0] = this.attack_ammo[1];
+					// reload also recycles, no need to go back to "cycling"
+					this.attack_cycle_time[0] = this.attack_cycle_time[1];
+					this.attack_status = "ready";
+				}
+			}
+		}
+		
 		return obj;
 	}
 	
