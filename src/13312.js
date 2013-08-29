@@ -39,12 +39,18 @@ window.onload = function()
 		obj.position_prev = obj.position;
 		obj.shadow_sprite_id = 6;
 		obj.destroyed = 0;
+		obj.permanent = (health == -1); /* this object cannot be hurt or destroyed */
 		obj.class = 0;
 		obj.hidden_from_other_player = 0;
 		obj.detection_distance = 3;
 		
 		obj.explode = function()
 		{
+			if (this.permanent)
+			{
+				return;
+			}
+			
 			// TODO: hurt the nearby enemies
 			this.destroyed = 1;
 			this.speed = [ 0, 0 ];
@@ -656,7 +662,7 @@ window.onload = function()
 		
 		for (i in A.objects)
 		{
-			if (A.objects[i].owner_player != A.current_player || A.objects[i].health[1] == -1)
+			if (A.objects[i].owner_player != A.current_player || A.objects[i].permanent)
 			{
 				continue;
 			}
