@@ -933,7 +933,7 @@ window.onload = function()
 		A.texture_create(7, "pb0" + grid + "aDM", A.TEXTURE_SIZE_64X32);
 		A.texture_create(8, "pggAAAkKWbW.", A.TEXTURE_SIZE_32X32);
 		A.texture_create(9, "p00" + grid + "aHK", A.TEXTURE_SIZE_64X32);
-		A.texture_create(10, "p00" + grid, A.TEXTURE_SIZE_64X32);
+		A.texture_create(10, "p00" + grid + "aAC", A.TEXTURE_SIZE_64X32);
 		A.texture_create("a0", "p00gSsesS.", A.TEXTURE_SIZE_64X32);
 		A.texture_create("a1", "p00gssssg.", A.TEXTURE_SIZE_64X32);
 		A.texture_create("a2", "p00SgSses.", A.TEXTURE_SIZE_64X32);
