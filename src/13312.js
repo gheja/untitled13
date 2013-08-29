@@ -25,6 +25,13 @@ window.onload = function()
 	A.objects = [];
 	A.fog = []; /* hidden tiles from the current player */
 	
+	A.hexagon_neighbours = [ // we will not calculate them every time
+		[ [0,  0] ],
+		[ [-1,-1], [ 0,-1], [-1, 0], [+1, 0], [ 0,+1], [+1,+1] ],
+		[ [-2,-2], [-1,-2], [ 0,-2], [-2,-1], [+1,-1], [-2, 0], [+2, 0], [-1,+1], [+2,+1], [ 0,+2], [+1,+2], [+2,+2] ],
+		[ [-3,-3], [-2,-3], [-1,-3], [ 0,-3], [-3,-2], [+1,-2], [-3,-1], [+2,-1], [-3, 0], [+3,0], [-2,+1], [+3,+1], [-1,+2], [+3,+2], [ 0,+3], [+1,+3], [+2,+3], [+3,+3] ]
+	];
+	
 	A.ObjectBase = function(owner_player, position, speed, direction, health, sprites)
 	{
 		var obj = {};
@@ -319,14 +326,23 @@ window.onload = function()
 	
 	A._world_position_to_layer_position = function(a, b)
 	{
-		return [ a * 32 - b * 32 + (1280 / 2), a * 16 + b * 16 + 32 ];
+		c = 1280 / 2;
+		d = 32;
+		
+		x = a * 55 - b * 40 + c;
+		y = a * 8 + b * 20 + d;
+		return [ x, y ];
 	}
 	
 	A._layer_position_to_world_position = function(x, y)
 	{
-		x -= (1280 / 2);
-		y -= 32;
-		return [ (y/16 + x/32) / 2, (-x/32 + y/16) / 2];
+		c = 1280 / 2;
+		d = 32;
+		
+		a = (x - c + (y - d) * 2) / 71;
+		b = (a * 55 + c - x) / 40;
+		
+		return [ a, b ]
 	}
 	
 	A._random_float = function(min, max)
@@ -528,6 +544,26 @@ window.onload = function()
 		
 	}
 	
+	A.fog_set = function(a, b, c)
+	{
+		if (a >= 0 && a < 20 && b >= 0 && b < 20)
+		{
+			if (A.fog[a][b] > c)
+			{
+				A.fog[a][b] = c;
+			}
+		}
+	}
+	
+	A.fog_set_array = function(x, y, array_index, c)
+	{
+		var i;
+		for (i in A.hexagon_neighbours[array_index])
+		{
+			A.fog_set(x + A.hexagon_neighbours[array_index][i][0], y + A.hexagon_neighbours[array_index][i][1], c);
+		}
+	}
+	
 	A.process_fog = function()
 	{
 		var i, j, k, x, y, obj;
@@ -547,36 +583,25 @@ window.onload = function()
 				x = Math.round(obj.position[0]);
 				y = Math.round(obj.position[1]);
 				
-				for (j=-obj.detection_distance; j<=obj.detection_distance; j++)
+				A.fog_set_array(x, y, 0, 0);
+				
+				if (obj.detection_distance == 1)
 				{
-					for (k=-obj.detection_distance; k<=obj.detection_distance; k++)
-					{
-						if (x+j >= 0 && y+k >= 0 && x+j < 20 && y+k < 20)
-						{
-							A.fog[x+j][y+k] = 0;
-						}
-					}
+					A.fog_set_array(x, y, 1, 1);
+				}
+				else if (obj.detection_distance == 2)
+				{
+					A.fog_set_array(x, y, 1, 0);
+					A.fog_set_array(x, y, 2, 1);
+				}
+				else if (obj.detection_distance == 3)
+				{
+					A.fog_set_array(x, y, 1, 0);
+					A.fog_set_array(x, y, 2, 0);
+					A.fog_set_array(x, y, 3, 1);
 				}
 			}
 		}
-		
-		// TODO: process the tiles on the edge
-		for (i=1; i<19; i++)
-		{
-			for (j=1; j<19; j++)
-			{
-				if (A.fog[i][j] == 2)
-				{
-					if (A.fog[i-1][j-1] == 0 || A.fog[i][j-1] == 0 || A.fog[i+1][j-1] == 0 ||
-						A.fog[i-1][j] == 0 || A.fog[i+1][j] == 0 ||
-						A.fog[i-1][j+1] == 0 || A.fog[i][j+1] == 0 || A.fog[i+1][j+1] == 0)
-					{
-						A.fog[i][j] = 1;
-					}
-				}
-			}
-		}
-		
 	}
 	
 	A.render_canvas = function()
@@ -625,7 +650,7 @@ window.onload = function()
 	{
 		p = A._world_position_to_layer_position(Math.floor(A.cursor_position_in_world[0] - 0.5), Math.floor(A.cursor_position_in_world[1] + 0.5));
 		A.layer_clear(1);
-		A.texture_show(1, 1, p[0], p[1]);
+		A.texture_show(1, 1, p[0] + 23, p[1] - 8);
 	}
 	
 	A.render_layer2 = function()
@@ -897,7 +922,7 @@ window.onload = function()
 	
 	A.init_textures = function()
 	{
-		var grid = "fAAff//f.";
+		var grid = "IJAoY/23/YoA."
 		A.texture_create(0, "p23" + grid + "aAF", A.TEXTURE_SIZE_64X32);
 		A.texture_create(1, "p01" + grid, A.TEXTURE_SIZE_64X32);
 		A.texture_create(2, "p45" + grid + ".aAF", A.TEXTURE_SIZE_64X32);
