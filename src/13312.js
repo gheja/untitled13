@@ -925,7 +925,7 @@ window.onload = function()
 		var grid = "IJAoY/23/YoA."
 		A.texture_create(0, "p23" + grid + "aAF", A.TEXTURE_SIZE_64X32);
 		A.texture_create(1, "p01" + grid, A.TEXTURE_SIZE_64X32);
-		A.texture_create(2, "p45" + grid + ".aAF", A.TEXTURE_SIZE_64X32);
+		A.texture_create(2, "p45" + grid + "aAF", A.TEXTURE_SIZE_64X32);
 		A.texture_create(3, "p67M2W5etkvq702wOhJPQIM.p87VUfdmR.", A.TEXTURE_SIZE_32X32);
 		A.texture_create(4, "p678lvybeHZEsQ0gt.", A.TEXTURE_SIZE_32X32);
 		A.texture_create(5, "p67MTcpwopV.", A.TEXTURE_SIZE_32X32);
