@@ -6,7 +6,8 @@ window.onload = function()
 		ticks_per_seconds: 30,
 		target_frames_per_seconds: 30,
 		world_width: 20,
-		world_height: 20
+		world_height: 20,
+		bad_luck_mode: 0
 	};
 	
 	/** @const */ A.TEXTURE_SIZE_32X32 = 0;
@@ -81,8 +82,8 @@ window.onload = function()
 		
 		obj.on_hit = function(damage, attacker_player)
 		{
-			// no friendly fire :)
-			if (attacker_player == this.owner_player)
+			// no friendly fire, except on bad luck ;)
+			if (attacker_player == this.owner_player && !A.config.bad_luck_mode)
 			{
 				return;
 			}
