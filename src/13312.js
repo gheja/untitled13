@@ -737,7 +737,8 @@ window.onload = function()
 		
 		for (i in A.objects)
 		{
-			if (A.objects[i].owner_player != A.current_player || A.objects[i].permanent)
+			// if (A.objects[i].owner_player != A.current_player || A.objects[i].permanent)
+			if (A.objects[i].permanent)
 			{
 				continue;
 			}
