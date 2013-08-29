@@ -4,7 +4,9 @@ window.onload = function()
 	
 	A.config = {
 		ticks_per_seconds: 30,
-		target_frames_per_seconds: 30
+		target_frames_per_seconds: 30,
+		world_width: 20,
+		world_height: 20
 	};
 	
 	/** @const */ A.TEXTURE_SIZE_32X32 = 0;
@@ -558,7 +560,7 @@ window.onload = function()
 	
 	A.fog_set = function(a, b, c)
 	{
-		if (a >= 0 && a < 20 && b >= 0 && b < 20)
+		if (a >= 0 && a < A.config.world_width && b >= 0 && b < A.config.world_height)
 		{
 			if (A.fog[a][b] > c)
 			{
@@ -579,9 +581,9 @@ window.onload = function()
 	A.process_fog = function()
 	{
 		var i, j, k, x, y, obj;
-		for (i=0; i<20; i++)
+		for (i=0; i<A.config.world_width; i++)
 		{
-			for (j=0; j<20; j++)
+			for (j=0; j<A.config.world_height; j++)
 			{
 				A.fog[i][j] = 2;
 			}
@@ -647,9 +649,9 @@ window.onload = function()
 	{
 		var a, b, p;
 		
-		for (a=0; a<20; a++)
+		for (a=0; a<A.config.world_width; a++)
 		{
-			for (b=0; b<20; b++)
+			for (b=0; b<A.config.world_height; b++)
 			{
 				p = A._world_position_to_layer_position(a, b);
 				A.texture_show(0, A.map[a][b], p[0] - 32, p[1] - 16);
@@ -674,9 +676,9 @@ window.onload = function()
 		A.layer_clear(2);
 		
 		// out of sight
-		for (i=0; i<20; i++)
+		for (i=0; i<A.config.world_width; i++)
 		{
-			for (j=0; j<20; j++)
+			for (j=0; j<A.config.world_height; j++)
 			{
 				if (A.fog[i][j] == 2)
 				{
@@ -701,7 +703,7 @@ window.onload = function()
 			}
 			
 			// out of screen
-			if (!(obj.position[0] >= 0 && obj.position[0] < 20 && obj.position[1] >= 0 && obj.position[1] < 20))
+			if (!(obj.position[0] >= 0 && obj.position[0] < A.config.world_width && obj.position[1] >= 0 && obj.position[1] < A.config.world_height))
 			{
 				continue;
 			}
