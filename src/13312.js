@@ -535,7 +535,7 @@ window.onload = function()
 		{
 			for (j=0; j<20; j++)
 			{
-				A.fog[i][j] = 1;
+				A.fog[i][j] = 2;
 			}
 		}
 		
@@ -565,13 +565,13 @@ window.onload = function()
 		{
 			for (j=1; j<19; j++)
 			{
-				if (A.fog[i][j] == 0)
+				if (A.fog[i][j] == 2)
 				{
-					if (A.fog[i-1][j-1] == 1 || A.fog[i][j-1] == 1 || A.fog[i+1][j-1] == 1 ||
-						A.fog[i-1][j] == 1 || A.fog[i+1][j] == 1 ||
-						A.fog[i-1][j+1] == 1 || A.fog[i][j+1] == 1 || A.fog[i+1][j+1] == 1)
+					if (A.fog[i-1][j-1] == 0 || A.fog[i][j-1] == 0 || A.fog[i+1][j-1] == 0 ||
+						A.fog[i-1][j] == 0 || A.fog[i+1][j] == 0 ||
+						A.fog[i-1][j+1] == 0 || A.fog[i][j+1] == 0 || A.fog[i+1][j+1] == 0)
 					{
-						A.fog[i][j] = 2;
+						A.fog[i][j] = 1;
 					}
 				}
 			}
@@ -641,12 +641,12 @@ window.onload = function()
 		{
 			for (j=0; j<20; j++)
 			{
-				if (A.fog[i][j] == 1)
+				if (A.fog[i][j] == 2)
 				{
 					p = A._world_position_to_layer_position(i, j);
 					A.texture_show(2, 9, p[0] - 32, p[1] - 16);
 				}
-				else if (A.fog[i][j] == 2)
+				else if (A.fog[i][j] == 1)
 				{
 					p = A._world_position_to_layer_position(i, j);
 					A.texture_show(2, 10, p[0] - 32, p[1] - 16);
@@ -669,7 +669,7 @@ window.onload = function()
 				continue;
 			}
 			
-			if (A.fog[Math.round(obj.position[0])][Math.round(obj.position[1])] == 1)
+			if (A.fog[Math.round(obj.position[0])][Math.round(obj.position[1])] == 2)
 			{
 				continue;
 			}
@@ -858,7 +858,7 @@ window.onload = function()
 			A.map[j] = {};
 			for (i=0; i<32; i++)
 			{
-				A.fog[j][i] = 1;
+				A.fog[j][i] = 2;
 				A.map[j][i] = 0;
 			}
 		}
