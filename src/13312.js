@@ -167,11 +167,28 @@ window.onload = function()
 		obj.attack_cycle_time = [ 0, shoot_cycle_time ]; /* seconds */
 		obj.attack_reload_time = [ 0, reload_time ]; /* seconds */
 		
+		obj.on_ready_to_attack = function()
+		{
+			// attack
+			this.attack_cycle_time[0] = 0;
+			this.attack_ammo[0]--;
+			
+			if (this.attack_ammo[0] == 0)
+			{
+				this.attack_reload_time[0] = 0;
+				this.attack_status = "reloading";
+			}
+			else
+			{
+				this.attack_status = "cycling";
+			}
+		}
+		
 		obj.on_tick = function()
 		{
 			if (this.attack_status == "ready")
 			{
-				// attack!
+				this.on_ready_to_attack();
 			}
 			else if (this.attack_status == "cycling")
 			{
