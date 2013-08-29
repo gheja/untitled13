@@ -156,10 +156,17 @@ window.onload = function()
 		return obj;
 	}
 	
-	A.ObjectPlayer2Base = function(position, health, sprites)
+	A.ObjectPlayer2Base = function(position, health, ammo, shoot_cycle_time, reload_time, sprites)
 	{
 		var obj = new A.ObjectBase(2, position, 0, 0, health, sprites);
 		obj.shadow_sprite_id = -1;
+		
+		// TODO: replace these ugly strings with constants
+		obj.attack_status = ammo > 0 ? "reloading" : "none";
+		obj.attack_ammo = [ 0, ammo ];
+		obj.attack_cycle_time = [ 0, shoot_cycle_time ]; /* seconds */
+		obj.attack_reload_time = [ 0, reload_time ]; /* seconds */
+		
 		return obj;
 	}
 	
@@ -232,7 +239,7 @@ window.onload = function()
 	
 	A.ObjectPlayer2Tower1 = function(position, valid_directions, direction)
 	{
-		var obj = new A.ObjectPlayer2Base(position, 100, [ [ 20, -32, -48 ], [ 21, -32, -48 ] ]);
+		var obj = new A.ObjectPlayer2Base(position, 100, 20, 0.5, 2, [ [ 20, -32, -48 ], [ 21, -32, -48 ] ]);
 		return obj;
 	}
 	
