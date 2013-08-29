@@ -664,12 +664,12 @@ window.onload = function()
 			if (A.objects[i].owner_player == 1)
 			{
 				A.gui_render_bar_background(p[0] - 18, p[1] + 6, 36, 8);
-				A.gui_render_bar(p[0] - 16, p[1] + 8, 32, A.objects[i].health[0] / A.objects[i].health[1], "#5d0");
+				A.gui_render_bar(p[0] - 16, p[1] + 8, 32, A.objects[i].health[0] / A.objects[i].health[1], "#5f0");
 			}
 			else
 			{
 				A.gui_render_bar_background(p[0] - 34, p[1] + 6, 68, 14);
-				A.gui_render_bar(p[0] - 32, p[1] + 8, 64, A.objects[i].health[0] / A.objects[i].health[1] , "#7f0");
+				A.gui_render_bar(p[0] - 32, p[1] + 8, 64, A.objects[i].health[0] / A.objects[i].health[1] , "#5f0");
 				A.gui_render_bar(p[0] - 32, p[1] + 14, 48, 0.5, "#ee0");
 				A.gui_render_bar(p[0] + 16, p[1] + 14, 16, 0.5, "#eee");
 			}
