@@ -58,6 +58,7 @@ window.onload = function()
 		obj.sprites = sprites; /* array of sprites and properties: [ [ sprite_id, screen_position_x, screen_positon_y ], ... ] */
 		obj.health = [ health, health ]; /* current, maximal */
 		
+		obj.gui_show_bars_until_tick = 0;
 		obj.position_prev = obj.position;
 		obj.shadow_sprite_id = 6;
 		obj.destroyed = 0;
@@ -80,6 +81,12 @@ window.onload = function()
 			A.shake += 10;
 		}
 		
+		obj.gui_show_bars = function()
+		{
+			// 3 seconds
+			this.gui_show_bars_until_tick = A.tick_number + 3 / A.seconds_passed_since_last_tick;
+		}
+		
 		obj.on_hit = function(damage, attacker_player)
 		{
 			// no friendly fire, except on bad luck ;)
@@ -93,6 +100,7 @@ window.onload = function()
 				return;
 			}
 			
+			this.gui_show_bars();
 			this.health[0] -= damage;
 			if (this.health[0] <= 0)
 			{
@@ -215,6 +223,7 @@ window.onload = function()
 			}
 			else if (this.attack_status == "cycling")
 			{
+				this.gui_show_bars();
 				this.attack_cycle_time[0] += A.seconds_passed_since_last_tick;
 				if (this.attack_cycle_time[0] >= this.attack_cycle_time[1])
 				{
@@ -224,6 +233,7 @@ window.onload = function()
 			}
 			else if (this.attack_status == "reloading")
 			{
+				this.gui_show_bars();
 				this.attack_reload_time[0] += A.seconds_passed_since_last_tick;
 				if (this.attack_reload_time[0] >= this.attack_reload_time[1])
 				{
@@ -778,7 +788,7 @@ window.onload = function()
 		for (i in A.objects)
 		{
 			// if (A.objects[i].owner_player != A.current_player || A.objects[i].permanent)
-			if (A.objects[i].permanent)
+			if (A.objects[i].permanent || A.objects[i].gui_show_bars_until_tick < A.tick_number)
 			{
 				continue;
 			}
