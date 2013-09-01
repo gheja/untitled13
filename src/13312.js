@@ -836,6 +836,16 @@ window.onload = function()
 	
 	A.handle_mousedown_object = function()
 	{
+		var i, p;
+		
+		for (i in A.objects)
+		{
+			if (Math.sqrt(Math.pow(A.cursor_position_in_world[0] - A.objects[i].position[0], 2) + Math.pow(A.cursor_position_in_world[1] - A.objects[i].position[1], 2)) < 0.3)
+			{
+				// select it or do something
+				return true;
+			}
+		}
 		return false;
 	}
 	
