@@ -951,6 +951,14 @@ window.onload = function()
 		A.map[7][7] = 7;
 		A.map[7][8] = 7;
 		A.map[7][9] = 7;
+		A.map[13][10] = 7;
+		A.map[10][11] = 7;
+		A.map[11][11] = 7;
+		A.map[12][11] = 7;
+		A.map[13][11] = 7;
+		A.map[11][12] = 7;
+		A.map[12][12] = 7;
+		A.map[13][12] = 7;
 		
 		A.objects.push(new A.ObjectPlayer2Tower1([ 10, 11 ]));
 	}
