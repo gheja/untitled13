@@ -811,7 +811,6 @@ window.onload = function()
 					A.gui_render_bar(p[0] + 16, p[1] + 14, 16, A.objects[i].attack_cycle_time[0] / A.objects[i].attack_cycle_time[1], "#eee");
 				}
 			}
-//			A.gui_render_bar(p[0] - 16, p[1] + 8, 32, 20, "#3c0");
 		}
 	}
 	
