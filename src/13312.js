@@ -1026,12 +1026,31 @@ window.onload = function()
 	
 	A.process_input = function()
 	{
+		if (A.inputs.mouse_position[0] < 50)
+		{
+			A.scroll[0] -= 200 * A.seconds_passed_since_last_tick;
+		}
+		else if (A.inputs.mouse_position[0] > A.cv.cv.width - 50)
+		{
+			A.scroll[0] += 200 * A.seconds_passed_since_last_tick;
+		}
+		
+		if (A.inputs.mouse_position[1] < 50)
+		{
+			A.scroll[1] -= 200 * A.seconds_passed_since_last_tick;
+		}
+		else if (A.inputs.mouse_position[1] > A.cv.cv.height - 50)
+		{
+			A.scroll[1] += 200 * A.seconds_passed_since_last_tick;
+		}
+/*
 		if (A.inputs.mouse_button_statuses[0] & 1)
 		{
 			// pressed
 			A.scroll[0] -= A.inputs.mouse_position[0] - A.inputs_prev.mouse_position[0];
 			A.scroll[1] -= A.inputs.mouse_position[1] - A.inputs_prev.mouse_position[1];
 		}
+*/
 		
 		if (A.inputs.mouse_button_statuses[0] & 2)
 		{
