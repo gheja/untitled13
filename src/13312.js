@@ -977,31 +977,31 @@ window.onload = function()
 	A.init_textures = function()
 	{
 		var grid = "IJAoY/23/YoA."
-		A.texture_create(0, "p23" + grid + "aAF", A.TEXTURE_SIZE_64X32);
-		A.texture_create(1, "p01" + grid, A.TEXTURE_SIZE_64X32);
-		A.texture_create(2, "p45" + grid + "aAF", A.TEXTURE_SIZE_64X32);
-		A.texture_create(3, "p67M2W5etkvq702wOhJPQIM.p87VUfdmR.", A.TEXTURE_SIZE_32X32);
-		A.texture_create(4, "p678lvybeHZEsQ0gt.", A.TEXTURE_SIZE_32X32);
-		A.texture_create(5, "p67MTcpwopV.", A.TEXTURE_SIZE_32X32);
-		A.texture_create(6, "p00eZYcamgonlmc.", A.TEXTURE_SIZE_64X32);
-		A.texture_create(7, "pb0" + grid + "aDM", A.TEXTURE_SIZE_64X32);
-		A.texture_create(8, "pggAAAkKWbW.", A.TEXTURE_SIZE_32X32);
-		A.texture_create(9, "p00" + grid + "aHK", A.TEXTURE_SIZE_64X32);
-		A.texture_create(10, "p00" + grid + "aAC", A.TEXTURE_SIZE_64X32);
-		A.texture_create("a0", "p00gSsesS.", A.TEXTURE_SIZE_64X32);
-		A.texture_create("a1", "p00gssssg.", A.TEXTURE_SIZE_64X32);
-		A.texture_create("a2", "p00SgSses.", A.TEXTURE_SIZE_64X32);
-		A.texture_create("a3", "p00SSSeeS.", A.TEXTURE_SIZE_64X32);
-		A.texture_create("b0", "p9agSsesS.", A.TEXTURE_SIZE_64X32);
-		A.texture_create("b1", "p9agssssg.", A.TEXTURE_SIZE_64X32);
-		A.texture_create("b2", "p9aSgSses.", A.TEXTURE_SIZE_64X32);
-		A.texture_create("b3", "p9aSSSeeS.", A.TEXTURE_SIZE_64X32);
-		A.texture_create(20, "pbbf7f//w/s.aAFpdbAsAwf/f7.aAFpdbAsf7/sfc.aAF", A.TEXTURE_SIZE_64X64);
-		A.texture_create(21, "peebgYrftmrjg.pfeLiutmV.peecabgfjjgia.pfeaTUete.peeeRcafciagR.pcffIYMYQZRfUkRmOkK.", A.TEXTURE_SIZE_64X64);
+		A.texture_create(0, "p23" + grid + "aAF", A.TEXTURE_SIZE_64X32); // grass tile
+		A.texture_create(1, "p01" + grid, A.TEXTURE_SIZE_64X32); // highlighted tile (cursor)
+		A.texture_create(2, "p45" + grid + "aAF", A.TEXTURE_SIZE_64X32); // road tile
+		A.texture_create(3, "p67M2W5etkvq702wOhJPQIM.p87VUfdmR.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost1 sprite
+		A.texture_create(4, "p678lvybeHZEsQ0gt.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost1 sprite
+		A.texture_create(5, "p67MTcpwopV.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost1 sprite
+		A.texture_create(6, "p00eZYcamgonlmc.", A.TEXTURE_SIZE_64X32); // small object shadow
+		A.texture_create(7, "pb0" + grid + "aDM", A.TEXTURE_SIZE_64X32); // concrete tile
+		A.texture_create(8, "pggAAAkKWbW.", A.TEXTURE_SIZE_32X32); // cursor
+		A.texture_create(9, "p00" + grid + "aHK", A.TEXTURE_SIZE_64X32); // fog (light)
+		A.texture_create(10, "p00" + grid + "aAC", A.TEXTURE_SIZE_64X32); // fog (heavy)
+		A.texture_create("a0", "p00gSsesS.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.texture_create("a1", "p00gssssg.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.texture_create("a2", "p00SgSses.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.texture_create("a3", "p00SSSeeS.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.texture_create("b0", "p9agSsesS.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.texture_create("b1", "p9agssssg.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.texture_create("b2", "p9aSgSses.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.texture_create("b3", "p9aSSSeeS.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.texture_create(20, "pbbf7f//w/s.aAFpdbAsAwf/f7.aAFpdbAsf7/sfc.aAF", A.TEXTURE_SIZE_64X64); // ObjectPlayer2* concrete base tile
+		A.texture_create(21, "peebgYrftmrjg.pfeLiutmV.peecabgfjjgia.pfeaTUete.peeeRcafciagR.pcffIYMYQZRfUkRmOkK.", A.TEXTURE_SIZE_64X64); // ObjectPlayer2Tower1
 		// A.texture_create(21, "peebgYrftmrjg.pfeLiutmV.aAKpeecabgfjjgia.pfeaTUete.aAKpeeeRcafciagR.pcffIYMYQZRfUkRmOkK.aAF", A.TEXTURE_SIZE_64X64);
-		A.texture_create("c1", "pggRRR1chuh.", A.TEXTURE_SIZE_24X24);
-		A.texture_create("c2", "pgghJZbGbbmQ2kp7xpg4WmW.", A.TEXTURE_SIZE_24X24);
-		A.texture_create("c0", "p11RdRTcKjKuTuyRyRdqdqTjOcOVTVd.", A.TEXTURE_SIZE_24X24);
+		A.texture_create("c1", "pggRRR1chuh.", A.TEXTURE_SIZE_24X24); // toolbar icon, mouse
+		A.texture_create("c2", "pgghJZbGbbmQ2kp7xpg4WmW.", A.TEXTURE_SIZE_24X24); // toolbar icon, explode
+		A.texture_create("c0", "p11RdRTcKjKuTuyRyRdqdqTjOcOVTVd.", A.TEXTURE_SIZE_24X24); // toolbar icon, locked
 	}
 	
 	A.hit_nearby_objects = function(position, damage, distance, attacker_player)
