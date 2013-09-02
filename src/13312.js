@@ -851,8 +851,7 @@ window.onload = function()
 	
 	A.handle_mousedown_tile = function()
 	{
-		A.inputs.mouse_click_position = A.inputs.mouse_position;
-		A.inputs.mouse_button_statuses[0] |= 1; // press happened
+		return true;
 	}
 	
 	A.handle_mousedown = function(event)
@@ -864,6 +863,9 @@ window.onload = function()
 		}
 		
 		A.handle_mousemove(event);
+		
+		A.inputs.mouse_button_statuses[0] |= 1; // press happened
+		A.inputs.mouse_click_position = A.inputs.mouse_position;
 		
 		if (!A.handle_mousedown_gui())
 		{
