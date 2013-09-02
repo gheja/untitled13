@@ -1117,6 +1117,7 @@ window.onload = function()
 	A.tick = function()
 	{
 		A.tick_number++;
+		A.process_input();
 		A.process_objects();
 	}
 	
@@ -1125,8 +1126,6 @@ window.onload = function()
 		var now = (new Date()).getTime();
 		var ticks_needed = Math.floor((now - A.last_tick_timestamp) / A.tick_interval);
 		var i;
-		
-		A.process_input();
 		
 		for (i=0; i<ticks_needed; i++)
 		{
