@@ -1028,7 +1028,7 @@ window.onload = function()
 	
 	A.process_input = function()
 	{
-		if (A.inputs.mouse_position[0] < 50)
+		if (A.inputs.mouse_position[0] < 50 && A.inputs.mouse_position[1] > 52)
 		{
 			A.scroll[0] -= 200 * A.seconds_passed_since_last_tick;
 		}
@@ -1037,7 +1037,7 @@ window.onload = function()
 			A.scroll[0] += 200 * A.seconds_passed_since_last_tick;
 		}
 		
-		if (A.inputs.mouse_position[1] < 50)
+		if (A.inputs.mouse_position[1] < 50 && A.inputs.mouse_position[0] > 320)
 		{
 			A.scroll[1] -= 200 * A.seconds_passed_since_last_tick;
 		}
