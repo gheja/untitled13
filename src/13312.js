@@ -976,7 +976,7 @@ window.onload = function()
 		
 		for (i in A.objects)
 		{
-			if (A._distance(A.cursor_position_in_world, A.objects[i].position) < 0.3)
+			if (A._distance(A.cursor_position_in_world, A.objects[i].position) < 0.5)
 			{
 				A.objects[i].on_click();
 				return true;
