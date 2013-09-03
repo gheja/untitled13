@@ -196,20 +196,44 @@ window.onload = function()
 		obj.attack_ammo = [ 0, ammo ];
 		obj.attack_cycle_time = [ 0, shoot_cycle_time ]; /* seconds */
 		obj.attack_reload_time = [ 0, reload_time ]; /* seconds */
+		obj.attack_distance = 3;
 		obj.attack_damage = 20;
 		obj.attack_impact_radius = 0.1;
+		obj.attack_target_object_id = -1;
+		obj.attack_target_selection_method = 0; /* select the 0: nearest, 1: farthest, 2: weakest, 3: strongest */
+		obj.attack_target_selection_lock = 1; /* 0: always rerun the selection method, 1: lock on selected target */
 		
 		obj.on_ready_to_attack = function()
 		{
-			var target_id = A.find_nearest_object(this.position, 3, 1, 1);
+			var targets;
 			
-			if (target_id == -1)
+			// if we have a target, check it
+			if (this.attack_target_object_id != -1)
+			{
+				// check if we use target locking, the target is still alive and it is in range
+				if (this.attack_target_selection_lock == 0 ||
+					A.objects[this.attack_target_object_id].destroyed ||
+					A._distance(A.objects[this.attack_target_object_id].position, this.position) > this.attack_distance)
+				{
+					this.attack_target_object_id = -1;
+				}
+			}
+			
+			// try to find a target if we do not have one
+			if (this.attack_target_object_id == -1)
+			{
+				targets = A.find_targets(this.position, this.attack_distance, 1, 1);
+				this.attack_target_object_id = targets[this.attack_target_selection_method];
+			}
+			
+			// skip the attack if we have no targets
+			if (this.attack_target_object_id == -1)
 			{
 				return;
 			}
 			
 			// attack
-			A.hit_nearby_objects(A.objects[target_id].position, this.attack_damage, this.attack_impact_radius, this.owner_player);
+			A.hit_nearby_objects(A.objects[this.attack_target_object_id].position, this.attack_damage, this.attack_impact_radius, this.owner_player);
 			this.attack_cycle_time[0] = 0;
 			this.attack_ammo[0]--;
 			
@@ -1018,27 +1042,49 @@ window.onload = function()
 		A.texture_create("c0", "p11RdRTcKjKuTuyRyRdqdqTjOcOVTVd.", A.TEXTURE_SIZE_24X24); // toolbar icon, locked
 	}
 	
-	A.find_nearest_object = function(position, max_distance, player_id, skip_permanents)
+	A.find_targets = function(position, max_distance, player_id, skip_permanents)
 	{
-		var i, distance, min_distance, min_object_id;
+		var i, distance, targets = [ -1, -1, -1, -1 ], properties = [ 9999, 0, 9999, 0 ];
 		
-		min_distance = 9999;
-		min_object_id = -1;
+		/* 0: nearest, 1: farthest, 2: weakest, 3: strongest */
 		
 		for (i in A.objects)
 		{
 			if (A.objects[i].owner_player == player_id && (!skip_permanents || (skip_permanents && !A.objects[i].permanent)))
 			{
 				distance = A._distance(position, A.objects[i].position);
-				if (distance < min_distance && distance <= max_distance)
+				if (distance > max_distance)
 				{
-					min_distance = distance;
-					min_object_id = i;
+					continue;
+				}
+				
+				if (distance < properties[0])
+				{
+					properties[0] = distance;
+					targets[0] = i;
+				}
+				
+				if (distance > properties[1])
+				{
+					properties[1] = distance;
+					targets[1] = i;
+				}
+				
+				if (A.objects[i].health[0] < properties[2])
+				{
+					properties[2] = A.objects[i].health[0];
+					targets[2] = i;
+				}
+				
+				if (A.objects[i].health[0] > properties[3])
+				{
+					properties[3] = A.objects[i].health[0];
+					targets[3] = i;
 				}
 			}
 		}
 		
-		return min_object_id;
+		return targets;
 	}
 	
 	A.hit_nearby_objects = function(position, damage, distance, attacker_player)
