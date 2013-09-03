@@ -978,7 +978,7 @@ window.onload = function()
 		{
 			if (A._distance(A.cursor_position_in_world, A.objects[i].position) < 0.3)
 			{
-				// select it or do something
+				A.objects[i].on_click();
 				return true;
 			}
 		}
@@ -1242,6 +1242,7 @@ window.onload = function()
 			// released
 			A.inputs.mouse_button_statuses[0] = 0;
 			
+/*
 			// clicked (no move made)
 			if (A.inputs.mouse_position[0] == A.inputs.mouse_click_position[0] && A.inputs.mouse_position[1] == A.inputs.mouse_click_position[1])
 			{
@@ -1253,6 +1254,7 @@ window.onload = function()
 					}
 				}
 			}
+*/
 		}
 		
 		A.inputs_prev.mouse_position = A.inputs.mouse_position;
