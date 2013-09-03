@@ -453,6 +453,21 @@ window.onload = function()
 		}
 	}
 	
+	A._remove_array_item = function(array, id)
+	{
+		var i, result = [];
+		
+		for (i in array)
+		{
+			if (i != id)
+			{
+				result[i] = array[i];
+			}
+		}
+		
+		return result;
+	}
+	
 	A.set_tool = function(button_order)
 	{
 		// TODO: validate selection
