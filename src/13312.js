@@ -60,6 +60,7 @@ window.onload = function()
 		obj.sprites = sprites; /* array of sprites and properties: [ [ sprite_id, screen_position_x, screen_positon_y ], ... ] */
 		obj.health = [ health, health ]; /* current, maximal */
 		
+		obj.position_on_layer = A._world_position_to_layer_position(position);
 		obj.gui_show_bars_until_tick = 0;
 		obj.position_prev = obj.position;
 		obj.shadow_sprite_id = 6;
@@ -243,8 +244,8 @@ window.onload = function()
 			// attack gfx
 			// TODO: move the start and end points to their correct positions
 			A.gfx_shots.push([
-				A._world_position_to_layer_position(this.position), // start position
-				A._world_position_to_layer_position(A.objects[this.attack_target_object_id].position), // end position
+				this.position_on_layer, // start position
+				A.objects[this.attack_target_object_id].position_on_layer, // end position
 				2, // width
 				0.2, // seconds left to display
 				0.2 // seconds total display
@@ -820,7 +821,7 @@ window.onload = function()
 				continue;
 			}
 			
-			p = A._world_position_to_layer_position(obj.position);
+			p = obj.position_on_layer;
 			
 			if (obj.selected)
 			{
@@ -927,7 +928,7 @@ window.onload = function()
 			{
 				continue;
 			}
-			p = A._world_position_to_layer_position(A.objects[i].position);
+			p = A.objects[i].position_on_layer;
 			if (A.objects[i].owner_player == 1)
 			{
 				A.gui_render_bar_background(p[0] - 18, p[1] + 6, 36, 8);
@@ -1316,6 +1317,7 @@ window.onload = function()
 			{
 				A.objects[i].position[0] -= moved;
 			}
+			A.objects[i].position_on_layer = A._world_position_to_layer_position(A.objects[i].position);
 		}
 	}
 	
