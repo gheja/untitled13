@@ -480,6 +480,20 @@ window.onload = function()
 		return result;
 	}
 	
+	A._cv_gradient = function(c, p1, p2, stops)
+	{
+		var i, gradient;
+		
+		gradient = c.createLinearGradient(p1[0], p1[1], p2[0], p2[1]);
+		
+		for (i in stops)
+		{
+			gradient.addColorStop(stops[i][0], stops[i][1]);
+		}
+		
+		return gradient;
+	}
+	
 	A.set_tool = function(button_order)
 	{
 		// TODO: validate selection
@@ -617,19 +631,19 @@ window.onload = function()
 	
 	A.gui_render_bar = function(x, y, width, value, color)
 	{
-		var gradient;
-		
 		A.layers[2].ctx.fillStyle = color;
 		A.layers[2].ctx.fillRect(x, y, width, 4);
 		
 		A.layers[2].ctx.fillStyle = "rgba(0,0,0,0.8)";
 		A.layers[2].ctx.fillRect(x + (width * value), y, width - (width * value), 4);
 		
-		gradient = A.layers[2].ctx.createLinearGradient(x,y,x,y + 4);
-		gradient.addColorStop(0, "rgba(0,0,0,0.1)");
-		gradient.addColorStop(0.7, "rgba(0,0,0,0.4)");
-		gradient.addColorStop(1, "rgba(0,0,0,0.3)");
-		A.layers[2].ctx.fillStyle = gradient;
+		A.layers[2].ctx.fillStyle = A._cv_gradient(A.layers[2].ctx, [ x, y ], [ x, y + 4 ],
+			[
+				[ 0, "rgba(0,0,0,0.1)" ],
+				[ 0.7, "rgba(0,0,0,0.4)" ],
+				[ 1, "rgba(0,0,0,0.3)" ]
+			]
+		);
 		A.layers[2].ctx.fillRect(x, y, width, 4);
 		
 	}
@@ -813,16 +827,18 @@ window.onload = function()
 		}
 		
 		// process shots
-		var gradient, a, c = A.layers[2].ctx;
+		var a, c = A.layers[2].ctx;
 		for (i in A.gfx_shots)
 		{
 			a = (A.gfx_shots[i][3]/A.gfx_shots[i][4]);
 			
-			gradient = c.createLinearGradient(A.gfx_shots[i][0][0], A.gfx_shots[i][0][1], A.gfx_shots[i][1][0], A.gfx_shots[i][1][1]);
-			gradient.addColorStop(0, "rgba(255,255,0," + (0.7 * a) +")");
-			gradient.addColorStop(0.5, "rgba(255,255,255," + (a) +")");
-			gradient.addColorStop(1, "rgba(255,255,255," + (0.9 * a) + ")");
-			c.strokeStyle = gradient;
+			c.strokeStyle = A._cv_gradient(c, A.gfx_shots[i][0], A.gfx_shots[i][1],
+				[
+					[ 0, "rgba(255,255,0," + (0.7 * a) +")" ],
+					[ 0.5, "rgba(255,255,255," + a + ")" ],
+					[ 1, "rgba(255,255,255," + (0.9 * a) + ")" ]
+				]
+			);
 			
 			c.beginPath();
 			c.moveTo(A.gfx_shots[i][0][0], A.gfx_shots[i][0][1]);
@@ -845,24 +861,30 @@ window.onload = function()
 		A.layer_clear(3);
 		
 		var i, p, c = A.layers[3].ctx;
-		var gradient = c.createLinearGradient(0,4,0,32);
 		var color1;
 		
 		if (A.current_player == 1)
 		{
-			gradient.addColorStop(0, "#b00");
-			gradient.addColorStop(0.8, "#600");
-			gradient.addColorStop(1, "#800");
+			c.fillStyle = A._cv_gradient(c, [ 0, 4 ], [ 0, 32 ],
+				[
+					[ 0, "#b00" ],
+					[ 0.8, "#600" ],
+					[ 1, "#800" ]
+				]
+			);
 			color1 = "#a20";
 		}
 		else
 		{
-			gradient.addColorStop(0, "#06e");
-			gradient.addColorStop(0.8, "#038");
-			gradient.addColorStop(1, "#04a");
+			c.fillStyle = A._cv_gradient(c, [ 0, 4 ], [ 0, 32 ],
+				[
+					[ 0, "#06e" ],
+					[ 0.8, "#038" ],
+					[ 1, "#04a" ]
+				]
+			);
 			color1 = "#04c";
 		}
-		c.fillStyle = gradient;
 		c.fillRect(4, 4, 300, 32);
 		
 		c.fillStyle = "rgba(0,0,0,0.2)";
