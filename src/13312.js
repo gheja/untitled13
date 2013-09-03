@@ -533,6 +533,8 @@ window.onload = function()
 		for (i in A.objects)
 		{
 			if (
+				A.objects[i].owner_player == A.current_player &&
+				!A.objects[i].permanent &&
 				A.objects[i].position_on_layer[0] >= p1[0] &&
 				A.objects[i].position_on_layer[0] <= p2[0] &&
 				A.objects[i].position_on_layer[1] >= p1[1] &&
