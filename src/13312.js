@@ -387,23 +387,23 @@ window.onload = function()
 		return args;
 	}
 	
-	A._world_position_to_layer_position = function(a, b)
+	A._world_position_to_layer_position = function(ab)
 	{
 		c = 1280 / 2;
 		d = 32;
 		
-		x = a * 55 - b * 40 + c;
-		y = a * 8 + b * 20 + d;
+		x = ab[0] * 55 - ab[1] * 40 + c;
+		y = ab[0] * 8 + ab[1] * 20 + d;
 		return [ x, y ];
 	}
 	
-	A._layer_position_to_world_position = function(x, y)
+	A._layer_position_to_world_position = function(xy)
 	{
 		c = 1280 / 2;
 		d = 32;
 		
-		a = (x - c + (y - d) * 2) / 71;
-		b = (a * 55 + c - x) / 40;
+		a = (xy[0] - c + (xy[1] - d) * 2) / 71;
+		b = (a * 55 + c - xy[0]) / 40;
 		
 		return [ a, b ]
 	}
@@ -702,7 +702,7 @@ window.onload = function()
 		{
 			for (b=0; b<A.config.world_height; b++)
 			{
-				p = A._world_position_to_layer_position(a, b);
+				p = A._world_position_to_layer_position([ a, b ]);
 				A.texture_show(0, A.map[a][b], p[0] - 32, p[1] - 16);
 			}
 		}
@@ -711,7 +711,7 @@ window.onload = function()
 	
 	A.render_layer1 = function()
 	{
-		p = A._world_position_to_layer_position(Math.floor(A.cursor_position_in_world[0] - 0.5), Math.floor(A.cursor_position_in_world[1] + 0.5));
+		p = A._world_position_to_layer_position([ Math.floor(A.cursor_position_in_world[0] - 0.5), Math.floor(A.cursor_position_in_world[1] + 0.5) ]);
 		A.layer_clear(1);
 		A.texture_show(1, 1, p[0] + 23, p[1] - 8);
 	}
@@ -731,12 +731,12 @@ window.onload = function()
 			{
 				if (A.fog[i][j] == 2)
 				{
-					p = A._world_position_to_layer_position(i, j);
+					p = A._world_position_to_layer_position([ i, j ]);
 					A.texture_show(2, 9, p[0] - 32, p[1] - 16);
 				}
 				else if (A.fog[i][j] == 1)
 				{
-					p = A._world_position_to_layer_position(i, j);
+					p = A._world_position_to_layer_position([ i, j ]);
 					A.texture_show(2, 10, p[0] - 32, p[1] - 16);
 				}
 			}
@@ -762,7 +762,7 @@ window.onload = function()
 				continue;
 			}
 			
-			p = A._world_position_to_layer_position(obj.position[0], obj.position[1]);
+			p = A._world_position_to_layer_position(obj.position);
 			
 			// shadow
 			if (obj.shadow_sprite_id != -1)
@@ -829,7 +829,7 @@ window.onload = function()
 			{
 				continue;
 			}
-			p = A._world_position_to_layer_position(A.objects[i].position[0], A.objects[i].position[1]);
+			p = A._world_position_to_layer_position(A.objects[i].position);
 			if (A.objects[i].owner_player == 1)
 			{
 				A.gui_render_bar_background(p[0] - 18, p[1] + 6, 36, 8);
@@ -1157,7 +1157,7 @@ window.onload = function()
 		
 		A.inputs_prev.mouse_position = A.inputs.mouse_position;
 		
-		A.cursor_position_in_world = A._layer_position_to_world_position(A.inputs.mouse_position[0] + A.scroll[0], A.inputs.mouse_position[1] + A.scroll[1]);
+		A.cursor_position_in_world = A._layer_position_to_world_position([ A.inputs.mouse_position[0] + A.scroll[0], A.inputs.mouse_position[1] + A.scroll[1] ]);
 	}
 	
 	A.process_objects = function()
