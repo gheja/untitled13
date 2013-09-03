@@ -196,11 +196,20 @@ window.onload = function()
 		obj.attack_ammo = [ 0, ammo ];
 		obj.attack_cycle_time = [ 0, shoot_cycle_time ]; /* seconds */
 		obj.attack_reload_time = [ 0, reload_time ]; /* seconds */
+		obj.attack_damage = 20;
+		obj.attack_impact_radius = 0.1;
 		
 		obj.on_ready_to_attack = function()
 		{
+			var target_id = A.find_nearest_object(this.position, 3, 1, 1);
+			
+			if (target_id == -1)
+			{
+				return;
+			}
+			
 			// attack
-			A.hit_nearby_objects(this.position, 25, 3, this.owner_player);
+			A.hit_nearby_objects(A.objects[target_id].position, this.attack_damage, this.attack_impact_radius, this.owner_player);
 			this.attack_cycle_time[0] = 0;
 			this.attack_ammo[0]--;
 			
@@ -1002,6 +1011,29 @@ window.onload = function()
 		A.texture_create("c1", "pggRRR1chuh.", A.TEXTURE_SIZE_24X24); // toolbar icon, mouse
 		A.texture_create("c2", "pgghJZbGbbmQ2kp7xpg4WmW.", A.TEXTURE_SIZE_24X24); // toolbar icon, explode
 		A.texture_create("c0", "p11RdRTcKjKuTuyRyRdqdqTjOcOVTVd.", A.TEXTURE_SIZE_24X24); // toolbar icon, locked
+	}
+	
+	A.find_nearest_object = function(position, max_distance, player_id, skip_permanents)
+	{
+		var i, distance, min_distance, min_object_id;
+		
+		min_distance = 9999;
+		min_object_id = -1;
+		
+		for (i in A.objects)
+		{
+			if (A.objects[i].owner_player == player_id && (!skip_permanents || (skip_permanents && !A.objects[i].permanent)))
+			{
+				distance = Math.sqrt(Math.pow(position[0] - A.objects[i].position[0], 2)+ Math.pow(position[1] - A.objects[i].position[1], 2));
+				if (distance < min_distance && distance <= max_distance)
+				{
+					min_distance = distance;
+					min_object_id = i;
+				}
+			}
+		}
+		
+		return min_object_id;
 	}
 	
 	A.hit_nearby_objects = function(position, damage, distance, attacker_player)
