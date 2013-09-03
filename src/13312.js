@@ -169,10 +169,7 @@ window.onload = function()
 					// TODO: BUG: the following needs to be rethought as it misses some pass-bys... sometimes...
 					
 					distance_prev = A._distance(this.position, A.objects[i].position_prev);
-					distance_next = Math.sqrt(
-						Math.pow(this.position[0] - (A.objects[i].position[0] + (A.objects[i].position[0] - A.objects[i].position_prev[0])), 2) + 
-						Math.pow(this.position[1] - (A.objects[i].position[1] + (A.objects[i].position[1] - A.objects[i].position_prev[1])), 2)
-					);
+					distance_next = A._distance(this.position, A._2d_add(A.objects[i].position, A._2d_subtract(A.objects[i].position, A.objects[i].position_prev)));
 					
 					if (distance_prev >  distance && distance_next > distance)
 					{
@@ -499,6 +496,16 @@ window.onload = function()
 		}
 		
 		return gradient;
+	}
+	
+	A._2d_add = function(a, b)
+	{
+		return [ a[0] + b[0], a[1] + b[1] ];
+	}
+	
+	A._2d_subtract = function(a, b)
+	{
+		return [ a[0] - b[0], a[1] - b[1] ];
 	}
 	
 	A.set_tool = function(button_order)
