@@ -40,6 +40,8 @@ window.onload = function()
 	A.objects = [];
 	A.fog = []; /* hidden tiles from the current player */
 	
+	A.gfx_shots = []; /* array of shots: [ [ [ start_x, start_y ], [ end_x, end_y ], width, seconds_left_to_display, seconds_total_display ], ... ] */
+	
 	A.hexagon_neighbours = [ // we will not calculate them every time
 		[ [0,  0] ],
 		[ [-1,-1], [ 0,-1], [-1, 0], [+1, 0], [ 0,+1], [+1,+1] ],
@@ -231,6 +233,16 @@ window.onload = function()
 			{
 				return;
 			}
+			
+			// attack gfx
+			// TODO: move the start and end points to their correct positions
+			A.gfx_shots.push([
+				A._world_position_to_layer_position(this.position), // start position
+				A._world_position_to_layer_position(A.objects[this.attack_target_object_id].position), // end position
+				2, // width
+				0.2, // seconds left to display
+				0.2 // seconds total display
+			]);
 			
 			// attack
 			A.hit_nearby_objects(A.objects[this.attack_target_object_id].position, this.attack_damage, this.attack_impact_radius, this.owner_player);
@@ -797,6 +809,33 @@ window.onload = function()
 				ry = (Math.sin(sprite[6]) * sprite[4]) || 0;
 				
 				A.texture_show(2, sprite[0], p[0] + sprite[1] + rx, p[1] + sprite[2] + ry);
+			}
+		}
+		
+		// process shots
+		var gradient, a, c = A.layers[2].ctx;
+		for (i in A.gfx_shots)
+		{
+			a = (A.gfx_shots[i][3]/A.gfx_shots[i][4]);
+			
+			gradient = c.createLinearGradient(A.gfx_shots[i][0][0], A.gfx_shots[i][0][1], A.gfx_shots[i][1][0], A.gfx_shots[i][1][1]);
+			gradient.addColorStop(0, "rgba(255,255,0," + (0.7 * a) +")");
+			gradient.addColorStop(0.5, "rgba(255,255,255," + (a) +")");
+			gradient.addColorStop(1, "rgba(255,255,255," + (0.9 * a) + ")");
+			c.strokeStyle = gradient;
+			
+			c.beginPath();
+			c.moveTo(A.gfx_shots[i][0][0], A.gfx_shots[i][0][1]);
+			c.lineTo(A.gfx_shots[i][1][0], A.gfx_shots[i][1][1]);
+			c.closePath();
+			c.lineWidth = A.gfx_shots[i][2];
+			c.stroke();
+			
+			A.gfx_shots[i][3] -= A.seconds_passed_since_last_frame;
+			
+			if (A.gfx_shots[i][3] <= 0)
+			{
+				A.gfx_shots = A._remove_array_item(A.gfx_shots, i);
 			}
 		}
 	}
