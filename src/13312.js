@@ -63,11 +63,13 @@ window.onload = function()
 		obj.gui_show_bars_until_tick = 0;
 		obj.position_prev = obj.position;
 		obj.shadow_sprite_id = 6;
+		obj.selection_sprite_id = 11;
 		obj.destroyed = 0;
 		obj.permanent = (health == -1); /* this object cannot be hurt or destroyed */
 		obj.class = 0;
 		obj.hidden_from_other_player = 0;
 		obj.detection_distance = 3;
+		obj.selected = 0;
 		
 		obj.explode = function()
 		{
@@ -113,7 +115,11 @@ window.onload = function()
 		
 		obj.on_owner_click = function()
 		{
-			if (A.selected_tool == 1)
+			if (A.selected_tool == 0)
+			{
+				this.selected = !this.selected;
+			}
+			else if (A.selected_tool == 1)
 			{
 				this.explode(); // or sell
 			}
@@ -500,9 +506,20 @@ window.onload = function()
 		A.selected_tool = button_order;
 	}
 	
+	A.selection_clear = function()
+	{
+		var i;
+		
+		for (i in A.objects)
+		{
+			A.objects[i].selected = 0;
+		}
+	}
+	
 	A.set_player = function(player_id)
 	{
 		A.current_player = player_id;
+		A.selection_clear();
 		A.set_tool(0);
 	}
 	
@@ -805,6 +822,11 @@ window.onload = function()
 			
 			p = A._world_position_to_layer_position(obj.position);
 			
+			if (obj.selected)
+			{
+				A.texture_show(2, obj.selection_sprite_id, p[0] - 32, p[1] - 16);
+			}
+			
 			// shadow
 			if (obj.shadow_sprite_id != -1)
 			{
@@ -965,6 +987,7 @@ window.onload = function()
 	
 	A.handle_mousedown_tile = function()
 	{
+		A.selection_clear();
 		return true;
 	}
 	
@@ -1102,6 +1125,7 @@ window.onload = function()
 		A.texture_create(8, "pggAAAkKWbW.", A.TEXTURE_SIZE_32X32); // cursor
 		A.texture_create(9, "p00" + grid + "aHK", A.TEXTURE_SIZE_64X32); // fog (light)
 		A.texture_create(10, "p00" + grid + "aAC", A.TEXTURE_SIZE_64X32); // fog (heavy)
+		A.texture_create(11, "p33eZYcamgonlmc.", A.TEXTURE_SIZE_64X32); // small object selection
 		A.texture_create("a0", "p00gSsesS.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.texture_create("a1", "p00gssssg.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.texture_create("a2", "p00SgSses.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
