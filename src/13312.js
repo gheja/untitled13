@@ -962,7 +962,7 @@ window.onload = function()
 		
 		for (i in A.objects)
 		{
-			if (A.objects[i].owner_player != A.current_player || A.objects[i].permanent || A.objects[i].gui_show_bars_until_tick < A.tick_number)
+			if (A.objects[i].owner_player != A.current_player || A.objects[i].permanent || (A.objects[i].gui_show_bars_until_tick < A.tick_number && !A.objects[i].selected))
 			{
 				continue;
 			}
