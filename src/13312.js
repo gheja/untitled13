@@ -152,14 +152,14 @@ window.onload = function()
 					continue;
 				}
 				
-				distance = Math.sqrt(Math.pow(this.position[0] - A.objects[i].position[0], 2) + Math.pow(this.position[1] - A.objects[i].position[1], 2));
+				distance = A._distance(this.position, A.objects[i].position);
 				if (distance < 0.5)
 				{
 					this.on_collision(A.objects[i], i, distance);
 					
 					// TODO: BUG: the following needs to be rethought as it misses some pass-bys... sometimes...
 					
-					distance_prev = Math.sqrt(Math.pow(this.position[0] - A.objects[i].position_prev[0], 2) + Math.pow(this.position[1] - A.objects[i].position_prev[1], 2));
+					distance_prev = A._distance(this.position, A.objects[i].position_prev);
 					distance_next = Math.sqrt(
 						Math.pow(this.position[0] - (A.objects[i].position[0] + (A.objects[i].position[0] - A.objects[i].position_prev[0])), 2) + 
 						Math.pow(this.position[1] - (A.objects[i].position[1] + (A.objects[i].position[1] - A.objects[i].position_prev[1])), 2)
@@ -345,6 +345,11 @@ window.onload = function()
 		}
 		
 		return obj;
+	}
+	
+	A._distance = function(p, q)
+	{
+		return Math.sqrt(Math.pow(p[0] - q[0], 2)+ Math.pow(p[1] - q[1], 2));
 	}
 	
 	A._decode = function(s, start, length)
@@ -849,7 +854,7 @@ window.onload = function()
 		
 		for (i in A.objects)
 		{
-			if (Math.sqrt(Math.pow(A.cursor_position_in_world[0] - A.objects[i].position[0], 2) + Math.pow(A.cursor_position_in_world[1] - A.objects[i].position[1], 2)) < 0.3)
+			if (A._distance(A.cursor_position_in_world, A.objects[i].position) < 0.3)
 			{
 				// select it or do something
 				return true;
@@ -1024,7 +1029,7 @@ window.onload = function()
 		{
 			if (A.objects[i].owner_player == player_id && (!skip_permanents || (skip_permanents && !A.objects[i].permanent)))
 			{
-				distance = Math.sqrt(Math.pow(position[0] - A.objects[i].position[0], 2)+ Math.pow(position[1] - A.objects[i].position[1], 2));
+				distance = A._distance(position, A.objects[i].position);
 				if (distance < min_distance && distance <= max_distance)
 				{
 					min_distance = distance;
@@ -1047,7 +1052,7 @@ window.onload = function()
 				continue;
 			}
 			
-			obj_distance = Math.sqrt(Math.pow(position[0] - A.objects[i].position[0], 2)+ Math.pow(position[1] - A.objects[i].position[1], 2));
+			obj_distance = A._distance(position, A.objects[i].position);
 			if (obj_distance >= distance)
 			{
 				continue;
