@@ -241,8 +241,8 @@ window.onload = function()
 			// attack gfx
 			// TODO: move the start and end points to their correct positions
 			A.gfx_shots.push([
-				this.position_on_layer, // start position
-				A.objects[this.attack_target_object_id].position_on_layer, // end position
+				A._2d_subtract(this.position_on_layer, [ 0, 32 ]), // start position
+				A._2d_subtract(A.objects[this.attack_target_object_id].position_on_layer, [ A._random_int(-4, 4), A._random_int(12, 20) ]), // end position
 				2, // width
 				0.2, // seconds left to display
 				0.2 // seconds total display
