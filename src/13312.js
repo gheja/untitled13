@@ -1177,11 +1177,31 @@ window.onload = function()
 	
 	A.process_objects = function()
 	{
-		var i, moved;
+		var i, j, moved;
+		
 		for (i in A.objects)
 		{
 			A.objects[i].on_tick();
 		}
+		
+		// clean up destroyed objects
+		for (i in A.objects)
+		{
+			if (A.objects[i].destroyed)
+			{
+				A.objects = A._remove_array_item(A.objects, i);
+				for (j in A.objects)
+				{
+					// invalidate all targets
+					if (A.objects[j].attack_target_object_id == i)
+					{
+						A.objects[j].attack_target_object_id = -1;
+					}
+				}
+			}
+		}
+		
+		// move the objects
 		for (i in A.objects)
 		{
 			// dead objects don't move...
