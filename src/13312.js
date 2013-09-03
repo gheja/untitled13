@@ -524,6 +524,26 @@ window.onload = function()
 		}
 	}
 	
+	A.selection_set = function(p1, p2)
+	{
+		var i;
+		
+		A.selection_clear();
+		
+		for (i in A.objects)
+		{
+			if (
+				A.objects[i].position_on_layer[0] >= p1[0] &&
+				A.objects[i].position_on_layer[0] <= p2[0] &&
+				A.objects[i].position_on_layer[1] >= p1[1] &&
+				A.objects[i].position_on_layer[1] <= p2[1]
+			)
+			{
+				A.objects[i].selected = 1;
+			}
+		}
+	}
+	
 	A.set_player = function(player_id)
 	{
 		A.current_player = player_id;
@@ -893,6 +913,15 @@ window.onload = function()
 		var i, p, c = A.layers[3].ctx;
 		var color1;
 		
+		if (A.inputs.mouse_button_statuses[0] & 1)
+		{
+			p = A._2d_subtract(A.inputs.mouse_position, A.inputs.mouse_click_position);
+			c.fillStyle = "rgba(255,255,255,0.2)";
+			c.strokeStype = "rgba(255,255,255,0.6)";
+			c.fillRect(A.inputs.mouse_click_position[0], A.inputs.mouse_click_position[1], p[0], p[1]);
+			c.strokeRect(A.inputs.mouse_click_position[0], A.inputs.mouse_click_position[1], p[0], p[1]);
+		}
+		
 		if (A.current_player == 1)
 		{
 			c.fillStyle = A._cv_gradient(c, [ 0, 4 ], [ 0, 32 ],
@@ -1035,6 +1064,8 @@ window.onload = function()
 		if (A.inputs.mouse_button_statuses[0] & 1)
 		{
 			A.inputs.mouse_button_statuses[0] |= 2; // release happened
+			
+			A.selection_set(A._2d_add(A.inputs.mouse_click_position, A.scroll), A._2d_add(A.inputs.mouse_position, A.scroll));
 		}
 		
 		event.preventDefault();
