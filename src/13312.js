@@ -35,7 +35,7 @@ window.onload = function()
 	A.scroll = [ 0, -40 ] /* pixels */
 	A.map = {};
 	A.layers = {};
-	A.palette = { 0: "rgba(0,0,0,0.2)", 1: "rgba(0,0,0.4)", 2: "#4a3", 3: "#391", 4: "#682", 5: "#462", 6: "rgba(190, 60, 5, 0.7)", 7: "#821", 8: "#ddd", 9: "#dd0", "a": "#ee0", "b": "#bbb", "c": "#ccc", "d": "#ddd", "e": "#248", "f": "rgba(0,128,255,0.7)", "g": "#fff" };
+	A.palette = { 0: "rgba(0,0,0,0.2)", 1: "rgba(0,0,0.4)", 2: "#4a3", 3: "#391", 4: "#682", 5: "#462", 6: "rgba(190, 60, 5, 0.7)", 7: "#821", 8: "#ddd", 9: "#dd0", "a": "#ee0", "b": "#bbb", "c": "#ccc", "d": "#ddd", "e": "#248", "f": "rgba(0,128,255,0.7)", "g": "#fff", "h": "rgba(0,255,0,0.8)", "i": "rgba(0,255,0,0.3)" };
 	A.textures = {};
 	A.objects = [];
 	A.fog = []; /* hidden tiles from the current player */
@@ -1164,7 +1164,7 @@ window.onload = function()
 		A.texture_create(8, "pggAAAkKWbW.", A.TEXTURE_SIZE_32X32); // cursor
 		A.texture_create(9, "p00" + grid + "aHK", A.TEXTURE_SIZE_64X32); // fog (light)
 		A.texture_create(10, "p00" + grid + "aAC", A.TEXTURE_SIZE_64X32); // fog (heavy)
-		A.texture_create(11, "p33eZYcamgonlmc.", A.TEXTURE_SIZE_64X32); // small object selection
+		A.texture_create(11, "pihLMElX40y7YnF.", A.TEXTURE_SIZE_64X32); // small object selection
 		A.texture_create("a0", "p00gSsesS.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.texture_create("a1", "p00gssssg.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.texture_create("a2", "p00SgSses.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
