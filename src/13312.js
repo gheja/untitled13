@@ -917,7 +917,7 @@ window.onload = function()
 		{
 			p = A._2d_subtract(A.inputs.mouse_position, A.inputs.mouse_click_position);
 			c.fillStyle = "rgba(255,255,255,0.2)";
-			c.strokeStype = "rgba(255,255,255,0.6)";
+			c.strokeStyle = "#fff";
 			c.fillRect(A.inputs.mouse_click_position[0], A.inputs.mouse_click_position[1], p[0], p[1]);
 			c.strokeRect(A.inputs.mouse_click_position[0], A.inputs.mouse_click_position[1], p[0], p[1]);
 		}
