@@ -38,7 +38,6 @@ window.onload = function()
 	A.cursor_position_in_world = [ 10, 10 ]; /* tiles */
 	A.scroll = [ 0, -40 ] /* pixels */
 	A.map = {};
-	A.layers = {};
 	A.palette = {
 		0: "rgba(0,0,0,0.2)",
 		1: "rgba(0,0,0,0.4)",
@@ -665,19 +664,14 @@ window.onload = function()
 		A.textures[id] = cv;
 	}
 	
-	A.layer_clear = function(layer_id)
-	{
-		A.layers[layer_id].ctx.clearRect(0, 0, 1280, 720);
-	}
-	
 	A.texture_show = function(layer_id, texture_id, x, y)
 	{
-		A.layers[layer_id].ctx.drawImage(A.textures[texture_id].cv, x, y);
+		A.cv.ctx.drawImage(A.textures[texture_id].cv, x, y);
 	}
 	
 	A.gui_render_button = function(button_order, texture_id, color)
 	{
-		var c = A.layers[3].ctx;
+		var c = A.cv.ctx;
 		
 		if (A.selected_tool == button_order)
 		{
@@ -697,26 +691,26 @@ window.onload = function()
 	
 	A.gui_render_bar_background = function(x, y, width, height)
 	{
-		A.layers[2].ctx.fillStyle = "rgba(0,0,0,0.3)";
-		A.layers[2].ctx.fillRect(x, y, width, height);
+		A.cv.ctx.fillStyle = "rgba(0,0,0,0.3)";
+		A.cv.ctx.fillRect(x, y, width, height);
 	}
 	
 	A.gui_render_bar = function(x, y, width, value, color)
 	{
-		A.layers[2].ctx.fillStyle = color;
-		A.layers[2].ctx.fillRect(x, y, width, 4);
+		A.cv.ctx.fillStyle = color;
+		A.cv.ctx.fillRect(x, y, width, 4);
 		
-		A.layers[2].ctx.fillStyle = "rgba(0,0,0,0.8)";
-		A.layers[2].ctx.fillRect(x + (width * value), y, width - (width * value), 4);
+		A.cv.ctx.fillStyle = "rgba(0,0,0,0.8)";
+		A.cv.ctx.fillRect(x + (width * value), y, width - (width * value), 4);
 		
-		A.layers[2].ctx.fillStyle = A._cv_gradient(A.layers[2].ctx, [ x, y ], [ x, y + 4 ],
+		A.cv.ctx.fillStyle = A._cv_gradient(A.cv.ctx, [ x, y ], [ x, y + 4 ],
 			[
 				[ 0, "rgba(0,0,0,0.1)" ],
 				[ 0.7, "rgba(0,0,0,0.4)" ],
 				[ 1, "rgba(0,0,0,0.3)" ]
 			]
 		);
-		A.layers[2].ctx.fillRect(x, y, width, 4);
+		A.cv.ctx.fillRect(x, y, width, 4);
 		
 	}
 	
@@ -795,14 +789,13 @@ window.onload = function()
 		
 		A.cv.ctx.save();
 		A.cv.ctx.translate(-A.scroll[0], -A.scroll[1]);
-		for (var i=0; i<3; i++)
-		{
-			A.cv.ctx.drawImage(A.layers[i].cv, 0, 0);
-		}
+		A.render_layer_map();
+		A.render_layer1();
+		A.render_layer2();
 		A.cv.ctx.restore();
 		
 		// fixed to the screen not to the world
-		A.cv.ctx.drawImage(A.layers[3].cv, 0, 0);
+		A.render_layer3();
 		
 		A.cv.ctx.restore();
 	}
@@ -825,7 +818,6 @@ window.onload = function()
 	A.render_layer1 = function()
 	{
 		p = A._world_position_to_layer_position([ Math.floor(A.cursor_position_in_world[0] - 0.5), Math.floor(A.cursor_position_in_world[1] + 0.5) ]);
-		A.layer_clear(1);
 		A.texture_show(1, 1, p[0] + 23, p[1] - 8);
 	}
 	
@@ -834,8 +826,6 @@ window.onload = function()
 		var i, obj, sprite, p;
 		
 		// TODO: do proper depth ordering for sprites
-		
-		A.layer_clear(2);
 		
 		// out of sight
 		for (i=0; i<A.config.world_width; i++)
@@ -916,7 +906,7 @@ window.onload = function()
 		}
 		
 		// process shots
-		var a, c = A.layers[2].ctx;
+		var a, c = A.cv.ctx;
 		for (i in A.gfx_shots)
 		{
 			a = (A.gfx_shots[i][3]/A.gfx_shots[i][4]);
@@ -947,9 +937,7 @@ window.onload = function()
 	
 	A.render_layer3 = function()
 	{
-		A.layer_clear(3);
-		
-		var i, p, c = A.layers[3].ctx;
+		var i, p, c = A.cv.ctx;
 		var color1;
 		
 		if (A.inputs.mouse_button_statuses[0] & 1)
@@ -1011,7 +999,7 @@ window.onload = function()
 			{
 				continue;
 			}
-			p = A.objects[i].position_on_layer;
+			p = A._2d_subtract(A.objects[i].position_on_layer, A.scroll);
 			if (A.objects[i].owner_player == 1)
 			{
 				A.gui_render_bar_background(p[0] - 18, p[1] + 6, 36, 8);
@@ -1129,10 +1117,6 @@ window.onload = function()
 	A.init = function()
 	{
 		A.cv = A._create_cv(1280, 720);
-		A.layers[0] = A._create_cv(1280, 720);
-		A.layers[1] = A._create_cv(1280, 720);
-		A.layers[2] = A._create_cv(1280, 720);
-		A.layers[3] = A._create_cv(1280, 720);
 		A.cv.cv.addEventListener("mousemove", A.handle_mousemove);
 		A.cv.cv.addEventListener("mousedown", A.handle_mousedown);
 		A.cv.cv.addEventListener("mouseup", A.handle_mouseup);
@@ -1434,10 +1418,6 @@ window.onload = function()
 		A.seconds_passed_since_last_frame = (now - A.last_frame_timestamp) / 1000;
 		
 		A.process_fog();
-		A.render_layer_map();
-		A.render_layer1();
-		A.render_layer2();
-		A.render_layer3();
 		A.render_canvas();
 		
 		A.last_tick_timestamp = A.last_tick_timestamp + ticks_needed * A.tick_interval;
