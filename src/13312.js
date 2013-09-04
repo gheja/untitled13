@@ -74,6 +74,7 @@ window.onload = function()
 		[ [-3,-3], [-2,-3], [-1,-3], [ 0,-3], [-3,-2], [+1,-2], [-3,-1], [+2,-1], [-3, 0], [+3,0], [-2,+1], [+3,+1], [-1,+2], [+3,+2], [ 0,+3], [+1,+3], [+2,+3], [+3,+3] ]
 	];
 	
+	/** @constructor */
 	A.ObjectBase = function(owner_player, position, speed, direction, health, sprites)
 	{
 		var obj = {};
@@ -211,12 +212,14 @@ window.onload = function()
 		return obj;
 	}
 	
+	/** @constructor */
 	A.ObjectPlayer1Base = function(position, speed, direction, health, sprites)
 	{
 		var obj = new A.ObjectBase(1, position, speed, direction, health, sprites);
 		return obj;
 	}
 	
+	/** @constructor */
 	A.ObjectPlayer2Base = function(position, health, ammo, shoot_cycle_time, reload_time, sprites)
 	{
 		var obj = new A.ObjectBase(2, position, 0, 0, health, sprites);
@@ -322,6 +325,7 @@ window.onload = function()
 		return obj;
 	}
 	
+	/** @constructor */
 	A.ObjectPlayer1Switch = function(position, valid_directions, direction)
 	{
 		var obj = new A.ObjectPlayer1Base(position, 0, 0, -1, []);
@@ -389,12 +393,14 @@ window.onload = function()
 		return obj;
 	}
 	
+	/** @constructor */
 	A.ObjectPlayer2Tower1 = function(position, valid_directions, direction)
 	{
 		var obj = new A.ObjectPlayer2Base(position, 100, 20, 0.5, 2, [ [ 20, -32, -48 ], [ 21, -32, -48 ] ]);
 		return obj;
 	}
 	
+	/** @constructor */
 	A.ObjectPlayer1Ghost1 = function(position, direction)
 	{
 		var obj = new A.ObjectPlayer1Base(position, 0.75, direction, 100, [ [ 5, -16, -32, 2, 2 ], [ 4, -16, -32, 2, 2 ], [ 3, -16, -32, 2, 2 ] ]);
