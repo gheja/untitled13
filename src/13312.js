@@ -394,7 +394,7 @@ window.onload = function()
 	}
 	
 	/** @constructor */
-	A.ObjectPlayer2Tower1 = function(position, valid_directions, direction)
+	A.ObjectPlayer2Tower1 = function(position)
 	{
 		var obj = new A.ObjectPlayer2Base(position, 100, 20, 0.5, 2, [ [ 20, -32, -48 ], [ 21, -32, -48 ] ]);
 		return obj;
