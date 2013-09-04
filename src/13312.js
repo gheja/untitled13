@@ -664,7 +664,7 @@ window.onload = function()
 		A.textures[id] = cv;
 	}
 	
-	A.texture_show = function(layer_id, texture_id, x, y)
+	A.texture_show = function(texture_id, x, y)
 	{
 		A.cv.ctx.drawImage(A.textures[texture_id].cv, x, y);
 	}
@@ -678,12 +678,12 @@ window.onload = function()
 			c.fillStyle = color;
 			c.fillRect(8 + button_order * 28, 8, 24, 24);
 			c.strokeStyle = "#fff";
-			A.texture_show(3, texture_id, 8 + button_order * 28, 8);
+			A.texture_show(texture_id, 8 + button_order * 28, 8);
 			c.strokeRect(8 + button_order * 28, 8, 24, 24);
 		}
 		else
 		{
-			A.texture_show(3, texture_id, 8 + button_order * 28, 8);
+			A.texture_show(texture_id, 8 + button_order * 28, 8);
 			c.fillStyle = "rgba(0,0,0,0.3)";
 			c.fillRect(8 + button_order * 28, 8, 24, 24);
 		}
@@ -809,7 +809,7 @@ window.onload = function()
 			for (b=0; b<A.config.world_height; b++)
 			{
 				p = A._world_position_to_layer_position([ a, b ]);
-				A.texture_show(0, A.map[a][b], p[0] - 32, p[1] - 16);
+				A.texture_show(A.map[a][b], p[0] - 32, p[1] - 16);
 			}
 		}
 		// A.texture_show(0, "r1", 0, 0);
@@ -818,7 +818,7 @@ window.onload = function()
 	A.render_layer1 = function()
 	{
 		p = A._world_position_to_layer_position([ Math.floor(A.cursor_position_in_world[0] - 0.5), Math.floor(A.cursor_position_in_world[1] + 0.5) ]);
-		A.texture_show(1, 1, p[0] + 23, p[1] - 8);
+		A.texture_show(1, p[0] + 23, p[1] - 8);
 	}
 	
 	A.render_layer2 = function()
@@ -835,12 +835,12 @@ window.onload = function()
 				if (A.fog[i][j] == 2)
 				{
 					p = A._world_position_to_layer_position([ i, j ]);
-					A.texture_show(2, 9, p[0] - 32, p[1] - 16);
+					A.texture_show(9, p[0] - 32, p[1] - 16);
 				}
 				else if (A.fog[i][j] == 1)
 				{
 					p = A._world_position_to_layer_position([ i, j ]);
-					A.texture_show(2, 10, p[0] - 32, p[1] - 16);
+					A.texture_show(10, p[0] - 32, p[1] - 16);
 				}
 			}
 		}
@@ -869,7 +869,7 @@ window.onload = function()
 			
 			if (obj.selected)
 			{
-				A.texture_show(2, obj.selection_sprite_id, p[0] - 32, p[1] - 16);
+				A.texture_show(obj.selection_sprite_id, p[0] - 32, p[1] - 16);
 			}
 			
 			// show the targets for player 2
@@ -879,7 +879,7 @@ window.onload = function()
 				{
 					if (A.objects[j].owner_player == 2 && A.objects[j].attack_target_object_id == i)
 					{
-						A.texture_show(2, 12, p[0] - 32, p[1] - 16);
+						A.texture_show(12, p[0] - 32, p[1] - 16);
 					}
 				}
 			}
@@ -888,7 +888,7 @@ window.onload = function()
 			if (obj.shadow_sprite_id != -1)
 			{
 				// TODO: this is for 64x32 sprites only
-				A.texture_show(2, obj.shadow_sprite_id, p[0] - 32, p[1] - 16);
+				A.texture_show(obj.shadow_sprite_id, p[0] - 32, p[1] - 16);
 			}
 			
 			for (j in obj.sprites)
@@ -901,7 +901,7 @@ window.onload = function()
 				rx = (Math.cos(sprite[5]) * sprite[3]) || 0;
 				ry = (Math.sin(sprite[6]) * sprite[4]) || 0;
 				
-				A.texture_show(2, sprite[0], p[0] + sprite[1] + rx, p[1] + sprite[2] + ry);
+				A.texture_show(sprite[0], p[0] + sprite[1] + rx, p[1] + sprite[2] + ry);
 			}
 		}
 		
@@ -991,7 +991,7 @@ window.onload = function()
 		A.gui_render_button(4, "c0", color1);
 		A.gui_render_button(5, "c0", color1);
 		
-		A.texture_show(3, 8, A.inputs.mouse_position[0], A.inputs.mouse_position[1]);
+		A.texture_show(8, A.inputs.mouse_position[0], A.inputs.mouse_position[1]);
 		
 		for (i in A.objects)
 		{
