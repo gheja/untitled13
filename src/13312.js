@@ -461,7 +461,6 @@ window.onload = function()
 	
 	A._random_int = function(min, max, multiplier)
 	{
-		multiplier = multiplier ? multiplier : 1;
 		return Math.round((Math.random() * (max - min) + min) * multiplier);
 	}
 	
