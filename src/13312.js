@@ -93,7 +93,6 @@ window.onload = function()
 		obj.selection_sprite_id = 11;
 		obj.destroyed = 0;
 		obj.permanent = (health == -1); /* this object cannot be hurt or destroyed */
-		obj.class = 0;
 		obj.hidden_from_other_player = 0;
 		obj.detection_distance = 3;
 		obj.selected = 0;
