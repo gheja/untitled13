@@ -269,7 +269,7 @@ window.onload = function()
 			// TODO: move the start and end points to their correct positions
 			A.gfx_shots.push([
 				A._2d_subtract(this.position_on_layer, [ 0, 32 ]), // start position
-				A._2d_subtract(A.objects[this.attack_target_object_id].position_on_layer, [ A._random_int(-4, 4), A._random_int(12, 20) ]), // end position
+				A._2d_subtract(A.objects[this.attack_target_object_id].position_on_layer, [ A._random_int(-4, 4, 1), A._random_int(12, 20, 1) ]), // end position
 				2, // width
 				0.2, // seconds left to display
 				0.2 // seconds total display
@@ -788,7 +788,7 @@ window.onload = function()
 		A.cv.ctx.save();
 		if (A.shake > 0)
 		{
-			A.cv.ctx.translate(A._random_int(-A.shake, A.shake), A._random_int(-A.shake, A.shake));
+			A.cv.ctx.translate(A._random_int(-A.shake, A.shake, 1), A._random_int(-A.shake, A.shake, 1));
 			// TODO: this does not calculate the passed time (effect is fps-dependent)
 			A.shake = Math.floor(A.shake / 2);
 		}
@@ -1123,10 +1123,10 @@ window.onload = function()
 	A.init = function()
 	{
 		A.cv = A._create_cv(1280, 720);
-		A.cv.cv.addEventListener("mousemove", A.handle_mousemove);
-		A.cv.cv.addEventListener("mousedown", A.handle_mousedown);
-		A.cv.cv.addEventListener("mouseup", A.handle_mouseup);
-		window.addEventListener("resize", A.handle_resize);
+		A.cv.cv.addEventListener("mousemove", A.handle_mousemove, false);
+		A.cv.cv.addEventListener("mousedown", A.handle_mousedown, false);
+		A.cv.cv.addEventListener("mouseup", A.handle_mouseup, false);
+		window.addEventListener("resize", A.handle_resize, false);
 		/* move the world to the middle of the page */
 		A.handle_resize();
 		document.getElementById("canvas0").appendChild(A.cv.cv);
