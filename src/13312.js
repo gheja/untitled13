@@ -990,7 +990,7 @@ window.onload = function()
 		
 		A.gui_render_button(0, "c1", color1);
 		A.gui_render_button(1, "c2", color1);
-		A.gui_render_button(2, "c0", color1);
+		A.gui_render_button(2, "c3", color1);
 		A.gui_render_button(3, "c0", color1);
 		A.gui_render_button(4, "c0", color1);
 		A.gui_render_button(5, "c0", color1);
@@ -1218,6 +1218,7 @@ window.onload = function()
 		// A.texture_create(21, "peebgYrftmrjg.pfeLiutmV.aAKpeecabgfjjgia.pfeaTUete.aAKpeeeRcafciagR.pcffIYMYQZRfUkRmOkK.aAF", A.TEXTURE_SIZE_64X64);
 		A.texture_create("c1", "pggRRR1chuh.", A.TEXTURE_SIZE_24X24); // toolbar icon, mouse
 		A.texture_create("c2", "pgghJZbGbbmQ2kp7xpg4WmW.", A.TEXTURE_SIZE_24X24); // toolbar icon, explode
+		A.texture_create("c3", "pggagTlR7Z6b1j1l6u7rlkh.p11blftjl.", A.TEXTURE_SIZE_24X24); // toolbar icon, explode
 		A.texture_create("c0", "p11RdRTcKjKuTuyRyRdqdqTjOcOVTVd.", A.TEXTURE_SIZE_24X24); // toolbar icon, locked
 	}
 	
