@@ -970,6 +970,14 @@ window.onload = function()
 					[ 1, "#800" ]
 				]
 			);
+			c.fillRect(4, 4, 300, 32);
+			
+			c.fillStyle = "rgba(120,0,0,0.3)";
+			for (i=0; i<3; i++)
+			{
+				c.fillRect(4, 40 + i * 36, 300, 32);
+			}
+			
 			color1 = "#a20";
 		}
 		else
@@ -981,10 +989,10 @@ window.onload = function()
 					[ 1, "#04a" ]
 				]
 			);
+			c.fillRect(4, 4, 300, 32);
+			
 			color1 = "#04c";
 		}
-		c.fillRect(4, 4, 300, 32);
-		
 		c.fillStyle = "rgba(0,0,0,0.2)";
 		c.fillRect(6, 6, 296, 28);
 		
