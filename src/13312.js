@@ -41,7 +41,7 @@ window.onload = function()
 	A.layers = {};
 	A.palette = {
 		0: "rgba(0,0,0,0.2)",
-		1: "rgba(0,0,0.4)",
+		1: "rgba(0,0,0,0.4)",
 		2: "#4a3",
 		3: "#391",
 		4: "#682",
