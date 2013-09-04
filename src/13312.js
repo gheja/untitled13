@@ -223,7 +223,6 @@ window.onload = function()
 		var obj = new A.ObjectBase(2, position, 0, 0, health, sprites);
 		obj.shadow_sprite_id = -1;
 		
-		// TODO: replace these ugly strings with constants
 		obj.attack_status = ammo > 0 ? A.ATTACK_STATUS_RELOADING : A.ATTACK_STATUS_NONE;
 		obj.attack_ammo = [ 0, ammo ];
 		obj.attack_cycle_time = [ 0, shoot_cycle_time ]; /* seconds */
