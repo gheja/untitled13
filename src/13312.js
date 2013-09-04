@@ -1134,11 +1134,11 @@ window.onload = function()
 	{
 		var i, j, obj;
 		
-		for (j=0; j<32; j++)
+		for (j=0; j<A.config.world_width; j++)
 		{
 			A.fog[j] = [];
 			A.map[j] = {};
-			for (i=0; i<32; i++)
+			for (i=0; i<A.config.world_height; i++)
 			{
 				A.fog[j][i] = 2;
 				A.map[j][i] = 0;
