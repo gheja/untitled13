@@ -14,6 +14,10 @@ window.onload = function()
 	/** @const */ A.TEXTURE_SIZE_64X32 = 1;
 	/** @const */ A.TEXTURE_SIZE_64X64 = 2;
 	/** @const */ A.TEXTURE_SIZE_24X24 = 3;
+	/** @const */ A.ATTACK_STATUS_NONE = -1;
+	/** @const */ A.ATTACK_STATUS_RELOADING = 0;
+	/** @const */ A.ATTACK_STATUS_CYCLING = 1;
+	/** @const */ A.ATTACK_STATUS_READY = 2;
 	A.texture_sizes = [ [ 32, 32 ], [ 64, 32 ], [ 64, 64 ], [ 24, 24 ] ];
 	
 	A.tick_number = 0;
@@ -220,7 +224,7 @@ window.onload = function()
 		obj.shadow_sprite_id = -1;
 		
 		// TODO: replace these ugly strings with constants
-		obj.attack_status = ammo > 0 ? "reloading" : "none";
+		obj.attack_status = ammo > 0 ? A.ATTACK_STATUS_RELOADING : A.ATTACK_STATUS_NONE;
 		obj.attack_ammo = [ 0, ammo ];
 		obj.attack_cycle_time = [ 0, shoot_cycle_time ]; /* seconds */
 		obj.attack_reload_time = [ 0, reload_time ]; /* seconds */
@@ -278,31 +282,31 @@ window.onload = function()
 			if (this.attack_ammo[0] == 0)
 			{
 				this.attack_reload_time[0] = 0;
-				this.attack_status = "reloading";
+				this.attack_status = A.ATTACK_STATUS_RELOADING;
 			}
 			else
 			{
-				this.attack_status = "cycling";
+				this.attack_status = A.ATTACK_STATUS_CYCLING;
 			}
 		}
 		
 		obj.on_tick = function()
 		{
-			if (this.attack_status == "ready")
+			if (this.attack_status == A.ATTACK_STATUS_READY)
 			{
 				this.on_ready_to_attack();
 			}
-			else if (this.attack_status == "cycling")
+			else if (this.attack_status == A.ATTACK_STATUS_CYCLING)
 			{
 				this.gui_show_bars();
 				this.attack_cycle_time[0] += A.seconds_passed_since_last_tick;
 				if (this.attack_cycle_time[0] >= this.attack_cycle_time[1])
 				{
 					this.attack_cycle_time[0] = this.attack_cycle_time[1];
-					this.attack_status = "ready";
+					this.attack_status = A.ATTACK_STATUS_READY;
 				}
 			}
-			else if (this.attack_status == "reloading")
+			else if (this.attack_status == A.ATTACK_STATUS_RELOADING)
 			{
 				this.gui_show_bars();
 				this.attack_reload_time[0] += A.seconds_passed_since_last_tick;
@@ -312,7 +316,7 @@ window.onload = function()
 					this.attack_ammo[0] = this.attack_ammo[1];
 					// reload also recycles, no need to go back to "cycling"
 					this.attack_cycle_time[0] = this.attack_cycle_time[1];
-					this.attack_status = "ready";
+					this.attack_status = A.ATTACK_STATUS_READY;
 				}
 			}
 		}
@@ -1010,7 +1014,7 @@ window.onload = function()
 			{
 				A.gui_render_bar_background(p[0] - 34, p[1] + 6, 68, 14);
 				A.gui_render_bar(p[0] - 32, p[1] + 8, 64, A.objects[i].health[0] / A.objects[i].health[1] , "#5f0");
-				if (A.objects[i].attack_status == "reloading")
+				if (A.objects[i].attack_status == A.ATTACK_STATUS_RELOADING)
 				{
 					A.gui_render_bar(p[0] - 32, p[1] + 14, 64, A.objects[i].attack_reload_time[0] / A.objects[i].attack_reload_time[1], "#bbb");
 				}
