@@ -67,7 +67,8 @@ window.onload = function()
 	A.objects = [];
 	A.fog = []; /* hidden tiles from the current player */
 	
-	A.gfx_shots = []; /* array of shots: [ [ [ start_x, start_y ], [ end_x, end_y ], width, seconds_left_to_display, seconds_total_display ], ... ] */
+	/* just the effects */
+	A.gfx_effect_shot = []; /* array of shots: [ [ [ start_x, start_y ], [ end_x, end_y ], width, seconds_left_to_display, seconds_total_display ], ... ] */
 	
 	A.hexagon_neighbours = [ // we will not calculate them every time
 		[ [0,  0] ],
@@ -398,7 +399,7 @@ window.onload = function()
 		{
 			// attack gfx
 			// TODO: move the start and end points to their correct positions
-			A.gfx_shots.push([
+			A.gfx_effect_shot.push([
 				A._2d_subtract(this.position_on_layer, [ 0, 32 ]), // start position
 				A._2d_subtract(A.objects[this.attack_target_object_id].position_on_layer, [ A._random_int(-4, 4, 1), A._random_int(12, 20, 1) ]), // end position
 				2, // width
@@ -421,7 +422,7 @@ window.onload = function()
 		{
 			// attack gfx
 			// TODO: move the start and end points to their correct positions
-			A.gfx_shots.push([
+			A.gfx_effect_shot.push([
 				A._2d_subtract(this.position_on_layer, [ 0, 32 ]), // start position
 				A._2d_subtract(A.objects[this.attack_target_object_id].position_on_layer, [ A._random_int(-4, 4, 1), A._random_int(12, 20, 1) ]), // end position
 				2, // width
@@ -947,11 +948,11 @@ window.onload = function()
 		
 		// process shots
 		var a, c = A.cv.ctx;
-		for (i in A.gfx_shots)
+		for (i in A.gfx_effect_shot)
 		{
-			a = (A.gfx_shots[i][3]/A.gfx_shots[i][4]);
+			a = (A.gfx_effect_shot[i][3]/A.gfx_effect_shot[i][4]);
 			
-			c.strokeStyle = A._cv_gradient(c, A.gfx_shots[i][0], A.gfx_shots[i][1],
+			c.strokeStyle = A._cv_gradient(c, A.gfx_effect_shot[i][0], A.gfx_effect_shot[i][1],
 				[
 					[ 0, "rgba(255,255,0," + (0.7 * a) +")" ],
 					[ 0.5, "rgba(255,255,255," + a + ")" ],
@@ -960,17 +961,17 @@ window.onload = function()
 			);
 			
 			c.beginPath();
-			c.moveTo(A.gfx_shots[i][0][0], A.gfx_shots[i][0][1]);
-			c.lineTo(A.gfx_shots[i][1][0], A.gfx_shots[i][1][1]);
+			c.moveTo(A.gfx_effect_shot[i][0][0], A.gfx_effect_shot[i][0][1]);
+			c.lineTo(A.gfx_effect_shot[i][1][0], A.gfx_effect_shot[i][1][1]);
 			c.closePath();
-			c.lineWidth = A.gfx_shots[i][2];
+			c.lineWidth = A.gfx_effect_shot[i][2];
 			c.stroke();
 			
-			A.gfx_shots[i][3] -= A.seconds_passed_since_last_frame;
+			A.gfx_effect_shot[i][3] -= A.seconds_passed_since_last_frame;
 			
-			if (A.gfx_shots[i][3] <= 0)
+			if (A.gfx_effect_shot[i][3] <= 0)
 			{
-				A.gfx_shots = A._remove_array_item(A.gfx_shots, i);
+				A.gfx_effect_shot = A._remove_array_item(A.gfx_effect_shot, i);
 			}
 		}
 	}
