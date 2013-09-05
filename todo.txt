@@ -11,6 +11,7 @@ gameplay
 engine
 [ ] add automatic generation of road tiles
   [ ] add automatic generation of ObjectPlayer1Switch objects
+  [ ] add automatic generation of concrete tiles
 [ ] add two more directions to ObjectPlayer1Switch and process_objects()
 
 player 1
