@@ -272,7 +272,7 @@ window.onload = function()
 			
 			this.attack();
 			
-			// generic part of the atack
+			// generic part of the attack
 			this.attack_cycle_time[0] = 0;
 			this.attack_ammo[0]--;
 			
