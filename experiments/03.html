@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>13312 / experiments</title>
+		<style>
+			body, html
+			{
+				background: #111;
+				padding: 0;
+				margin: 0;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="canvas0"></div>
+		<script type="text/javascript">
+			function _create_cv()
+			{
+				var obj = {};
+				
+				obj.cv = document.createElement("canvas");
+				obj.cv.width = 700;
+				obj.cv.height = 300;
+				obj.ctx = obj.cv.getContext("2d");
+				
+				return obj;
+			}
+			
+			function draw_fire(c, x, y, state)
+			{
+				var r;
+				r = 2;
+				if (state < 0.3)
+				{
+					a = state / 0.3;
+					r = 6 + a * 8;
+					c.fillStyle = "rgba(255,255," + Math.floor(255 - a * 255) + ",0.7)";
+				}
+				else if (state < 0.5)
+				{
+					a = (state - 0.3) / 0.2;
+					r = 14 + a * 6;
+					c.fillStyle = "rgba(255," + Math.floor(255 - a * 255) + ",0,0.7)";
+				}
+				else if (state < 0.8)
+				{
+					a = (state - 0.5) / 0.3;
+					r = 20 + a * 4;
+					c.fillStyle = "rgba(" + Math.floor(255 - (state - 0.9)/0.1 * 255) + ",0,0," + (0.7 - a * 0.6) + ")";
+				}
+				else
+				{
+					a = (state - 0.8) / 0.2;
+					r = 24 + a * 4;
+					c.fillStyle = "rgba(0,0,0," + (0.1 - a * 0.1) + ")";
+				}
+				
+//				c.globalCompositeOperation = "lighter";
+				c.beginPath();
+				c.arc(x, y, r, 0, 2 * Math.PI, false);
+/*
+				c.moveTo(x - (Math.random() * r*0.5 + r*0.5), y - (Math.random() * r*0.5 + r*0.5));
+				c.lineTo(x - (Math.random() * r*0.5 + r*0.5), y + (Math.random() * r*0.5 + r*0.5));
+				c.lineTo(x + (Math.random() * r*0.5 + r*0.5), y + (Math.random() * r*0.5 + r*0.5));
+				c.lineTo(x + (Math.random() * r*0.5 + r*0.5), y - (Math.random() * r*0.5 + r*0.5));
+*/
+/*
+				c.moveTo(x + Math.random() * r - r/2, y + Math.random() * r - r/2);
+				c.lineTo(x + Math.random() * r - r/2, y + Math.random() * r - r/2);
+				c.lineTo(x + Math.random() * r - r/2, y + Math.random() * r - r/2);
+				c.lineTo(x + Math.random() * r - r/2, y + Math.random() * r - r/2);
+*/
+				c.fill();
+				c.closePath();
+				c.globalCompositeOperation = "source-over";
+				return;
+				
+				var d1 = c.getImageData();
+				var d2 = c.createImageData(d1);
+				var x,y;
+				
+				for (x=0; x<200; x++)
+				{
+					for (y=0; y<200; y++)
+					{
+						
+					}
+				}
+			}
+			
+			var canvas0 = _create_cv();
+			var canvas1 = _create_cv();
+			var canvas2 = _create_cv();
+			
+			document.getElementById("canvas0").appendChild(canvas0.cv);
+			
+			var fires = [];
+			
+			for (var i=0; i<2000; i++)
+			{
+				fires.push([ Math.random() * 4 + 100, Math.random() * 4 + 200,  Math.random()*5+100, -Math.random()*8 - 2, -Math.random() * 30 - i / 10 ]);
+			}
+			
+			x = 0;
+			function a()
+			{
+				x++;
+				canvas0.ctx.fillStyle = "#2ac";
+				canvas0.ctx.fillRect(0, 0, 700, 300);
+				for (var i=0; i<fires.length; i++)
+				{
+					if (fires[i][4] <= 0)
+					{
+					}
+					else if (fires[i][4] < 100)
+					{
+						draw_fire(canvas0.ctx, fires[i][0], fires[i][1], fires[i][4] / 100);
+						fires[i][2] *= 0.97;
+						fires[i][3] *= 0.97;
+						fires[i][0] += fires[i][2] * 0.1;
+						fires[i][1] += fires[i][3] * 0.1;
+					}
+					else
+					{
+						fires[i] = [ Math.random() * 4 + 100, Math.random() * 4 + 200, Math.random()*5+100, -Math.random()*8 - 2, -Math.random() * 30 ];
+					}
+					fires[i][4] += Math.random() * 0.7 + 0.3;
+				}
+			}
+			
+			window.setInterval(a, 1000/30);
+			
+/*
+			for (i=0; i<1; i+=0.025)
+			{
+				draw_fire(canvas0.ctx, 40 + 1200*i, 40, i);
+			}
+*/
+		</script>
+	</body>
+</html>

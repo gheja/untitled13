@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>13312 / experiments</title>
+		<style>
+			body, html
+			{
+				background: #111;
+				padding: 0;
+				margin: 0;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="canvas0"></div>
+		<script type="text/javascript">
+			function _create_cv()
+			{
+				var obj = {};
+				
+				obj.cv = document.createElement("canvas");
+				obj.cv.width = 1280;
+				obj.cv.height = 720;
+				obj.ctx = obj.cv.getContext("2d");
+				
+				return obj;
+			}
+			
+			function blend(c1, c2, c3, p1, p2)
+			{
+				c3.ctx.clearRect(0, 0, 1280, 720);
+				c3.ctx.globalCompositeOperation = "source-over";
+				c3.ctx.drawImage(c1.cv, p1[0], p1[1]);
+				c3.ctx.globalCompositeOperation = "lighter";
+				c3.ctx.drawImage(c2.cv, p1[0], p1[1]);
+				
+				return;
+				
+				var x, y, data1, data2;
+				
+				var data1 = c1.ctx.getImageData(p1[0], p1[1], p2[0], p2[1]);
+				var data2 = c2.ctx.getImageData(p1[0], p1[1], p2[0], p2[1]);
+				
+				for (i=0; i<data1.data.length; i +=12)
+				{
+					data1.data[i  ] = Math.min(data1.data[i  ] + data2.data[i  ] * (data2.data[i+3]/255), 255);
+					data1.data[i+1] = Math.min(data1.data[i+1] + data2.data[i+1] * (data2.data[i+3]/255), 255);
+					data1.data[i+2] = Math.min(data1.data[i+2] + data2.data[i+2] * (data2.data[i+3]/255), 255);
+					data1.data[i+3] = Math.max(data1.data[i+3], data2.data[i+3]);
+					
+					data1.data[i+4] = Math.min(data1.data[i+4] + data2.data[i+4] * (data2.data[i+7]/255), 255);
+					data1.data[i+5] = Math.min(data1.data[i+5] + data2.data[i+5] * (data2.data[i+7]/255), 255);
+					data1.data[i+6] = Math.min(data1.data[i+6] + data2.data[i+6] * (data2.data[i+7]/255), 255);
+					data1.data[i+7] = Math.max(data1.data[i+7], data2.data[i+7]);
+					
+					data1.data[i+8 ] = Math.min(data1.data[i+8 ] + data2.data[i+8 ] * (data2.data[i+11]/255), 255);
+					data1.data[i+9 ] = Math.min(data1.data[i+9 ] + data2.data[i+9 ] * (data2.data[i+11]/255), 255);
+					data1.data[i+10] = Math.min(data1.data[i+10] + data2.data[i+10] * (data2.data[i+11]/255), 255);
+					data1.data[i+11] = Math.max(data1.data[i+11], data2.data[i+11]);
+/*
+					data1.data[i  ] = Math.min(data1.data[i  ] + data2.data[i  ], 255);
+					data1.data[i+1] = Math.min(data1.data[i+1] + data2.data[i+1], 255);
+					data1.data[i+2] = Math.min(data1.data[i+2] + data2.data[i+2], 255);
+					
+					data1.data[i+4] = Math.min(data1.data[i+4] + data2.data[i+4], 255);
+					data1.data[i+5] = Math.min(data1.data[i+5] + data2.data[i+5], 255);
+					data1.data[i+6] = Math.min(data1.data[i+6] + data2.data[i+6], 255);
+					
+					data1.data[i+8 ] = Math.min(data1.data[i+8 ] + data2.data[i+8 ], 255);
+					data1.data[i+9 ] = Math.min(data1.data[i+9 ] + data2.data[i+9 ], 255);
+					data1.data[i+10] = Math.min(data1.data[i+10] + data2.data[i+10], 255);
+*/
+				}
+				
+				c3.ctx.putImageData(data1, p1[0], p1[1]);
+			}
+			
+			var canvas0 = _create_cv();
+			var canvas1 = _create_cv();
+			var canvas2 = _create_cv();
+			
+			document.getElementById("canvas0").appendChild(canvas0.cv);
+			
+			canvas1.ctx.fillStyle = "#490";
+			canvas1.ctx.fillRect(0, 0, 200, 200);
+			
+			x = 0;
+			last = (new Date()).getTime();
+			
+			function a()
+			{
+				x++;
+				
+				if (x%100 == 0)
+				{
+					var now = (new Date()).getTime();
+					document.title = Math.floor(100 / (now - last) * 1000) + " fps";
+					last = now;
+				}
+				
+				canvas2.ctx.clearRect(0, 0, 1280, 720);
+				
+				canvas2.ctx.fillStyle = "rgba(128,0,0," + (x % 300)/300 + ")";
+				canvas2.ctx.fillRect(10, 90, 200, 50);
+				
+				canvas2.ctx.fillStyle = "rgba(255,255,0," + (x % 200)/200 + ")";
+				canvas2.ctx.fillRect(50, 50, 200, 200);
+				
+				canvas2.ctx.fillStyle = "rgba(255,255,255," + (x % 100)/100 + ")";
+				canvas2.ctx.fillRect(20, 70, 200, 100);
+				
+				blend(canvas1, canvas2, canvas0, [ 0, 0 ], [ 1280, 720 ]);
+			}
+			
+			window.setInterval(a, 1);
+		</script>
+	</body>
+</html>
