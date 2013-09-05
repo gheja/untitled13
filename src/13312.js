@@ -33,7 +33,7 @@ window.onload = function()
 	A.current_player = 1;
 	A.shake = 0;
 	A.selected_tool = 0;
-	A.inputs = { modified: 0, mouse_position: [ 640, 360 ], mouse_click_position: [ 0, 0 ], mouse_button_statuses: [ 0, 0, 0 ] };
+	A.inputs = { modified: 0, mouse_position: [ 640, 360 ], mouse_on_canvas: 0, mouse_click_position: [ 0, 0 ], mouse_button_statuses: [ 0, 0, 0 ] };
 	A.inputs_prev = {};
 	A.cursor_position_in_world = [ 10, 10 ]; /* tiles */
 	A.scroll = [ 0, -40 ] /* pixels */
@@ -1026,9 +1026,17 @@ window.onload = function()
 		}
 	}
 	
+	A.handle_mouseout = function(event)
+	{
+		A.inputs.mouse_on_canvas = 0;
+		A.inputs.modified = 1;
+	}
+	
 	A.handle_mousemove = function(event)
 	{
 		var a = A.cv.cv.getBoundingClientRect();
+		
+		A.inputs.mouse_on_canvas = 1;
 		A.inputs.modified = 1;
 		A.inputs.mouse_position = [ event.clientX - a.left, event.clientY - a.top ];
 		
@@ -1124,6 +1132,7 @@ window.onload = function()
 		A.cv.cv.addEventListener("mousemove", A.handle_mousemove, false);
 		A.cv.cv.addEventListener("mousedown", A.handle_mousedown, false);
 		A.cv.cv.addEventListener("mouseup", A.handle_mouseup, false);
+		A.cv.cv.addEventListener("mouseout", A.handle_mouseout, false);
 		window.addEventListener("resize", A.handle_resize, false);
 		/* move the world to the middle of the page */
 		A.handle_resize();
@@ -1288,7 +1297,7 @@ window.onload = function()
 	A.process_input = function()
 	{
 		// TODO: fix scroll while selecting, until then this is disabled...
-		if (!(A.inputs.mouse_button_statuses[0] & 1))
+		if (!(A.inputs.mouse_button_statuses[0] & 1) && A.inputs.mouse_on_canvas)
 		{
 			if (A.inputs.mouse_position[0] < 50 && A.inputs.mouse_position[1] > 52)
 			{
