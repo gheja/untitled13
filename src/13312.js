@@ -59,7 +59,9 @@ window.onload = function()
 		"h": "rgba(0,255,0,0.8)",
 		"i": "rgba(0,255,0,0.3)",
 		"j": "rgba(160,0,0,0.4)",
-		"k": "rgba(255,0,0,0.7)"
+		"k": "rgba(255,0,0,0.7)",
+		"l": "#842",
+		"m": "rgba(255,128,0,0.7)"
 	};
 	A.textures = {};
 	A.objects = [];
@@ -391,6 +393,29 @@ window.onload = function()
 	A.ObjectPlayer2Tower1 = function(position)
 	{
 		var obj = new A.ObjectPlayer2Base(position, 100, 20, 0.5, 2, [ [ 20, -32, -48 ], [ 21, -32, -48 ] ]);
+		
+		obj.attack = function()
+		{
+			// attack gfx
+			// TODO: move the start and end points to their correct positions
+			A.gfx_shots.push([
+				A._2d_subtract(this.position_on_layer, [ 0, 32 ]), // start position
+				A._2d_subtract(A.objects[this.attack_target_object_id].position_on_layer, [ A._random_int(-4, 4, 1), A._random_int(12, 20, 1) ]), // end position
+				2, // width
+				0.2, // seconds left to display
+				0.2 // seconds total display
+			]);
+			
+			A.hit_nearby_objects(A.objects[this.attack_target_object_id].position, this.attack_damage, this.attack_impact_radius, this.owner_player);
+		}
+		
+		return obj;
+	}
+	
+	/** @constructor */
+	A.ObjectPlayer2Tower2 = function(position)
+	{
+		var obj = new A.ObjectPlayer2Base(position, 100, 100, 0.1, 2, [ [ 20, -32, -48 ], [ 22, -32, -48 ] ]);
 		
 		obj.attack = function()
 		{
@@ -1203,6 +1228,7 @@ window.onload = function()
 		A.map[13][12] = 7;
 		
 		A.objects.push(new A.ObjectPlayer2Tower1([ 10, 11 ]));
+		A.objects.push(new A.ObjectPlayer2Tower2([ 13, 10 ]));
 	}
 	
 	A.init_textures = function()
@@ -1231,6 +1257,7 @@ window.onload = function()
 		A.texture_create("b3", "p9aSSSeeS.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.texture_create(20, "pbbf7f//w/s.aAFpdbAsAwf/f7.aAFpdbAsf7/sfc.aAF", A.TEXTURE_SIZE_64X64); // ObjectPlayer2* concrete base tile
 		A.texture_create(21, "peebgYrftmrjg.pfeLiutmV.peecabgfjjgia.pfeaTUete.peeeRcafciagR.pcffIYMYQZRfUkRmOkK.", A.TEXTURE_SIZE_64X64); // ObjectPlayer2Tower1
+		A.texture_create(22, "pllbgYrftmrjg.pmlLiutmV.pllcabgfjjgia.pmlaTUete.plleRcafciagR.pcmfIYMYQZRfUkRmOkK.", A.TEXTURE_SIZE_64X64); // ObjectPlayer2Tower2
 		// A.texture_create(21, "peebgYrftmrjg.pfeLiutmV.aAKpeecabgfjjgia.pfeaTUete.aAKpeeeRcafciagR.pcffIYMYQZRfUkRmOkK.aAF", A.TEXTURE_SIZE_64X64);
 		A.texture_create("c1", "pggRRR1chuh.", A.TEXTURE_SIZE_24X24); // toolbar icon, mouse
 		A.texture_create("c2", "pgghJZbGbbmQ2kp7xpg4WmW.", A.TEXTURE_SIZE_24X24); // toolbar icon, explode
