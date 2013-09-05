@@ -235,6 +235,10 @@ window.onload = function()
 		obj.attack_target_selection_method = 0; /* select the 0: nearest, 1: farthest, 2: weakest, 3: strongest */
 		obj.attack_target_selection_lock = 1; /* 0: always rerun the selection method, 1: lock on selected target */
 		
+		obj.attack = function()
+		{
+		}
+		
 		obj.on_ready_to_attack = function()
 		{
 			var targets;
@@ -264,18 +268,9 @@ window.onload = function()
 				return;
 			}
 			
-			// attack gfx
-			// TODO: move the start and end points to their correct positions
-			A.gfx_shots.push([
-				A._2d_subtract(this.position_on_layer, [ 0, 32 ]), // start position
-				A._2d_subtract(A.objects[this.attack_target_object_id].position_on_layer, [ A._random_int(-4, 4, 1), A._random_int(12, 20, 1) ]), // end position
-				2, // width
-				0.2, // seconds left to display
-				0.2 // seconds total display
-			]);
+			this.attack();
 			
-			// attack
-			A.hit_nearby_objects(A.objects[this.attack_target_object_id].position, this.attack_damage, this.attack_impact_radius, this.owner_player);
+			// generic part of the atack
 			this.attack_cycle_time[0] = 0;
 			this.attack_ammo[0]--;
 			
@@ -396,6 +391,22 @@ window.onload = function()
 	A.ObjectPlayer2Tower1 = function(position)
 	{
 		var obj = new A.ObjectPlayer2Base(position, 100, 20, 0.5, 2, [ [ 20, -32, -48 ], [ 21, -32, -48 ] ]);
+		
+		obj.attack = function()
+		{
+			// attack gfx
+			// TODO: move the start and end points to their correct positions
+			A.gfx_shots.push([
+				A._2d_subtract(this.position_on_layer, [ 0, 32 ]), // start position
+				A._2d_subtract(A.objects[this.attack_target_object_id].position_on_layer, [ A._random_int(-4, 4, 1), A._random_int(12, 20, 1) ]), // end position
+				2, // width
+				0.2, // seconds left to display
+				0.2 // seconds total display
+			]);
+			
+			A.hit_nearby_objects(A.objects[this.attack_target_object_id].position, this.attack_damage, this.attack_impact_radius, this.owner_player);
+		}
+		
 		return obj;
 	}
 	
