@@ -1,0 +1,33 @@
+bugs
+[ ] fix the issue when an object leaves the screen and causes an error after ctx.save() but before ctx.restore() so screen scrolls away
+
+gameplay
+[ ] add proper queue management for player 1
+[ ] add building creation by player 2
+[ ] add coin management
+[ ] add some coins, maybe?
+[ ] add "explode here" point(s?) for player 1
+
+engine
+[ ] add automatic generation of road tiles
+  [ ] add automatic generation of ObjectPlayer1Switch objects
+[ ] add two more directions to ObjectPlayer1Switch and process_objects()
+
+player 1
+[ ] add more objects...
+
+player 2
+[ ] add more objects...
+
+gfx
+[ ] fix building base (square, not hexagon)
+[ ] fix player 2 selection highlight
+[ ] resize bars to avoid overlaps for player 2
+[ ] make background for bars green on selected objects, maybe?
+[ ] add on-screen popup captions "+$100" and so on
+[ ] add fire effect
+[ ] add lightning effect
+[ ] fix sprites for ObjectPlayer1Switch
+
+sfx
+[ ] create it
