@@ -1131,16 +1131,16 @@ window.onload = function()
 			}
 			else
 			{
-				A.gui_render_bar_background(p[0] - 34, p[1] + 6, 68, 14);
-				A.gui_render_bar(p[0] - 32, p[1] + 8, 64, A.objects[i].health[0] / A.objects[i].health[1] , "#5f0");
+				A.gui_render_bar_background(p[0] - 24, p[1] + 6, 48, 14);
+				A.gui_render_bar(p[0] - 22, p[1] + 8, 44, A.objects[i].health[0] / A.objects[i].health[1] , "#5f0");
 				if (A.objects[i].attack_status == A.ATTACK_STATUS_RELOADING)
 				{
-					A.gui_render_bar(p[0] - 32, p[1] + 14, 64, A.objects[i].attack_reload_time[0] / A.objects[i].attack_reload_time[1], "#bbb");
+					A.gui_render_bar(p[0] - 22, p[1] + 14, 44, A.objects[i].attack_reload_time[0] / A.objects[i].attack_reload_time[1], "#bbb");
 				}
 				else
 				{
-					A.gui_render_bar(p[0] - 32, p[1] + 14, 48, A.objects[i].attack_ammo[0] / A.objects[i].attack_ammo[1], "#ee0");
-					A.gui_render_bar(p[0] + 16, p[1] + 14, 16, A.objects[i].attack_cycle_time[0] / A.objects[i].attack_cycle_time[1], "#eee");
+					A.gui_render_bar(p[0] - 22, p[1] + 14, 32, A.objects[i].attack_ammo[0] / A.objects[i].attack_ammo[1], "#ee0");
+					A.gui_render_bar(p[0] + 10, p[1] + 14, 12, A.objects[i].attack_cycle_time[0] / A.objects[i].attack_cycle_time[1], "#eee");
 				}
 			}
 		}
