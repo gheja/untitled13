@@ -1296,7 +1296,7 @@ window.onload = function()
 		var i, j, obj;
 		
 		A.golds = [ 1000, 1000 ];
-		A.player1_queues = [ [ [ -2.5, 1 ], 1, 40, 40, [] ] ];
+		A.player1_queues = [ [ [ -2.5, 1 ], 1, 40, 40, [] ], [ [ -2.5, 14 ], 1, 40, 40, [] ] ];
 		
 		for (j=0; j<A.config.world_width; j++)
 		{
