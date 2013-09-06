@@ -67,6 +67,9 @@ window.onload = function()
 	A.objects = [];
 	A.fog = []; /* hidden tiles from the current player */
 	
+	A.shots = []; /* array of real shots: [ [ [ pos_x, pos_y ], [ speed_x, speed_y ], [ speed_multiplier_x, speed_multiplier_y ], class, ticks_left ], ... ] */
+	/* shot classes: 1: fire */
+	
 	/* just the effects */
 	A.gfx_effect_shot = []; /* array of shots: [ [ [ start_x, start_y ], [ end_x, end_y ], width, seconds_left_to_display, seconds_total_display ], ... ] */
 	
@@ -1400,6 +1403,35 @@ window.onload = function()
 		A.cursor_position_in_world = A._layer_position_to_world_position([ A.inputs.mouse_position[0] + A.scroll[0], A.inputs.mouse_position[1] + A.scroll[1] ]);
 	}
 	
+	A.process_shots = function()
+	{
+		var i, p;
+		
+		for (i in A.shots)
+		{
+			// A.hit_nearby_objects(A.objects[this.attack_target_object_id].position, this.attack_damage, this.attack_impact_radius, this.owner_player);
+			
+			p = A._world_position_to_layer_position(A.shots[i][0]);
+			
+			// move the shot
+			A.shots[i][0][0] += A.shots[i][1][0] * A.seconds_passed_since_last_tick;
+			A.shots[i][0][1] += A.shots[i][1][1] * A.seconds_passed_since_last_tick;
+			
+			// apply the multiplier
+			A.shots[i][1][0] *= A.shots[i][2][0];
+			A.shots[i][1][1] *= A.shots[i][2][1];
+			
+			// decrease remaining ticks
+			A.shots[i][4]--;
+			
+			// clean up if no ticks remaining
+			if (A.shots[i][4] == 0)
+			{
+				A.shots = A._remove_array_item(A.shots, i);
+			}
+		}
+	}
+	
 	A.process_objects = function()
 	{
 		var i, j, moved;
@@ -1462,6 +1494,7 @@ window.onload = function()
 	{
 		A.tick_number++;
 		A.process_input();
+		A.process_shots();
 		A.process_objects();
 	}
 	
