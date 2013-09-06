@@ -67,7 +67,7 @@ window.onload = function()
 	A.objects = [];
 	A.fog = []; /* hidden tiles from the current player */
 	
-	A.shots = []; /* array of real shots: [ [ [ pos_x, pos_y ], [ speed_x, speed_y ], [ speed_multiplier_x, speed_multiplier_y ], class, ticks_left ], ... ] */
+	A.shots = []; /* array of real shots: [ [ [ pos_x, pos_y ], [ speed_x, speed_y ], [ speed_multiplier_x, speed_multiplier_y ], class, ticks_left, damage, radius, attacker_player ], ... ] */
 	/* shot classes: 1: fire */
 	
 	/* just the effects */
@@ -425,7 +425,7 @@ window.onload = function()
 		{
 			var angle = A._2d_angle(this.position, A.objects[this.attack_target_object_id].position);
 			
-			A.shots.push([ A._2d_copy(this.position), [ Math.sin(angle) * -10, Math.cos(angle) * -10 ], [ 0.9, 0.9 ], 1, 25 ]);
+			A.shots.push([ A._2d_copy(this.position), [ Math.sin(angle) * -10, Math.cos(angle) * -10 ], [ 0.9, 0.9 ], 1, 25, this.attack_damage, this.attack_impact_radius, this.owner_player ]);
 		}
 		
 		return obj;
@@ -1401,7 +1401,8 @@ window.onload = function()
 		
 		for (i in A.shots)
 		{
-			// A.hit_nearby_objects(A.objects[this.attack_target_object_id].position, this.attack_damage, this.attack_impact_radius, this.owner_player);
+			// hit the objects nearby shot
+			A.hit_nearby_objects(A.shots[i][0], A.shots[i][5], A.shots[i][6], A.shots[i][7]);
 			
 			p = A._world_position_to_layer_position(A.shots[i][0]);
 			
