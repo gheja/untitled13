@@ -33,6 +33,7 @@ window.onload = function()
 	A.current_player = 1;
 	A.shake = 0;
 	A.selected_tool = 0;
+	A.golds = []; /* golds of player 1 and player 2 */
 	A.inputs = { modified: 0, mouse_position: [ 640, 360 ], mouse_on_canvas: 0, mouse_click_position: [ 0, 0 ], mouse_button_statuses: [ 0, 0, 0 ] };
 	A.inputs_prev = {};
 	A.cursor_position_in_world = [ 10, 10 ]; /* tiles */
@@ -1144,6 +1145,10 @@ window.onload = function()
 				}
 			}
 		}
+		
+		c.fillStyle = "#fff";
+		c.font = "16px Arial bold";
+		c.fillText(A.golds[A.current_player], A.cv.cv.width - 100, 18);
 	}
 	
 	A.handle_mouseout = function(event)
@@ -1262,6 +1267,8 @@ window.onload = function()
 	A.init_map = function()
 	{
 		var i, j, obj;
+		
+		A.golds = [ 1000, 1000 ];
 		
 		for (j=0; j<A.config.world_width; j++)
 		{
