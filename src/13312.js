@@ -1103,7 +1103,7 @@ window.onload = function()
 			c.fillRect(4, 4, 300, 32);
 			color1 = "#000";
 			
-			for (i=0; i<3; i++)
+			for (i in A.player1_queues)
 			{
 				c.fillStyle = "rgba(" + ((A.player1_current_queue == i) ? "160,40,0" : "120,0,0") + ",0.3)";
 				c.fillRect(4, 40 + i * 30, 300, 28);
