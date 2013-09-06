@@ -34,6 +34,8 @@ window.onload = function()
 	A.shake = 0;
 	A.selected_tool = 0;
 	A.golds = []; /* golds of player 1 and player 2 */
+	A.player1_queues = []; /* array of queues */
+	A.player1_current_queue = 0;
 	A.inputs = { modified: 0, mouse_position: [ 640, 360 ], mouse_on_canvas: 0, mouse_click_position: [ 0, 0 ], mouse_button_statuses: [ 0, 0, 0 ] };
 	A.inputs_prev = {};
 	A.cursor_position_in_world = [ 10, 10 ]; /* tiles */
@@ -1085,9 +1087,9 @@ window.onload = function()
 			);
 			c.fillRect(4, 4, 300, 32);
 			
-			c.fillStyle = "rgba(120,0,0,0.3)";
 			for (i=0; i<3; i++)
 			{
+				c.fillStyle = "rgba(" + ((A.player1_current_queue == i) ? "160,40,0" : "120,0,0") + ",0.3)";
 				c.fillRect(4, 40 + i * 36, 300, 32);
 			}
 			
