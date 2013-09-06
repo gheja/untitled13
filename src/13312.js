@@ -72,6 +72,7 @@ window.onload = function()
 	
 	/* just the effects */
 	A.gfx_effect_shot = []; /* array of shots: [ [ [ start_x, start_y ], [ end_x, end_y ], width, seconds_left_to_display, seconds_total_display ], ... ] */
+	A.gfx_effect_fire = []; /* array of fire particles: [ [ [ pos_x, pos_y ], [ speed_x, speed_y ], seconds_left_to_display, seconds_total_display ], ... ] */
 	
 	A.hexagon_neighbours = [ // we will not calculate them every time
 		[ [0,  0] ],
@@ -720,6 +721,65 @@ window.onload = function()
 		A.cv.ctx.drawImage(A.textures[texture_id].cv, x, y);
 	}
 	
+	A.gfx_render_fire_particle = function(position, progress)
+	{
+		var a, radius, c = A.cv.ctx;
+		
+		if (progress < 0.2)
+		{
+			a = (progress / 0.2);
+			radius = 6 + a * 8;
+			c.fillStyle = "rgba(255,255," + Math.floor(255 - a * 255) + ",0.7)";
+		}
+		else if (progress < 0.5)
+		{
+			a = (progress - 0.2) / 0.3;
+			radius = 14 + a * 6;
+			c.fillStyle = "rgba(255," + Math.floor(255 - a * 255) + ",0," + (0.7 - a * 0.5) + ")";
+		}
+		else if (progress < 0.7)
+		{
+			a = (progress - 0.5) / 0.2;
+			radius = 20 + a * -4;
+			c.fillStyle = "rgba(" + Math.floor(255 - a * 255) + ",0,0," + (0.2 - a * 0.2) + ")";
+		}
+		else
+		{
+			a = (progress - 0.7) / 0.3;
+			radius = 16 + a * -2;
+			c.fillStyle = "rgba(0,0,0," + (0.1 - a * 0.1) + ")";
+		}
+		
+		c.beginPath();
+		c.arc(position[0], position[1], radius, 0, 2 * Math.PI, false);
+		c.fill();
+		c.closePath();
+	}
+	
+	A.gfx_render_fire = function()
+	{
+		var i;
+		
+		for (i in A.gfx_effect_fire)
+		{
+			// TODO: this does not calculate the passed time (effect is fps-dependent)
+			A.gfx_effect_fire[i][0][0] += A.gfx_effect_fire[i][1][0] * A.seconds_passed_since_last_frame;
+			A.gfx_effect_fire[i][0][1] += A.gfx_effect_fire[i][1][1] * A.seconds_passed_since_last_frame;
+			
+			A.gfx_effect_fire[i][1][0] *= 0.99;
+			A.gfx_effect_fire[i][1][1] *= 0.99;
+			
+			A.gfx_render_fire_particle(A.gfx_effect_fire[i][0], 1 - A.gfx_effect_fire[i][2] / A.gfx_effect_fire[i][3]);
+			
+			A.gfx_effect_fire[i][2] -= A.seconds_passed_since_last_frame;
+			
+			if (A.gfx_effect_fire[i][2] < 0)
+			{
+				A.gfx_effect_fire = A._remove_array_item(A.gfx_effect_fire, i);
+			}
+		}
+	}
+	
 	A.gui_render_button = function(button_order, texture_id, color)
 	{
 		var c = A.cv.ctx;
@@ -995,6 +1055,8 @@ window.onload = function()
 				A.gfx_effect_shot = A._remove_array_item(A.gfx_effect_shot, i);
 			}
 		}
+		
+		A.gfx_render_fire();
 	}
 	
 	A.render_layer3 = function()
@@ -1421,6 +1483,8 @@ window.onload = function()
 			A.hit_nearby_objects(A.shots[i][0], A.shots[i][5], A.shots[i][6], A.shots[i][7]);
 			
 			p = A._world_position_to_layer_position(A.shots[i][0]);
+			
+			A.gfx_effect_fire.push([ [ p[0] + A._random_float(-10, 10), p[1] + A._random_float(-10, 10) ], [ A.shots[i][1][0], A.shots[i][1][0] - 50 ], 1, 1 ]);
 			
 			// move the shot
 			A.shots[i][0][0] += A.shots[i][1][0] * A.seconds_passed_since_last_tick;
