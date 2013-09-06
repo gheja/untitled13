@@ -396,7 +396,9 @@ window.onload = function()
 	/** @constructor */
 	A.ObjectPlayer2Tower1 = function(position)
 	{
-		var obj = new A.ObjectPlayer2Base(position, 100, 20, 0.5, 2, [ [ 20, -32, -48 ], [ 21, -32, -48 ] ]);
+		var obj = new A.ObjectPlayer2Base(position, 100, 40, 0.1, 2, [ [ 20, -32, -48 ], [ 21, -32, -48 ] ]);
+		
+		obj.attack_damage = 5;
 		
 		obj.attack = function()
 		{
@@ -419,7 +421,10 @@ window.onload = function()
 	/** @constructor */
 	A.ObjectPlayer2Tower2 = function(position)
 	{
-		var obj = new A.ObjectPlayer2Base(position, 100, 100, 0.1, 2, [ [ 20, -32, -48 ], [ 22, -32, -48 ] ]);
+		var obj = new A.ObjectPlayer2Base(position, 100, 100, 0, 2, [ [ 20, -32, -48 ], [ 22, -32, -48 ] ]);
+		
+		obj.attack_damage = 1;
+		obj.attack_impact_radius = 0.5;
 		
 		obj.attack = function()
 		{
