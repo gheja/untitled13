@@ -34,7 +34,7 @@ window.onload = function()
 	A.shake = 0;
 	A.selected_tool = 0;
 	A.golds = []; /* golds of player 1 and player 2 */
-	A.player1_queues = []; /* array of queues */
+	A.player1_queues = []; /* array of queues: [ [ [ position_x, position_y ], direction, ticks_until_pop, ticks_until_pop_total, [ obj1, obj2, ... ] ], ... ] */
 	A.player1_current_queue = 0;
 	A.inputs = { modified: 0, mouse_position: [ 640, 360 ], mouse_on_canvas: 0, mouse_click_position: [ 0, 0 ], mouse_button_statuses: [ 0, 0, 0 ] };
 	A.inputs_prev = {};
@@ -595,7 +595,7 @@ window.onload = function()
 			if (button_order == 2)
 			{
 				A.golds[0] -= 100;
-				A.player1_queues[A.player1_current_queue].push(1);
+				A.player1_queues[A.player1_current_queue][4].push(1);
 			}
 			else
 			{
@@ -1110,7 +1110,7 @@ window.onload = function()
 				k = 0;
 				for (j in A.player1_queues[i])
 				{
-					if (A.player1_queues[i][j] == 1)
+					if (A.player1_queues[i][4][j] == 1)
 					{
 						A.texture_show("c3", 4 + k*24, 40 + i*30);
 						k++;
@@ -1296,7 +1296,7 @@ window.onload = function()
 		var i, j, obj;
 		
 		A.golds = [ 1000, 1000 ];
-		A.player1_queues = [ [], [], [] ];
+		A.player1_queues = [ [ [ -2.5, 1 ], 1, 40, 40, [] ] ];
 		
 		for (j=0; j<A.config.world_width; j++)
 		{
@@ -1327,12 +1327,6 @@ window.onload = function()
 				[ 12, 10, 9, 0 ]
 			]
 		);
-		
-		for (i=0; i<5; i++)
-		{
-			A.objects.push(new A.ObjectPlayer1Ghost1([ -2 - i, 1 ], 1));
-			A.objects.push(new A.ObjectPlayer1Ghost1([ -2 - i, 14 ], 1));
-		}
 		
 		A.map[7][7] = 7;
 		A.map[7][8] = 7;
@@ -1508,6 +1502,25 @@ window.onload = function()
 		A.cursor_position_in_world = A._layer_position_to_world_position([ A.inputs.mouse_position[0] + A.scroll[0], A.inputs.mouse_position[1] + A.scroll[1] ]);
 	}
 	
+	A.process_player1_queues = function()
+	{
+		var i, j, q;
+		for (i in A.player1_queues)
+		{
+			q = A.player1_queues[i];
+			q[2]--;
+			if (q[2] == 0)
+			{
+				q[2] = q[3];
+				j = q[4].pop();
+				if (j == 1)
+				{
+					A.objects.push(new A.ObjectPlayer1Ghost1(A._2d_copy(q[0]), q[1]));
+				}
+			}
+		}
+	}
+	
 	A.process_shots = function()
 	{
 		var i, p;
@@ -1602,6 +1615,7 @@ window.onload = function()
 	{
 		A.tick_number++;
 		A.process_input();
+		A.process_player1_queues();
 		A.process_shots();
 		A.process_objects();
 	}
