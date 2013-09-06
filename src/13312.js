@@ -1165,7 +1165,7 @@ window.onload = function()
 		
 		c.fillStyle = "#fff";
 		c.font = "16px Arial bold";
-		c.fillText(A.golds[A.current_player], A.cv.cv.width - 100, 18);
+		c.fillText(A.golds[A.current_player - 1], A.cv.cv.width - 100, 18);
 	}
 	
 	A.handle_mouseout = function(event)
