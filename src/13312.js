@@ -423,17 +423,9 @@ window.onload = function()
 		
 		obj.attack = function()
 		{
-			// attack gfx
-			// TODO: move the start and end points to their correct positions
-			A.gfx_effect_shot.push([
-				A._2d_subtract(this.position_on_layer, [ 0, 32 ]), // start position
-				A._2d_subtract(A.objects[this.attack_target_object_id].position_on_layer, [ A._random_int(-4, 4, 1), A._random_int(12, 20, 1) ]), // end position
-				2, // width
-				0.2, // seconds left to display
-				0.2 // seconds total display
-			]);
+			var angle = A._2d_angle(this.position, A.objects[this.attack_target_object_id].position);
 			
-			A.hit_nearby_objects(A.objects[this.attack_target_object_id].position, this.attack_damage, this.attack_impact_radius, this.owner_player);
+			A.shots.push([ A._2d_copy(this.position), [ Math.sin(angle) * -10, Math.cos(angle) * -10 ], [ 0.9, 0.9 ], 1, 25 ]);
 		}
 		
 		return obj;
