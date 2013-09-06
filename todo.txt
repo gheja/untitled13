@@ -1,6 +1,10 @@
 bugs
 [ ] fix the issue when an object leaves the screen and causes an error after ctx.save() but before ctx.restore() so screen scrolls away
 
+interface
+[ ] fix single click selection
+[ ] fix "reverse rectangle" selection (bottom-right then top-left)
+
 gameplay
 [ ] add proper queue management for player 1
 [ ] add building creation by player 2
@@ -24,7 +28,7 @@ player 2
 gfx
 [ ] fix building base (square, not hexagon)
 [ ] fix player 2 selection highlight
-[ ] resize bars to avoid overlaps for player 2
+[x] resize bars to avoid overlaps for player 2
 [ ] make background for bars green on selected objects, maybe?
 [ ] add on-screen popup captions "+$100" and so on
 [x] add fire effect
