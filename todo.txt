@@ -18,6 +18,7 @@ player 1
 [ ] add more objects...
 
 player 2
+[x] add second tower - fire!
 [ ] add more objects...
 
 gfx
@@ -26,7 +27,7 @@ gfx
 [ ] resize bars to avoid overlaps for player 2
 [ ] make background for bars green on selected objects, maybe?
 [ ] add on-screen popup captions "+$100" and so on
-[ ] add fire effect
+[x] add fire effect
 [ ] add lightning effect
 [ ] fix sprites for ObjectPlayer1Switch
 
