@@ -590,7 +590,22 @@ window.onload = function()
 	A.set_tool = function(button_order)
 	{
 		// TODO: validate selection
-		A.selected_tool = button_order;
+		if (A.current_player == 1)
+		{
+			if (button_order == 2)
+			{
+				A.golds[0] -= 100;
+				A.player1_queues[A.player1_current_queue].push(1);
+			}
+			else
+			{
+				A.selected_tool = button_order;
+			}
+		}
+		else
+		{
+			A.selected_tool = button_order;
+		}
 	}
 	
 	A.selection_clear = function()
