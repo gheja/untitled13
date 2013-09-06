@@ -1079,7 +1079,7 @@ window.onload = function()
 	
 	A.render_layer3 = function()
 	{
-		var i, p, c = A.cv.ctx;
+		var i, j, k, p, c = A.cv.ctx;
 		var color1;
 		
 		if (A.inputs.mouse_button_statuses[0] & 1)
@@ -1101,11 +1101,21 @@ window.onload = function()
 				]
 			);
 			c.fillRect(4, 4, 300, 32);
+			color1 = "#000";
 			
 			for (i=0; i<3; i++)
 			{
 				c.fillStyle = "rgba(" + ((A.player1_current_queue == i) ? "160,40,0" : "120,0,0") + ",0.3)";
-				c.fillRect(4, 40 + i * 36, 300, 32);
+				c.fillRect(4, 40 + i * 30, 300, 28);
+				k = 0;
+				for (j in A.player1_queues[i])
+				{
+					if (A.player1_queues[i][j] == 1)
+					{
+						A.texture_show("c3", 4 + k*24, 40 + i*30);
+						k++;
+					}
+				}
 			}
 			
 			color1 = "#a20";
@@ -1286,6 +1296,7 @@ window.onload = function()
 		var i, j, obj;
 		
 		A.golds = [ 1000, 1000 ];
+		A.player1_queues = [ [], [], [] ];
 		
 		for (j=0; j<A.config.world_width; j++)
 		{
