@@ -573,6 +573,16 @@ window.onload = function()
 		return [ a[0] - b[0], a[1] - b[1] ];
 	}
 	
+	A._2d_copy = function(a)
+	{
+		return [ a[0], a[1] ];
+	}
+	
+	A._2d_angle = function(a, b)
+	{
+		return Math.atan2(a[0] - b[0], a[1] - b[1]);
+	}
+	
 	A.set_tool = function(button_order)
 	{
 		// TODO: validate selection
