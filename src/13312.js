@@ -838,6 +838,17 @@ window.onload = function()
 		A.render_layer_map();
 		A.render_layer1();
 		A.render_layer2();
+		
+		////// DEBUG
+		var i, p;
+		for (i in A.shots)
+		{
+			p = A._world_position_to_layer_position(A.shots[i][0]);
+			A.cv.ctx.fillStyle = "#f0f";
+			A.cv.ctx.fillRect(p[0]-1, p[1]-1, 3, 3);
+		}
+		//////
+		
 		A.cv.ctx.restore();
 		
 		// fixed to the screen not to the world
