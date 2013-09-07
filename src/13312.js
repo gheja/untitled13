@@ -1143,8 +1143,6 @@ window.onload = function()
 		A.gui_render_button(4, "c0", color1);
 		A.gui_render_button(5, "c0", color1);
 		
-		A.texture_show(8, A.inputs.mouse_position[0], A.inputs.mouse_position[1]);
-		
 		for (i in A.objects)
 		{
 			if (A.objects[i].owner_player != A.current_player || A.objects[i].permanent || (A.objects[i].gui_show_bars_until_tick < A.tick_number && !A.objects[i].selected))
@@ -1176,6 +1174,8 @@ window.onload = function()
 		c.fillStyle = "#fff";
 		c.font = "16px Arial bold";
 		c.fillText(A.golds[A.current_player - 1], A.cv.cv.width - 100, 18);
+		
+		A.texture_show(8, A.inputs.mouse_position[0], A.inputs.mouse_position[1]);
 	}
 	
 	A.handle_mouseout = function(event)
