@@ -18,6 +18,7 @@ engine
   [ ] add automatic generation of concrete tiles
 [ ] add two more directions to ObjectPlayer1Switch and process_objects()
 [ ] client-server-client event queue
+[ ] redesign rendering, render tile by tile based on depth
 
 player 1
 [ ] add more objects...
