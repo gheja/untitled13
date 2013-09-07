@@ -17,13 +17,22 @@ engine
   [ ] add automatic generation of ObjectPlayer1Switch objects
   [ ] add automatic generation of concrete tiles
 [ ] add two more directions to ObjectPlayer1Switch and process_objects()
+[ ] client-server-client event queue
 
 player 1
 [ ] add more objects...
+  [ ] large ghost
+  [ ] hider
+  [ ] "kabooom"
 
 player 2
 [x] add second tower - fire!
 [ ] add more objects...
+  [ ] double gun tower
+  [ ] laser tower
+  [ ] lightning tower
+  [ ] detector tower
+[ ] sell option
 
 gfx
 [ ] fix building base (square, not hexagon)
@@ -33,6 +42,8 @@ gfx
 [ ] add on-screen popup captions "+$100" and so on
 [x] add fire effect
 [ ] add lightning effect
+[ ] add smoke effect
+[ ] add "poof" effect
 [ ] fix sprites for ObjectPlayer1Switch
 
 sfx
