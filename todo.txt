@@ -8,7 +8,7 @@ interface
 gameplay
 [ ] add proper queue management for player 1
 [ ] add building creation by player 2
-[ ] add coin management
+[x] add coin management
 [ ] add some coins, maybe?
 [ ] add "explode here" point(s?) for player 1
 
