@@ -823,7 +823,7 @@ window.onload = function()
 		}
 	}
 	
-	A.gui_render_bar_background = function(x, y, width, height)
+	A.gfx__render_gui_bar_background = function(x, y, width, height)
 	{
 		A.cv.ctx.fillStyle = "rgba(0,0,0,0.3)";
 		A.cv.ctx.fillRect(x, y, width, height);
@@ -1157,12 +1157,12 @@ window.onload = function()
 			p = A._2d_subtract(A.objects[i].position_on_layer, A.scroll);
 			if (A.objects[i].owner_player == 1)
 			{
-				A.gui_render_bar_background(p[0] - 18, p[1] + 6, 36, 8);
+				A.gfx__render_gui_bar_background(p[0] - 18, p[1] + 6, 36, 8);
 				A.gui_render_bar(p[0] - 16, p[1] + 8, 32, A.objects[i].health[0] / A.objects[i].health[1], "#5f0");
 			}
 			else
 			{
-				A.gui_render_bar_background(p[0] - 24, p[1] + 6, 48, 14);
+				A.gfx__render_gui_bar_background(p[0] - 24, p[1] + 6, 48, 14);
 				A.gui_render_bar(p[0] - 22, p[1] + 8, 44, A.objects[i].health[0] / A.objects[i].health[1] , "#5f0");
 				if (A.objects[i].attack_status == A.ATTACK_STATUS_RELOADING)
 				{
