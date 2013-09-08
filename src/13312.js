@@ -707,15 +707,15 @@ window.onload = function()
 				[ [  8,  8 ], "c1", "1", A.set_tool, 1 ],
 				[ [ 34,  8 ], "c2", "2", A.set_tool, 2 ],
 				[ [ 60,  8 ], "c3", "3", A.set_tool, 3 ],
-				[ [  4, 40 ], "c0", "Q", A.player1_queue_select, 0 ],
+				[ [  4, 40 ], "c0", "Q", A.player1_queue_startstop, 0 ],
 				[ [ 28, 40 ], "c0", "W", A.player1_queue_decrease_pop_time, 0 ],
-				[ [ 52, 40 ], "c0", "E", A.player1_queue_startstop, 0 ],
-				[ [  4, 66 ], "c0", "A", A.player1_queue_select, 1 ],
+				[ [ 52, 40 ], "c0", "E", A.player1_queue_select, 0 ],
+				[ [  4, 66 ], "c0", "A", A.player1_queue_startstop, 1 ],
 				[ [ 28, 66 ], "c0", "S", A.player1_queue_decrease_pop_time, 1 ],
-				[ [ 52, 66 ], "c0", "D", A.player1_queue_startstop, 1 ],
-				[ [  4, 92 ], "c0", "Z", A.player1_queue_select, 2 ],
+				[ [ 52, 66 ], "c0", "D", A.player1_queue_select, 1 ],
+				[ [  4, 92 ], "c0", "Z", A.player1_queue_startstop, 2 ],
 				[ [ 28, 92 ], "c0", "X", A.player1_queue_decrease_pop_time, 2 ],
-				[ [ 52, 92 ], "c0", "C", A.player1_queue_startstop, 2 ]
+				[ [ 52, 92 ], "c0", "C", A.player1_queue_select, 2 ]
 			];
 		}
 		else
