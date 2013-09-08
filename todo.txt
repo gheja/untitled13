@@ -25,6 +25,7 @@ player 1
   [ ] large ghost
   [ ] hider
   [ ] "kabooom"
+[ ] prevent collision of ghosts?
 
 player 2
 [x] add second tower - fire!
