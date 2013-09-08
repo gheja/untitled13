@@ -1,12 +1,12 @@
 bugs
-[ ] fix the issue when an object leaves the screen and causes an error after ctx.save() but before ctx.restore() so screen scrolls away
+[x] fix the issue when an object leaves the screen and causes an error after ctx.save() but before ctx.restore() so screen scrolls away
 
 interface
 [ ] fix single click selection
 [ ] fix "reverse rectangle" selection (bottom-right then top-left)
 
 gameplay
-[ ] add proper queue management for player 1
+[x] add proper queue management for player 1
 [ ] add building creation by player 2
 [x] add coin management
 [ ] add some coins, maybe?
@@ -18,7 +18,7 @@ engine
   [ ] add automatic generation of concrete tiles
 [ ] add two more directions to ObjectPlayer1Switch and process_objects()
 [ ] client-server-client event queue
-[ ] redesign rendering, render tile by tile based on depth
+[x] redesign rendering, render tile by tile based on depth
 
 player 1
 [ ] add more objects...
