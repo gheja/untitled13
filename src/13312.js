@@ -1286,11 +1286,17 @@ window.onload = function()
 	
 	A.handle_mousedown_gui = function()
 	{
-		if (A.inputs.mouse_position[0] > 4 && A.inputs.mouse_position[0] < 304 &&
-			A.inputs.mouse_position[1] > 4 && A.inputs.mouse_position[1] < 36)
+		var i;
+		
+		for (i in A.gui_buttons)
 		{
-			A.set_tool(Math.floor((A.inputs.mouse_position[0] - 8) / 28));
-			return true;
+			// if button was hit
+			if (A._2d_between(A.inputs.mouse_position, A.gui_buttons[i][0], A._2d_add(A.gui_buttons[i][0], [ 24, 24 ])))
+			{
+				// call the button's function
+				A.gui_buttons[i][3](A.gui_buttons[i][4]);
+				return true;
+			}
 		}
 		return false;
 	}
