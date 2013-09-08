@@ -707,15 +707,15 @@ window.onload = function()
 				[ [  8,  8 ], "c1", "1", A.set_tool, 1 ],
 				[ [ 34,  8 ], "c2", "2", A.set_tool, 2 ],
 				[ [ 60,  8 ], "c3", "3", A.set_tool, 3 ],
-				[ [  4, 40 ], "c0", "Q", A.player1_queue_startstop, 0 ],
-				[ [ 28, 40 ], "c0", "W", A.player1_queue_decrease_pop_time, 0 ],
-				[ [ 52, 40 ], "c0", "E", A.player1_queue_select, 0 ],
-				[ [  4, 66 ], "c0", "A", A.player1_queue_startstop, 1 ],
-				[ [ 28, 66 ], "c0", "S", A.player1_queue_decrease_pop_time, 1 ],
-				[ [ 52, 66 ], "c0", "D", A.player1_queue_select, 1 ],
-				[ [  4, 92 ], "c0", "Z", A.player1_queue_startstop, 2 ],
-				[ [ 28, 92 ], "c0", "X", A.player1_queue_decrease_pop_time, 2 ],
-				[ [ 52, 92 ], "c0", "C", A.player1_queue_select, 2 ]
+				[ [  4, 40 ], "cx", "Q", A.player1_queue_startstop, 0 ],
+				[ [ 28, 40 ], "cx", "W", A.player1_queue_decrease_pop_time, 0 ],
+				[ [ 52, 40 ], "cx", "E", A.player1_queue_select, 0 ],
+				[ [  4, 66 ], "cx", "A", A.player1_queue_startstop, 1 ],
+				[ [ 28, 66 ], "cx", "S", A.player1_queue_decrease_pop_time, 1 ],
+				[ [ 52, 66 ], "cx", "D", A.player1_queue_select, 1 ],
+				[ [  4, 92 ], "cx", "Z", A.player1_queue_startstop, 2 ],
+				[ [ 28, 92 ], "cx", "X", A.player1_queue_decrease_pop_time, 2 ],
+				[ [ 52, 92 ], "cx", "C", A.player1_queue_select, 2 ]
 			];
 		}
 		else
@@ -1154,6 +1154,8 @@ window.onload = function()
 		{
 			for (i in A.player1_queues)
 			{
+				A.gfx__texture_put(A.player1_queues[i][5] == 1 ? "cc" : "cd", 4, 40 + i * 26);
+				A.gfx__texture_put(A.player1_current_queue == i ? "cb" : "ca", 52, 40 + i * 26);
 				A._cv_arc(c, [ 40, 52 + i * 26 ], 10, 1, "#411");
 				A._cv_arc(c, [ 40, 52 + i * 26 ], 10, (A.player1_queues[i][3] / 120), "#922");
 				A._cv_arc(c, [ 40, 52 + i * 26 ], 8, (A.player1_queues[i][2] / 120), "#fff");
@@ -1544,6 +1546,11 @@ window.onload = function()
 		A.gfx__texture_create("c2", "pgghJZbGbbmQ2kp7xpg4WmW.", A.TEXTURE_SIZE_24X24); // toolbar icon, explode
 		A.gfx__texture_create("c3", "pggagTlR7Z6b1j1l6u7rlkh.p11blftjl.", A.TEXTURE_SIZE_24X24); // toolbar icon, explode
 		A.gfx__texture_create("c0", "p11RdRTcKjKuTuyRyRdqdqTjOcOVTVd.", A.TEXTURE_SIZE_24X24); // toolbar icon, locked
+		A.gfx__texture_create("cx", "", A.TEXTURE_SIZE_24X24); // toolbar icon, empty
+		A.gfx__texture_create("ca", "p1gdddhhhhd.", A.TEXTURE_SIZE_24X24); // toolbar icon, middle dot
+		A.gfx__texture_create("cb", "pggdVdcVcVhdhdphphhphpdhdhV.", A.TEXTURE_SIZE_24X24); // toolbar icon, plus
+		A.gfx__texture_create("cc", "pggUTUrZrZT.pgglTlrsrsT.", A.TEXTURE_SIZE_24X24); // toolbar icon, pause
+		A.gfx__texture_create("cd", "pggXTXrof.", A.TEXTURE_SIZE_24X24); // toolbar icon, play
 	}
 	
 	A.find_targets = function(position, max_distance, player_id, skip_permanents)
