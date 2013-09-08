@@ -7,7 +7,8 @@ window.onload = function()
 		target_frames_per_seconds: 30,
 		world_width: 20,
 		world_height: 20,
-		bad_luck_mode: 0
+		bad_luck_mode: 0,
+		game_duration: 30
 	};
 	
 	/** @const */ A.TEXTURE_SIZE_32X32 = 0;
@@ -30,6 +31,7 @@ window.onload = function()
 	A.seconds_passed_since_last_frame = 0;
 	A.last_frame_timestamp = 0;
 	
+	A.game_time = 0;
 	A.current_player = 1;
 	A.shake = 0;
 	A.selected_tool = 0;
@@ -606,6 +608,19 @@ window.onload = function()
 		return x[0] >= a[0] && x[0] < b[0] && x[1] >= a[1] && x[1] < b[1];
 	}
 	
+	A._format_time = function(seconds)
+	{
+		var m, s, minus = seconds < 0;
+		if (minus)
+		{
+			seconds *= -1;
+		}
+		m = Math.floor(seconds / 60);
+		s = Math.floor(seconds % 60);
+		// z = Math.floor(seconds * 10 - Math.floor(seconds) * 10;
+		return (minus ? "-" : "") + (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+	}
+	
 	A.set_tool = function(button_order)
 	{
 		// TODO: validate selection
@@ -1146,6 +1161,8 @@ window.onload = function()
 		c.fillStyle = "#fff";
 		c.font = "16px Arial bold";
 		c.fillText(A.golds[A.current_player - 1], A.cv.cv.width - 100, 18);
+		c.fillStyle = (A.config.game_duration - A.game_time) > 0 ? "#fff" : "#ff0";
+		c.fillText(A._format_time(A.config.game_duration - A.game_time), A.cv.cv.width - 200, 18);
 	}
 	
 	A.gfx_render_gui_bars = function()
@@ -1441,6 +1458,7 @@ window.onload = function()
 	{
 		var i, j, obj;
 		
+		A.game_time = 0;
 		A.golds = [ 1000, 1000 ];
 		A.player1_queues = [ [ [ 0, 1 ], 1, 40, 40, [] ], [ [ 0, 14 ], 1, 40, 40, [] ], [ [ 6, 19 ], 0, 40, 40, [] ] ];
 		
@@ -1761,6 +1779,8 @@ window.onload = function()
 	A.tick = function()
 	{
 		A.tick_number++;
+		
+		A.game_time += A.seconds_passed_since_last_tick;
 		A.process_input();
 		A.process_player1_queues();
 		A.process_shots();
