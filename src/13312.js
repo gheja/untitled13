@@ -568,6 +568,19 @@ window.onload = function()
 		return gradient;
 	}
 	
+	A._cv_arc = function(c, position, radius, state, color)
+	{
+		var start = -Math.PI / 2;
+		var max = 2 * Math.PI;
+		
+		c.beginPath();
+		c.fillStyle = color;
+		c.moveTo(position[0], position[1]);
+		c.arc(position[0], position[1], radius, start, start + max * state, false);
+		c.fill();
+		c.closePath();
+	}
+	
 	A._2d_add = function(a, b)
 	{
 		return [ a[0] + b[0], a[1] + b[1] ];
@@ -1097,6 +1110,10 @@ window.onload = function()
 						k++;
 					}
 				}
+				
+				A._cv_arc(c, [ 46, 52 + i * 30 ], 10, 1, "#000");
+				A._cv_arc(c, [ 46, 52 + i * 30 ], 10, (A.player1_queues[i][3] / 120), "#622");
+				A._cv_arc(c, [ 46, 52 + i * 30 ], 8, (A.player1_queues[i][2] / 120), "#fff");
 			}
 			
 			color1 = "#a20";
