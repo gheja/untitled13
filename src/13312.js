@@ -803,7 +803,7 @@ window.onload = function()
 		}
 	}
 	
-	A.gui_render_button = function(button_order, texture_id, color)
+	A.gfx__render_gui_button = function(button_order, texture_id, color)
 	{
 		var c = A.cv.ctx;
 		
@@ -1141,12 +1141,12 @@ window.onload = function()
 		c.fillStyle = "rgba(0,0,0,0.2)";
 		c.fillRect(6, 6, 296, 28);
 		
-		A.gui_render_button(0, "c1", color1);
-		A.gui_render_button(1, "c2", color1);
-		A.gui_render_button(2, "c3", color1);
-		A.gui_render_button(3, "c0", color1);
-		A.gui_render_button(4, "c0", color1);
-		A.gui_render_button(5, "c0", color1);
+		A.gfx__render_gui_button(0, "c1", color1);
+		A.gfx__render_gui_button(1, "c2", color1);
+		A.gfx__render_gui_button(2, "c3", color1);
+		A.gfx__render_gui_button(3, "c0", color1);
+		A.gfx__render_gui_button(4, "c0", color1);
+		A.gfx__render_gui_button(5, "c0", color1);
 		
 		for (i in A.objects)
 		{
