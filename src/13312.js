@@ -744,7 +744,7 @@ window.onload = function()
 		A.cv.ctx.drawImage(A.textures[texture_id].cv, x, y);
 	}
 	
-	A.gfx_render_fire_particle = function(position, progress)
+	A.gfx__render_fire_particle = function(position, progress)
 	{
 		var a, radius, c = A.cv.ctx;
 		
