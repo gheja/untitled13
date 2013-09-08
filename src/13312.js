@@ -401,6 +401,27 @@ window.onload = function()
 	}
 	
 	/** @constructor */
+	A.ObjectPlayer1Destination = function(position, valid_directions, direction)
+	{
+		var obj = new A.ObjectPlayer1Base(position, 0, 0, -1, [ [ 13, -32, -16 ] ] );
+		obj.shadow_sprite_id = -1;
+		obj.hidden_from_other_player = 1;
+		obj.detection_distance = 0;
+		
+		obj.on_collision_middle = function(obj2, i, distance)
+		{
+			obj2.explode();
+		}
+		
+		obj.on_tick = function()
+		{
+			this.collision_check();
+		}
+		
+		return obj;
+	}
+	
+	/** @constructor */
 	A.ObjectPlayer2Tower1 = function(position)
 	{
 		var obj = new A.ObjectPlayer2Base(position, 100, 40, 0.1, 2, [ [ 20, -32, -48 ], [ 21, -32, -48 ] ]);
@@ -1512,11 +1533,13 @@ window.onload = function()
 		
 		A.objects.push(new A.ObjectPlayer2Tower1([ 10, 11 ]));
 		A.objects.push(new A.ObjectPlayer2Tower2([ 13, 10 ]));
+		A.objects.push(new A.ObjectPlayer1Destination([ 18, 6 ]));
 	}
 	
 	A.init_textures = function()
 	{
 		var grid = "IJAoY/23/YoA."
+		var grid2 = "LMElX40y7YnF.";
 		A.gfx__texture_create(0, "p23" + grid + "aAF", A.TEXTURE_SIZE_64X32); // grass tile
 		A.gfx__texture_create(1, "p01" + grid, A.TEXTURE_SIZE_64X32); // highlighted tile (cursor)
 		A.gfx__texture_create(2, "p45" + grid + "aAF", A.TEXTURE_SIZE_64X32); // road tile
@@ -1528,8 +1551,9 @@ window.onload = function()
 		A.gfx__texture_create(8, "pggAAAkKWbW.", A.TEXTURE_SIZE_32X32); // cursor
 		A.gfx__texture_create(9, "p00" + grid + "aHK", A.TEXTURE_SIZE_64X32); // fog (light)
 		A.gfx__texture_create(10, "p00" + grid + "aAC", A.TEXTURE_SIZE_64X32); // fog (heavy)
-		A.gfx__texture_create(11, "pihLMElX40y7YnF.", A.TEXTURE_SIZE_64X32); // small object selection
+		A.gfx__texture_create(11, "pih" + grid2, A.TEXTURE_SIZE_64X32); // small object selection
 		A.gfx__texture_create(12, "pkjMUKcTa.pkjjrizqw.pkjsOqVxT.", A.TEXTURE_SIZE_64X32); // small object selection
+		A.gfx__texture_create(13, "pkj" + grid2, A.TEXTURE_SIZE_64X32); // ObjectPlayer1Destination sprite
 		A.gfx__texture_create("a0", "p00gSsesS.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.gfx__texture_create("a1", "p00gssssg.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.gfx__texture_create("a2", "p00SgSses.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
