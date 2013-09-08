@@ -152,11 +152,11 @@ window.onload = function()
 		
 		obj.on_owner_click = function()
 		{
-			if (A.selected_tool == 0)
+			if (A.selected_tool == 1)
 			{
 				this.selected = !this.selected;
 			}
-			else if (A.selected_tool == 1)
+			else if (A.selected_tool == 2)
 			{
 				this.explode(); // or sell
 			}
@@ -377,7 +377,7 @@ window.onload = function()
 		
 		obj.on_owner_click = function()
 		{
-			if (A.selected_tool != 0)
+			if (A.selected_tool != 1)
 			{
 				return;
 			}
@@ -598,7 +598,7 @@ window.onload = function()
 		// TODO: validate selection
 		if (A.current_player == 1)
 		{
-			if (button_order == 2)
+			if (button_order == 3)
 			{
 				A.golds[0] -= 100;
 				A.player1_queues[A.player1_current_queue][4].push(1);
@@ -650,22 +650,22 @@ window.onload = function()
 	{
 		A.current_player = player_id;
 		A.selection_clear();
-		A.set_tool(0);
+		A.set_tool(1);
 		
 		if (player_id == 1)
 		{
 			A.gui_buttons = [
-				[ [  8,  8 ], "c1", "1", A.select_tool, [ 1 ] ],
-				[ [ 34,  8 ], "c2", "2", A.select_tool, [ 2 ] ],
-				[ [ 60,  8 ], "c3", "3", A.select_tool, [ 3 ] ]
+				[ [  8,  8 ], "c1", "1", A.set_tool, 1 ],
+				[ [ 34,  8 ], "c2", "2", A.set_tool, 2 ],
+				[ [ 60,  8 ], "c3", "3", A.set_tool, 3 ]
 			];
 		}
 		else
 		{
 			A.gui_buttons = [
-				[ [  8,  4 ], "c1", "1", A.select_tool, [ 1 ] ],
-				[ [ 34,  4 ], "c2", "2", A.select_tool, [ 2 ] ],
-				[ [ 60,  4 ], "c3", "3", A.select_tool, [ 3 ] ]
+				[ [  8,  4 ], "c1", "1", A.set_tool, 1 ],
+				[ [ 34,  4 ], "c2", "2", A.set_tool, 2 ],
+				[ [ 60,  4 ], "c3", "3", A.set_tool, 3 ]
 			];
 		}
 	}
