@@ -1538,7 +1538,7 @@ window.onload = function()
 	
 	A.init_textures = function()
 	{
-		var grid = "IJAoY/23/YoA."
+		var grid = "IJAoY/23/YoA.";
 		var grid2 = "LMElX40y7YnF.";
 		A.gfx__texture_create(0, "p23" + grid + "aAF", A.TEXTURE_SIZE_64X32); // grass tile
 		A.gfx__texture_create(1, "p01" + grid, A.TEXTURE_SIZE_64X32); // highlighted tile (cursor)
