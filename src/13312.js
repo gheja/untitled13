@@ -1158,11 +1158,12 @@ window.onload = function()
 			}
 		}
 		
-		c.fillStyle = "#fff";
 		c.font = "16px Arial bold";
-		c.fillText(A.golds[A.current_player - 1], A.cv.cv.width - 100, 18);
+		c.textAlign = "right";
+		c.fillStyle = "#fff";
+		c.fillText(A.golds[A.current_player - 1], A.cv.cv.width - 4, 18);
 		c.fillStyle = (A.config.game_duration - A.game_time) > 0 ? "#fff" : "#ff0";
-		c.fillText(A._format_time(A.config.game_duration - A.game_time), A.cv.cv.width - 200, 18);
+		c.fillText(A._format_time(A.config.game_duration - A.game_time), A.cv.cv.width - 70, 18);
 	}
 	
 	A.gfx_render_gui_bars = function()
