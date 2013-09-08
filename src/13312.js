@@ -1099,7 +1099,7 @@ window.onload = function()
 			
 			for (i in A.player1_queues)
 			{
-				c.fillStyle = "rgba(" + ((A.player1_current_queue == i) ? "160,40,0" : "120,0,0") + ",0.3)";
+				c.fillStyle = "rgba(" + ((A.player1_current_queue == i) ? "160,0,0" : "60,0,0") + ",0.3)";
 				c.fillRect(4, 40 + i * 30, 300, 28);
 				k = 0;
 				for (j in A.player1_queues[i])
@@ -1110,10 +1110,6 @@ window.onload = function()
 						k++;
 					}
 				}
-				
-				A._cv_arc(c, [ 46, 52 + i * 30 ], 10, 1, "#000");
-				A._cv_arc(c, [ 46, 52 + i * 30 ], 10, (A.player1_queues[i][3] / 120), "#622");
-				A._cv_arc(c, [ 46, 52 + i * 30 ], 8, (A.player1_queues[i][2] / 120), "#fff");
 			}
 			
 			color1 = "#a20";
@@ -1137,6 +1133,16 @@ window.onload = function()
 		for (i in A.gui_buttons)
 		{
 			A.gfx__render_gui_button(A.gui_buttons[i]);
+		}
+		
+		if (A.current_player == 1)
+		{
+			for (i in A.player1_queues)
+			{
+				A._cv_arc(c, [ 46, 52 + i * 30 ], 10, 1, "#411");
+				A._cv_arc(c, [ 46, 52 + i * 30 ], 10, (A.player1_queues[i][3] / 120), "#922");
+				A._cv_arc(c, [ 46, 52 + i * 30 ], 8, (A.player1_queues[i][2] / 120), "#fff");
+			}
 		}
 		
 		c.fillStyle = "#fff";
