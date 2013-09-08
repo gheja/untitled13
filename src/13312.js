@@ -686,11 +686,13 @@ window.onload = function()
 		{
 			A.player1_queues[queue_id][3] = 120;
 		}
+		A.player1_queue_select(queue_id);
 	}
 	
 	A.player1_queue_startstop = function(queue_id)
 	{
 		A.player1_queues[queue_id][5] = !A.player1_queues[queue_id][5];
+		A.player1_queue_select(queue_id);
 	}
 	
 	A.set_player = function(player_id)
