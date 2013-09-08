@@ -1597,7 +1597,7 @@ window.onload = function()
 		// TODO: fix scroll while selecting, until then this is disabled...
 		if (!(A.inputs.mouse_button_statuses[0] & 1) && A.inputs.mouse_on_canvas)
 		{
-			if (A.inputs.mouse_position[0] < 50 && A.inputs.mouse_position[1] > 52)
+			if (A.inputs.mouse_position[0] < 50 && A.inputs.mouse_position[1] > (A.current_player == 1 ? 146 : 52))
 			{
 				A.scroll[0] -= 200 * A.seconds_passed_since_last_tick;
 			}
