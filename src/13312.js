@@ -690,15 +690,15 @@ window.onload = function()
 				[ [  8,  8 ], "c1", "1", A.set_tool, 1 ],
 				[ [ 34,  8 ], "c2", "2", A.set_tool, 2 ],
 				[ [ 60,  8 ], "c3", "3", A.set_tool, 3 ],
-				[ [  8, 40 ], "c0", "Q", A.player1_queue_select, 0 ],
-				[ [ 34, 40 ], "c0", "W", A.player1_queue_decrease_pop_time, 0 ],
-				[ [ 60, 40 ], "c0", "E", A.player1_queue_startstop, 0 ],
-				[ [  8, 70 ], "c0", "A", A.player1_queue_select, 1 ],
-				[ [ 34, 70 ], "c0", "S", A.player1_queue_decrease_pop_time, 1 ],
-				[ [ 60, 70 ], "c0", "D", A.player1_queue_startstop, 1 ],
-				[ [  8,100 ], "c0", "Z", A.player1_queue_select, 2 ],
-				[ [ 34,100 ], "c0", "X", A.player1_queue_decrease_pop_time, 2 ],
-				[ [ 60,100 ], "c0", "C", A.player1_queue_startstop, 2 ]
+				[ [  4, 40 ], "c0", "Q", A.player1_queue_select, 0 ],
+				[ [ 28, 40 ], "c0", "W", A.player1_queue_decrease_pop_time, 0 ],
+				[ [ 52, 40 ], "c0", "E", A.player1_queue_startstop, 0 ],
+				[ [  4, 66 ], "c0", "A", A.player1_queue_select, 1 ],
+				[ [ 28, 66 ], "c0", "S", A.player1_queue_decrease_pop_time, 1 ],
+				[ [ 52, 66 ], "c0", "D", A.player1_queue_startstop, 1 ],
+				[ [  4, 92 ], "c0", "Z", A.player1_queue_select, 2 ],
+				[ [ 28, 92 ], "c0", "X", A.player1_queue_decrease_pop_time, 2 ],
+				[ [ 52, 92 ], "c0", "C", A.player1_queue_startstop, 2 ]
 			];
 		}
 		else
@@ -1097,14 +1097,14 @@ window.onload = function()
 			
 			for (i in A.player1_queues)
 			{
-				c.fillStyle = "rgba(" + ((A.player1_current_queue == i) ? "160,0,0" : "60,0,0") + ",0.3)";
-				c.fillRect(4, 40 + i * 30, 300, 28);
+				c.fillStyle = "rgba(200,0,0," + ((A.player1_current_queue == i) ? "0.3" : "0.1") + ")";
+				c.fillRect(4, 40 + i * 26, 72, 24);
 				k = 0;
-				for (j in A.player1_queues[i])
+				for (j in A.player1_queues[i][4])
 				{
 					if (A.player1_queues[i][4][j] == 1)
 					{
-						A.gfx__texture_put("c3", 4 + k*24, 40 + i*30);
+						A.gfx__texture_put("c3", 72 + k*24, 40 + i*26);
 						k++;
 					}
 				}
@@ -1137,9 +1137,9 @@ window.onload = function()
 		{
 			for (i in A.player1_queues)
 			{
-				A._cv_arc(c, [ 46, 52 + i * 30 ], 10, 1, "#411");
-				A._cv_arc(c, [ 46, 52 + i * 30 ], 10, (A.player1_queues[i][3] / 120), "#922");
-				A._cv_arc(c, [ 46, 52 + i * 30 ], 8, (A.player1_queues[i][2] / 120), "#fff");
+				A._cv_arc(c, [ 40, 52 + i * 26 ], 10, 1, "#411");
+				A._cv_arc(c, [ 40, 52 + i * 26 ], 10, (A.player1_queues[i][3] / 120), "#922");
+				A._cv_arc(c, [ 40, 52 + i * 26 ], 8, (A.player1_queues[i][2] / 120), "#fff");
 			}
 		}
 		
