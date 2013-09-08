@@ -1,8 +1,19 @@
-#!/bin/bash -e
+#!/bin/bash
 
-[ -d build ] || mkdir -p -m 700 build
-[ -d build/compiler ] || mkdir -p -m 700 build/compiler
-[ -d build/js13kgames_entry ] || mkdir -p -m 700 build/js13kgames_entry
+try()
+{
+	$@
+	
+	result=$?
+	if [ $result != 0 ]; then
+		echo "\"$@\" failed with exit code $result."
+		exit 1
+	fi
+}
+
+[ -d build ] || try mkdir -p -m 700 build
+[ -d build/compiler ] || try mkdir -p -m 700 build/compiler
+[ -d build/js13kgames_entry ] || try mkdir -p -m 700 build/js13kgames_entry
 
 which java 2>/dev/null >/dev/null
 if [ $? != 0 ]; then
@@ -17,32 +28,47 @@ if [ $? != 0 ]; then
 fi
 
 if [ ! -e build/compiler/compiler.jar ]; then
-	cd build/compiler
+	echo "* Closure Compiler not found."
+	
+	try cd build/compiler
 	
 	if [ ! -e compiler-latest.zip ]; then
-		wget http://closure-compiler.googlecode.com/files/compiler-latest.zip
+		echo "* Downloading Closure Compiler..."
+		try wget http://closure-compiler.googlecode.com/files/compiler-latest.zip
 	fi
 	
-	unzip compiler-latest.zip
+	echo "* Unzipping Closure Compiler... "
+	try unzip compiler-latest.zip
 	
-	cd ../..
+	try cd ../..
 fi
+echo "* Closure Compiler seems to be good."
 
+echo "* Cleaning up build directory..."
 rm build/js13kgames_entry/* || /bin/true
 
-java -jar build/compiler/compiler.jar \
+echo "* Copying resources..."
+try cp -xarv src/* build/js13kgames_entry/
+
+echo "* Running Closure Compiler..."
+try java -jar build/compiler/compiler.jar \
 	--compilation_level ADVANCED_OPTIMIZATIONS \
 	--use_types_for_optimization \
-	--js src/13312.js \
-	--js_output_file build/js13kgames_entry/13312.js
+	--js build/js13kgames_entry/13312.js \
+	--js_output_file build/js13kgames_entry/13312.min.js
 
-cp -xar src/index.html build/js13kgames_entry/
+try mv -f build/js13kgames_entry/13312.min.js build/js13kgames_entry/13312.js
 
-cd build
+try cd build
 
+echo "* Cleaning up old build archive..."
 rm 13312.zip || /bin/true
-zip 13312.zip -r js13kgames_entry
 
-cd ..
+echo "* Creating new archive..."
+try zip 13312.zip -r js13kgames_entry
+
+try cd ..
+
+echo "Done."
 
 du -b ./src ./build/js13kgames_entry ./build/13312.zip
