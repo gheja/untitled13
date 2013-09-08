@@ -37,7 +37,7 @@ window.onload = function()
 	A.selected_tool = 0;
 	A.gui_buttons = []; /* array of GUI buttons: [ [ [ position_x, position_y ], texture, hotkey, function_to_call, [ function_arg1, function_arg2, ... ] ], ... ] */
 	A.golds = []; /* golds of player 1 and player 2 */
-	A.player1_queues = []; /* array of queues: [ [ [ position_x, position_y ], direction, ticks_until_pop, ticks_until_pop_total, [ obj1, obj2, ... ] ], ... ] */
+	A.player1_queues = []; /* array of queues: [ [ [ position_x, position_y ], direction, ticks_until_pop, ticks_until_pop_total, [ obj1, obj2, ... ], is_started ], ... ] */
 	A.player1_current_queue = 0;
 	A.inputs = { modified: 0, mouse_position: [ 640, 360 ], mouse_on_canvas: 0, mouse_click_position: [ 0, 0 ], mouse_button_statuses: [ 0, 0, 0 ] };
 	A.inputs_prev = {};
@@ -690,7 +690,7 @@ window.onload = function()
 	
 	A.player1_queue_startstop = function(queue_id)
 	{
-		// TODO
+		A.player1_queues[queue_id][5] = !A.player1_queues[queue_id][5];
 	}
 	
 	A.set_player = function(player_id)
@@ -1461,7 +1461,7 @@ window.onload = function()
 		
 		A.game_time = 0;
 		A.golds = [ 1000, 1000 ];
-		A.player1_queues = [ [ [ 0, 1 ], 1, 40, 40, [] ], [ [ 0, 14 ], 1, 40, 40, [] ], [ [ 6, 19 ], 0, 40, 40, [] ] ];
+		A.player1_queues = [ [ [ 0, 1 ], 1, 40, 40, [], 0 ], [ [ 0, 14 ], 1, 40, 40, [], 0 ], [ [ 6, 19 ], 0, 40, 40, [], 0 ] ];
 		
 		for (j=0; j<A.config.world_width; j++)
 		{
@@ -1678,10 +1678,21 @@ window.onload = function()
 			if (q[2] == 0)
 			{
 				q[2] = q[3];
-				j = q[4].pop();
-				if (j == 1)
+				
+				// check if running
+				if (q[5] == 1)
 				{
-					A.objects.push(new A.ObjectPlayer1Ghost1(A._2d_copy(q[0]), q[1]));
+					j = q[4].pop();
+					if (j == 1)
+					{
+						A.objects.push(new A.ObjectPlayer1Ghost1(A._2d_copy(q[0]), q[1]));
+					}
+				}
+				
+				// stop the queue if it is empty
+				if (q[4][0] == undefined)
+				{
+					q[5] = 0;
 				}
 			}
 		}
