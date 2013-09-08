@@ -792,7 +792,7 @@ window.onload = function()
 			A.gfx_effect_fire[i][1][0] *= 0.99;
 			A.gfx_effect_fire[i][1][1] *= 0.99;
 			
-			A.gfx_render_fire_particle(A.gfx_effect_fire[i][0], 1 - A.gfx_effect_fire[i][2] / A.gfx_effect_fire[i][3]);
+			A.gfx__render_fire_particle(A.gfx_effect_fire[i][0], 1 - A.gfx_effect_fire[i][2] / A.gfx_effect_fire[i][3]);
 			
 			A.gfx_effect_fire[i][2] -= A.seconds_passed_since_last_frame;
 			
