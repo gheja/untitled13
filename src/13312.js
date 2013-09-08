@@ -33,6 +33,7 @@ window.onload = function()
 	A.current_player = 1;
 	A.shake = 0;
 	A.selected_tool = 0;
+	A.gui_buttons = []; /* array of GUI buttons: [ [ [ position_x, position_y ], texture, hotkey, function_to_call, [ function_arg1, function_arg2, ... ] ], ... ] */
 	A.golds = []; /* golds of player 1 and player 2 */
 	A.player1_queues = []; /* array of queues: [ [ [ position_x, position_y ], direction, ticks_until_pop, ticks_until_pop_total, [ obj1, obj2, ... ] ], ... ] */
 	A.player1_current_queue = 0;
@@ -650,6 +651,23 @@ window.onload = function()
 		A.current_player = player_id;
 		A.selection_clear();
 		A.set_tool(0);
+		
+		if (player_id == 1)
+		{
+			A.gui_buttons = [
+				[ [  8,  8 ], "c1", "1", A.select_tool, [ 1 ] ],
+				[ [ 34,  8 ], "c2", "2", A.select_tool, [ 2 ] ],
+				[ [ 60,  8 ], "c3", "3", A.select_tool, [ 3 ] ]
+			];
+		}
+		else
+		{
+			A.gui_buttons = [
+				[ [  8,  4 ], "c1", "1", A.select_tool, [ 1 ] ],
+				[ [ 34,  4 ], "c2", "2", A.select_tool, [ 2 ] ],
+				[ [ 60,  4 ], "c3", "3", A.select_tool, [ 3 ] ]
+			];
+		}
 	}
 	
 	A.gfx__texture_create = function(id, recipe, texture_size_id)
@@ -779,24 +797,25 @@ window.onload = function()
 		c.closePath();
 	}
 	
-	A.gfx__render_gui_button = function(button_order, texture_id, color)
+	A.gfx__render_gui_button = function(button)
 	{
 		var c = A.cv.ctx;
 		
-		if (A.selected_tool == button_order)
+		if (A.selected_tool == button[2])
 		{
-			c.fillStyle = color;
-			c.fillRect(8 + button_order * 28, 8, 24, 24);
+			c.fillStyle = "#000";
+			c.fillRect(button[0][0], button[0][1], 24, 24);
 			c.strokeStyle = "#fff";
-			A.gfx__texture_put(texture_id, 8 + button_order * 28, 8);
-			c.strokeRect(8 + button_order * 28, 8, 24, 24);
+			c.strokeRect(button[0][0], button[0][1], 24, 24);
+			A.gfx__texture_put(button[1], button[0][0], button[0][1]);
 		}
 		else
 		{
-			A.gfx__texture_put(texture_id, 8 + button_order * 28, 8);
-			c.fillStyle = "rgba(0,0,0,0.3)";
-			c.fillRect(8 + button_order * 28, 8, 24, 24);
+			A.gfx__texture_put(button[1], button[0][0], button[0][1]);
+			c.fillStyle = "rgba(0,0,0,0.1)";
+			c.fillRect(button[0][0], button[0][1], 24, 24);
 		}
+		// A.gfx__texture_put(button[1], button[0][0], button[0][1]);
 	}
 	
 	A.gfx__render_gui_bar_background = function(x, y, width, height)
@@ -1068,12 +1087,10 @@ window.onload = function()
 		c.fillStyle = "rgba(0,0,0,0.2)";
 		c.fillRect(6, 6, 296, 28);
 		
-		A.gfx__render_gui_button(0, "c1", color1);
-		A.gfx__render_gui_button(1, "c2", color1);
-		A.gfx__render_gui_button(2, "c3", color1);
-		A.gfx__render_gui_button(3, "c0", color1);
-		A.gfx__render_gui_button(4, "c0", color1);
-		A.gfx__render_gui_button(5, "c0", color1);
+		for (i in A.gui_buttons)
+		{
+			A.gfx__render_gui_button(A.gui_buttons[i]);
+		}
 		
 		c.fillStyle = "#fff";
 		c.font = "16px Arial bold";
