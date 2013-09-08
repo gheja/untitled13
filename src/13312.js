@@ -587,6 +587,11 @@ window.onload = function()
 		return Math.atan2(a[0] - b[0], a[1] - b[1]);
 	}
 	
+	A._2d_between = function(x, a, b)
+	{
+		return x[0] >= a[0] && x[0] < b[0] && x[1] >= a[1] && x[1] < b[1];
+	}
+	
 	A.set_tool = function(button_order)
 	{
 		// TODO: validate selection
