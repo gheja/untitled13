@@ -1776,15 +1776,20 @@ window.onload = function()
 		}
 	}
 	
+	A.process_game_status = function()
+	{
+		A.game_time += A.seconds_passed_since_last_tick;
+	}
+	
 	A.tick = function()
 	{
 		A.tick_number++;
 		
-		A.game_time += A.seconds_passed_since_last_tick;
 		A.process_input();
 		A.process_player1_queues();
 		A.process_shots();
 		A.process_objects();
+		A.process_game_status();
 	}
 	
 	A.render_frame = function()
