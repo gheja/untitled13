@@ -695,12 +695,10 @@ window.onload = function()
 				[ [ 60, 40 ], "c0", "E", A.player1_queue_startstop, 0 ],
 				[ [  8, 70 ], "c0", "A", A.player1_queue_select, 1 ],
 				[ [ 34, 70 ], "c0", "S", A.player1_queue_decrease_pop_time, 1 ],
-				[ [ 60, 70 ], "c0", "D", A.player1_queue_startstop, 1 ]
-/*
+				[ [ 60, 70 ], "c0", "D", A.player1_queue_startstop, 1 ],
 				[ [  8,100 ], "c0", "Z", A.player1_queue_select, 2 ],
 				[ [ 34,100 ], "c0", "X", A.player1_queue_decrease_pop_time, 2 ],
-				[ [ 60,100 ], "c0", "C", A.player1_queue_startstop, 2 ],
-*/
+				[ [ 60,100 ], "c0", "C", A.player1_queue_startstop, 2 ]
 			];
 		}
 		else
@@ -1444,7 +1442,7 @@ window.onload = function()
 		var i, j, obj;
 		
 		A.golds = [ 1000, 1000 ];
-		A.player1_queues = [ [ [ -2.5, 1 ], 1, 40, 40, [] ], [ [ -2.5, 14 ], 1, 40, 40, [] ] ];
+		A.player1_queues = [ [ [ 0, 1 ], 1, 40, 40, [] ], [ [ 0, 14 ], 1, 40, 40, [] ], [ [ 6, 19 ], 0, 40, 40, [] ] ];
 		
 		for (j=0; j<A.config.world_width; j++)
 		{
@@ -1464,13 +1462,14 @@ window.onload = function()
 				[ 13, 6, 18, 6 ],
 				[ 0, 14, 6, 14 ],
 				[ 6, 1, 6, 14 ],
-				[ 6, 10, 12, 10 ]
+				[ 6, 10, 12, 10 ],
+				[ 6, 15, 6, 19 ]
 			],
 			[
 				[ 6, 1, 14, 1 ],
 				[ 12, 1, 12, 2 ],
 				[ 12, 6, 7, 1 ],
-				[ 6, 14, 9, 0 ],
+				[ 6, 14, 13, 0 ],
 				[ 6, 10, 7, 1 ],
 				[ 12, 10, 9, 0 ]
 			]
