@@ -779,30 +779,6 @@ window.onload = function()
 		c.closePath();
 	}
 	
-	A.gfx_render_fire = function()
-	{
-		var i;
-		
-		for (i in A.gfx_effect_fire)
-		{
-			// TODO: this does not calculate the passed time (effect is fps-dependent)
-			A.gfx_effect_fire[i][0][0] += A.gfx_effect_fire[i][1][0] * A.seconds_passed_since_last_frame;
-			A.gfx_effect_fire[i][0][1] += A.gfx_effect_fire[i][1][1] * A.seconds_passed_since_last_frame;
-			
-			A.gfx_effect_fire[i][1][0] *= 0.99;
-			A.gfx_effect_fire[i][1][1] *= 0.99;
-			
-			A.gfx__render_fire_particle(A.gfx_effect_fire[i][0], 1 - A.gfx_effect_fire[i][2] / A.gfx_effect_fire[i][3]);
-			
-			A.gfx_effect_fire[i][2] -= A.seconds_passed_since_last_frame;
-			
-			if (A.gfx_effect_fire[i][2] < 0)
-			{
-				A.gfx_effect_fire = A._remove_array_item(A.gfx_effect_fire, i);
-			}
-		}
-	}
-	
 	A.gfx__render_gui_button = function(button_order, texture_id, color)
 	{
 		var c = A.cv.ctx;
@@ -846,6 +822,302 @@ window.onload = function()
 		);
 		A.cv.ctx.fillRect(x, y, width, 4);
 		
+	}
+	
+	A.gfx_render_map = function()
+	{
+		var a, b, p;
+		
+		for (a=0; a<A.config.world_width; a++)
+		{
+			for (b=0; b<A.config.world_height; b++)
+			{
+				p = A._world_position_to_layer_position([ a, b ]);
+				A.gfx__texture_put(A.map[a][b], p[0] - 32, p[1] - 16);
+			}
+		}
+		// A.gfx__texture_put(0, "r1", 0, 0);
+	}
+	
+	A.gfx_render_markers = function()
+	{
+		var p;
+		
+		p = A._world_position_to_layer_position([ Math.floor(A.cursor_position_in_world[0] - 0.5), Math.floor(A.cursor_position_in_world[1] + 0.5) ]);
+		A.gfx__texture_put(1, p[0] + 23, p[1] - 8);
+	}
+	
+	A.gfx_render_fog = function()
+	{
+		var a, b, p;
+		
+		for (a=0; a<A.config.world_width; a++)
+		{
+			for (b=0; b<A.config.world_height; b++)
+			{
+				if (A.fog[a][b] == 2)
+				{
+					p = A._world_position_to_layer_position([ a, b ]);
+					A.gfx__texture_put(9, p[0] - 32, p[1] - 16);
+				}
+				else if (A.fog[a][b] == 1)
+				{
+					p = A._world_position_to_layer_position([ a, b ]);
+					A.gfx__texture_put(10, p[0] - 32, p[1] - 16);
+				}
+			}
+		}
+	}
+	
+	A.gfx_render_objects = function(min_position, max_position) /* in world */
+	{
+		var i, p, obj, sprite;
+		
+		for (i in A.objects)
+		{
+			if (!A._2d_between(A.objects[i].position, min_position, max_position))
+			{
+				continue;
+			}
+			
+			obj = A.objects[i];
+			
+			if (obj.destroyed || (obj.owner_player != A.current_player && obj.hidden_from_other_player))
+			{
+				continue;
+			}
+			
+			// out of screen
+			if (!(obj.position[0] >= 0 && obj.position[0] < A.config.world_width && obj.position[1] >= 0 && obj.position[1] < A.config.world_height))
+			{
+				continue;
+			}
+			
+			if (A.fog[Math.round(obj.position[0])][Math.round(obj.position[1])] == 2)
+			{
+				continue;
+			}
+			
+			p = obj.position_on_layer;
+			
+			if (obj.selected)
+			{
+				A.gfx__texture_put(obj.selection_sprite_id, p[0] - 32, p[1] - 16);
+			}
+			
+			// show the targets for player 2
+			if (A.current_player == 2)
+			{
+				for (j in A.objects)
+				{
+					if (A.objects[j].owner_player == 2 && A.objects[j].attack_target_object_id == i)
+					{
+						A.gfx__texture_put(12, p[0] - 32, p[1] - 16);
+					}
+				}
+			}
+			
+			// shadow
+			if (obj.shadow_sprite_id != -1)
+			{
+				// TODO: this is for 64x32 sprites only
+				A.gfx__texture_put(obj.shadow_sprite_id, p[0] - 32, p[1] - 16);
+			}
+			
+			for (j in obj.sprites)
+			{
+				sprite = obj.sprites[j];
+				
+				// this is heavily eyecandy, that's why it's here and not in process_objects()
+				sprite[5] += sprite[7] * A.seconds_passed_since_last_frame;
+				sprite[6] += sprite[8] * A.seconds_passed_since_last_frame;
+				rx = (Math.cos(sprite[5]) * sprite[3]) || 0;
+				ry = (Math.sin(sprite[6]) * sprite[4]) || 0;
+				
+				A.gfx__texture_put(sprite[0], p[0] + sprite[1] + rx, p[1] + sprite[2] + ry);
+			}
+		}
+	}
+	
+	A.gfx_render_fire = function(min_position, max_position) /* position on layer */
+	{
+		var i;
+		
+		for (i in A.gfx_effect_fire)
+		{
+			if (!A._2d_between(A.gfx_effect_fire[i][0], min_position, max_position))
+			{
+				continue;
+			}
+			// TODO: this does not calculate the passed time (effect is fps-dependent)
+			A.gfx_effect_fire[i][0][0] += A.gfx_effect_fire[i][1][0] * A.seconds_passed_since_last_frame;
+			A.gfx_effect_fire[i][0][1] += A.gfx_effect_fire[i][1][1] * A.seconds_passed_since_last_frame;
+			
+			A.gfx_effect_fire[i][1][0] *= 0.99;
+			A.gfx_effect_fire[i][1][1] *= 0.99;
+			
+			A.gfx__render_fire_particle(A.gfx_effect_fire[i][0], 1 - A.gfx_effect_fire[i][2] / A.gfx_effect_fire[i][3]);
+			
+			A.gfx_effect_fire[i][2] -= A.seconds_passed_since_last_frame;
+			
+			if (A.gfx_effect_fire[i][2] < 0)
+			{
+				A.gfx_effect_fire = A._remove_array_item(A.gfx_effect_fire, i);
+			}
+		}
+	}
+	
+	A.gfx_render_shots = function(min_position, max_position) /* position on layer */
+	{
+		var i, a, c = A.cv.ctx;
+		
+		for (i in A.gfx_effect_shot)
+		{
+			if (!A._2d_between(A.gfx_effect_shot[i][0], min_position, max_position))
+			{
+				continue;
+			}
+			
+			a = (A.gfx_effect_shot[i][3]/A.gfx_effect_shot[i][4]);
+			
+			c.strokeStyle = A._cv_gradient(c, A.gfx_effect_shot[i][0], A.gfx_effect_shot[i][1],
+				[
+					[ 0, "rgba(255,255,0," + (0.7 * a) +")" ],
+					[ 0.5, "rgba(255,255,255," + a + ")" ],
+					[ 1, "rgba(255,255,255," + (0.9 * a) + ")" ]
+				]
+			);
+			
+			c.beginPath();
+			c.moveTo(A.gfx_effect_shot[i][0][0], A.gfx_effect_shot[i][0][1]);
+			c.lineTo(A.gfx_effect_shot[i][1][0], A.gfx_effect_shot[i][1][1]);
+			c.closePath();
+			c.lineWidth = A.gfx_effect_shot[i][2];
+			c.stroke();
+			
+			A.gfx_effect_shot[i][3] -= A.seconds_passed_since_last_frame;
+			
+			if (A.gfx_effect_shot[i][3] <= 0)
+			{
+				A.gfx_effect_shot = A._remove_array_item(A.gfx_effect_shot, i);
+			}
+		}
+	}
+	
+	A.gfx_render_gui_selection = function()
+	{
+		var p, c = A.cv.ctx;
+		
+		if (A.inputs.mouse_button_statuses[0] & 1)
+		{
+			p = A._2d_subtract(A.inputs.mouse_position, A.inputs.mouse_click_position);
+			c.fillStyle = "rgba(255,255,255,0.2)";
+			c.strokeStyle = "#fff";
+			c.fillRect(A.inputs.mouse_click_position[0], A.inputs.mouse_click_position[1], p[0], p[1]);
+			c.strokeRect(A.inputs.mouse_click_position[0], A.inputs.mouse_click_position[1], p[0], p[1]);
+		}
+	}
+	
+	A.gfx_render_gui_toolbars = function()
+	{
+		var i, j, k, p, c = A.cv.ctx;
+		var color1;
+		
+		if (A.current_player == 1)
+		{
+			c.fillStyle = A._cv_gradient(c, [ 0, 4 ], [ 0, 32 ],
+				[
+					[ 0, "#b00" ],
+					[ 0.8, "#600" ],
+					[ 1, "#800" ]
+				]
+			);
+			c.fillRect(4, 4, 300, 32);
+			color1 = "#000";
+			
+			for (i in A.player1_queues)
+			{
+				c.fillStyle = "rgba(" + ((A.player1_current_queue == i) ? "160,40,0" : "120,0,0") + ",0.3)";
+				c.fillRect(4, 40 + i * 30, 300, 28);
+				k = 0;
+				for (j in A.player1_queues[i])
+				{
+					if (A.player1_queues[i][4][j] == 1)
+					{
+						A.gfx__texture_put("c3", 4 + k*24, 40 + i*30);
+						k++;
+					}
+				}
+			}
+			
+			color1 = "#a20";
+		}
+		else
+		{
+			c.fillStyle = A._cv_gradient(c, [ 0, 4 ], [ 0, 32 ],
+				[
+					[ 0, "#06e" ],
+					[ 0.8, "#038" ],
+					[ 1, "#04a" ]
+				]
+			);
+			c.fillRect(4, 4, 300, 32);
+			
+			color1 = "#04c";
+		}
+		c.fillStyle = "rgba(0,0,0,0.2)";
+		c.fillRect(6, 6, 296, 28);
+		
+		A.gfx__render_gui_button(0, "c1", color1);
+		A.gfx__render_gui_button(1, "c2", color1);
+		A.gfx__render_gui_button(2, "c3", color1);
+		A.gfx__render_gui_button(3, "c0", color1);
+		A.gfx__render_gui_button(4, "c0", color1);
+		A.gfx__render_gui_button(5, "c0", color1);
+		
+		c.fillStyle = "#fff";
+		c.font = "16px Arial bold";
+		c.fillText(A.golds[A.current_player - 1], A.cv.cv.width - 100, 18);
+	}
+	
+	A.gfx_render_gui_bars = function()
+	{
+		var i, p, c = A.cv.ctx;
+		
+		for (i in A.objects)
+		{
+			if (A.objects[i].owner_player != A.current_player || A.objects[i].permanent || (A.objects[i].gui_show_bars_until_tick < A.tick_number && !A.objects[i].selected))
+			{
+				continue;
+			}
+			
+			p = A._2d_subtract(A.objects[i].position_on_layer, A.scroll);
+			
+			if (A.objects[i].owner_player == 1)
+			{
+				A.gfx__render_gui_bar_background(p[0] - 18, p[1] + 6, 36, 8);
+				A.gfx__render_gui_bar(p[0] - 16, p[1] + 8, 32, A.objects[i].health[0] / A.objects[i].health[1], "#5f0");
+			}
+			else
+			{
+				A.gfx__render_gui_bar_background(p[0] - 24, p[1] + 6, 48, 14);
+				A.gfx__render_gui_bar(p[0] - 22, p[1] + 8, 44, A.objects[i].health[0] / A.objects[i].health[1] , "#5f0");
+				if (A.objects[i].attack_status == A.ATTACK_STATUS_RELOADING)
+				{
+					A.gfx__render_gui_bar(p[0] - 22, p[1] + 14, 44, A.objects[i].attack_reload_time[0] / A.objects[i].attack_reload_time[1], "#bbb");
+				}
+				else
+				{
+					A.gfx__render_gui_bar(p[0] - 22, p[1] + 14, 32, A.objects[i].attack_ammo[0] / A.objects[i].attack_ammo[1], "#ee0");
+					A.gfx__render_gui_bar(p[0] + 10, p[1] + 14, 12, A.objects[i].attack_cycle_time[0] / A.objects[i].attack_cycle_time[1], "#eee");
+				}
+			}
+		}
+	}
+	
+	A.gfx_render_gui_cursor = function()
+	{
+		A.gfx__texture_put(8, A.inputs.mouse_position[0], A.inputs.mouse_position[1]);
 	}
 	
 	A.fog_set = function(a, b, c)
@@ -923,8 +1195,6 @@ window.onload = function()
 		
 		A.cv.ctx.save();
 		A.cv.ctx.translate(-A.scroll[0], -A.scroll[1]);
-		A.render_layer_map();
-		A.render_layer1();
 		A.render_layer2();
 		
 		////// DEBUG
@@ -945,242 +1215,39 @@ window.onload = function()
 		A.cv.ctx.restore();
 	}
 	
-	A.render_layer_map = function()
-	{
-		var a, b, p;
-		
-		for (a=0; a<A.config.world_width; a++)
-		{
-			for (b=0; b<A.config.world_height; b++)
-			{
-				p = A._world_position_to_layer_position([ a, b ]);
-				A.gfx__texture_put(A.map[a][b], p[0] - 32, p[1] - 16);
-			}
-		}
-		// A.gfx__texture_put(0, "r1", 0, 0);
-	}
-	
-	A.render_layer1 = function()
-	{
-		p = A._world_position_to_layer_position([ Math.floor(A.cursor_position_in_world[0] - 0.5), Math.floor(A.cursor_position_in_world[1] + 0.5) ]);
-		A.gfx__texture_put(1, p[0] + 23, p[1] - 8);
-	}
-	
 	A.render_layer2 = function()
 	{
-		var i, obj, sprite, p;
+		var i, x, y, p, q, a, b;
 		
-		// TODO: do proper depth ordering for sprites
+		A.gfx_render_map();
+		A.gfx_render_markers();
+		A.gfx_render_fog();
 		
-		// out of sight
-		for (i=0; i<A.config.world_width; i++)
+		/* TODO: replace this ugly tile-by-tile and always-loop-through-all-objects-and-skip-the-ones-we-don't-need thing with a single sort of object/fire/shot ids into arrays by tile and loop through them */
+		for (x=0; x<A.config.world_width; x++)
 		{
-			for (j=0; j<A.config.world_height; j++)
+			for (y=0; y<A.config.world_height; y++)
 			{
-				if (A.fog[i][j] == 2)
-				{
-					p = A._world_position_to_layer_position([ i, j ]);
-					A.gfx__texture_put(9, p[0] - 32, p[1] - 16);
-				}
-				else if (A.fog[i][j] == 1)
-				{
-					p = A._world_position_to_layer_position([ i, j ]);
-					A.gfx__texture_put(10, p[0] - 32, p[1] - 16);
-				}
-			}
-		}
-		
-		for (i in A.objects)
-		{
-			obj = A.objects[i];
-			
-			if (obj.destroyed || (obj.owner_player != A.current_player && obj.hidden_from_other_player))
-			{
-				continue;
-			}
-			
-			// out of screen
-			if (!(obj.position[0] >= 0 && obj.position[0] < A.config.world_width && obj.position[1] >= 0 && obj.position[1] < A.config.world_height))
-			{
-				continue;
-			}
-			
-			if (A.fog[Math.round(obj.position[0])][Math.round(obj.position[1])] == 2)
-			{
-				continue;
-			}
-			
-			p = obj.position_on_layer;
-			
-			if (obj.selected)
-			{
-				A.gfx__texture_put(obj.selection_sprite_id, p[0] - 32, p[1] - 16);
-			}
-			
-			// show the targets for player 2
-			if (A.current_player == 2)
-			{
-				for (j in A.objects)
-				{
-					if (A.objects[j].owner_player == 2 && A.objects[j].attack_target_object_id == i)
-					{
-						A.gfx__texture_put(12, p[0] - 32, p[1] - 16);
-					}
-				}
-			}
-			
-			// shadow
-			if (obj.shadow_sprite_id != -1)
-			{
-				// TODO: this is for 64x32 sprites only
-				A.gfx__texture_put(obj.shadow_sprite_id, p[0] - 32, p[1] - 16);
-			}
-			
-			for (j in obj.sprites)
-			{
-				sprite = obj.sprites[j];
+				p = [ x - 0.5, y - 0.5 ];
+				q = [ x + 0.5, y + 0.5 ];
 				
-				// this is heavily eyecandy, that's why it's here and not in process_objects()
-				sprite[5] += sprite[7] * A.seconds_passed_since_last_frame;
-				sprite[6] += sprite[8] * A.seconds_passed_since_last_frame;
-				rx = (Math.cos(sprite[5]) * sprite[3]) || 0;
-				ry = (Math.sin(sprite[6]) * sprite[4]) || 0;
+				A.gfx_render_objects(p, q);
 				
-				A.gfx__texture_put(sprite[0], p[0] + sprite[1] + rx, p[1] + sprite[2] + ry);
+				/* TODO: this is a rough approximation, also it has some overlaps, need to be fixed */
+				a = A._2d_subtract(A._world_position_to_layer_position([ x, y ]), [ 32, 16 ]);
+				b = A._2d_add(a, [ 55, 28 ]);
+				A.gfx_render_fire(a, b);
+				A.gfx_render_shots(a, b);
 			}
 		}
-		
-		// process shots
-		var a, c = A.cv.ctx;
-		for (i in A.gfx_effect_shot)
-		{
-			a = (A.gfx_effect_shot[i][3]/A.gfx_effect_shot[i][4]);
-			
-			c.strokeStyle = A._cv_gradient(c, A.gfx_effect_shot[i][0], A.gfx_effect_shot[i][1],
-				[
-					[ 0, "rgba(255,255,0," + (0.7 * a) +")" ],
-					[ 0.5, "rgba(255,255,255," + a + ")" ],
-					[ 1, "rgba(255,255,255," + (0.9 * a) + ")" ]
-				]
-			);
-			
-			c.beginPath();
-			c.moveTo(A.gfx_effect_shot[i][0][0], A.gfx_effect_shot[i][0][1]);
-			c.lineTo(A.gfx_effect_shot[i][1][0], A.gfx_effect_shot[i][1][1]);
-			c.closePath();
-			c.lineWidth = A.gfx_effect_shot[i][2];
-			c.stroke();
-			
-			A.gfx_effect_shot[i][3] -= A.seconds_passed_since_last_frame;
-			
-			if (A.gfx_effect_shot[i][3] <= 0)
-			{
-				A.gfx_effect_shot = A._remove_array_item(A.gfx_effect_shot, i);
-			}
-		}
-		
-		A.gfx_render_fire();
 	}
 	
 	A.render_layer3 = function()
 	{
-		var i, j, k, p, c = A.cv.ctx;
-		var color1;
-		
-		if (A.inputs.mouse_button_statuses[0] & 1)
-		{
-			p = A._2d_subtract(A.inputs.mouse_position, A.inputs.mouse_click_position);
-			c.fillStyle = "rgba(255,255,255,0.2)";
-			c.strokeStyle = "#fff";
-			c.fillRect(A.inputs.mouse_click_position[0], A.inputs.mouse_click_position[1], p[0], p[1]);
-			c.strokeRect(A.inputs.mouse_click_position[0], A.inputs.mouse_click_position[1], p[0], p[1]);
-		}
-		
-		if (A.current_player == 1)
-		{
-			c.fillStyle = A._cv_gradient(c, [ 0, 4 ], [ 0, 32 ],
-				[
-					[ 0, "#b00" ],
-					[ 0.8, "#600" ],
-					[ 1, "#800" ]
-				]
-			);
-			c.fillRect(4, 4, 300, 32);
-			color1 = "#000";
-			
-			for (i in A.player1_queues)
-			{
-				c.fillStyle = "rgba(" + ((A.player1_current_queue == i) ? "160,40,0" : "120,0,0") + ",0.3)";
-				c.fillRect(4, 40 + i * 30, 300, 28);
-				k = 0;
-				for (j in A.player1_queues[i])
-				{
-					if (A.player1_queues[i][4][j] == 1)
-					{
-						A.gfx__texture_put("c3", 4 + k*24, 40 + i*30);
-						k++;
-					}
-				}
-			}
-			
-			color1 = "#a20";
-		}
-		else
-		{
-			c.fillStyle = A._cv_gradient(c, [ 0, 4 ], [ 0, 32 ],
-				[
-					[ 0, "#06e" ],
-					[ 0.8, "#038" ],
-					[ 1, "#04a" ]
-				]
-			);
-			c.fillRect(4, 4, 300, 32);
-			
-			color1 = "#04c";
-		}
-		c.fillStyle = "rgba(0,0,0,0.2)";
-		c.fillRect(6, 6, 296, 28);
-		
-		A.gfx__render_gui_button(0, "c1", color1);
-		A.gfx__render_gui_button(1, "c2", color1);
-		A.gfx__render_gui_button(2, "c3", color1);
-		A.gfx__render_gui_button(3, "c0", color1);
-		A.gfx__render_gui_button(4, "c0", color1);
-		A.gfx__render_gui_button(5, "c0", color1);
-		
-		for (i in A.objects)
-		{
-			if (A.objects[i].owner_player != A.current_player || A.objects[i].permanent || (A.objects[i].gui_show_bars_until_tick < A.tick_number && !A.objects[i].selected))
-			{
-				continue;
-			}
-			p = A._2d_subtract(A.objects[i].position_on_layer, A.scroll);
-			if (A.objects[i].owner_player == 1)
-			{
-				A.gfx__render_gui_bar_background(p[0] - 18, p[1] + 6, 36, 8);
-				A.gfx__render_gui_bar(p[0] - 16, p[1] + 8, 32, A.objects[i].health[0] / A.objects[i].health[1], "#5f0");
-			}
-			else
-			{
-				A.gfx__render_gui_bar_background(p[0] - 24, p[1] + 6, 48, 14);
-				A.gfx__render_gui_bar(p[0] - 22, p[1] + 8, 44, A.objects[i].health[0] / A.objects[i].health[1] , "#5f0");
-				if (A.objects[i].attack_status == A.ATTACK_STATUS_RELOADING)
-				{
-					A.gfx__render_gui_bar(p[0] - 22, p[1] + 14, 44, A.objects[i].attack_reload_time[0] / A.objects[i].attack_reload_time[1], "#bbb");
-				}
-				else
-				{
-					A.gfx__render_gui_bar(p[0] - 22, p[1] + 14, 32, A.objects[i].attack_ammo[0] / A.objects[i].attack_ammo[1], "#ee0");
-					A.gfx__render_gui_bar(p[0] + 10, p[1] + 14, 12, A.objects[i].attack_cycle_time[0] / A.objects[i].attack_cycle_time[1], "#eee");
-				}
-			}
-		}
-		
-		c.fillStyle = "#fff";
-		c.font = "16px Arial bold";
-		c.fillText(A.golds[A.current_player - 1], A.cv.cv.width - 100, 18);
-		
-		A.gfx__texture_put(8, A.inputs.mouse_position[0], A.inputs.mouse_position[1]);
+		A.gfx_render_gui_selection();
+		A.gfx_render_gui_toolbars();
+		A.gfx_render_gui_bars(); // health, ammo, ...
+		A.gfx_render_gui_cursor();
 	}
 	
 	A.handle_mouseout = function(event)
