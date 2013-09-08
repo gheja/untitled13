@@ -646,6 +646,25 @@ window.onload = function()
 		}
 	}
 	
+	A.player1_queue_select = function(queue_id)
+	{
+		A.player1_current_queue = queue_id;
+	}
+	
+	A.player1_queue_decrease_pop_time = function(queue_id)
+	{
+		A.player1_queues[queue_id][3] -= 20;
+		if (A.player1_queues[queue_id][3] == 0)
+		{
+			A.player1_queues[queue_id][3] = 120;
+		}
+	}
+	
+	A.player1_queue_startstop = function(queue_id)
+	{
+		// TODO
+	}
+	
 	A.set_player = function(player_id)
 	{
 		A.current_player = player_id;
@@ -657,7 +676,18 @@ window.onload = function()
 			A.gui_buttons = [
 				[ [  8,  8 ], "c1", "1", A.set_tool, 1 ],
 				[ [ 34,  8 ], "c2", "2", A.set_tool, 2 ],
-				[ [ 60,  8 ], "c3", "3", A.set_tool, 3 ]
+				[ [ 60,  8 ], "c3", "3", A.set_tool, 3 ],
+				[ [  8, 40 ], "c0", "Q", A.player1_queue_select, 0 ],
+				[ [ 34, 40 ], "c0", "W", A.player1_queue_decrease_pop_time, 0 ],
+				[ [ 60, 40 ], "c0", "E", A.player1_queue_startstop, 0 ],
+				[ [  8, 70 ], "c0", "A", A.player1_queue_select, 1 ],
+				[ [ 34, 70 ], "c0", "S", A.player1_queue_decrease_pop_time, 1 ],
+				[ [ 60, 70 ], "c0", "D", A.player1_queue_startstop, 1 ]
+/*
+				[ [  8,100 ], "c0", "Z", A.player1_queue_select, 2 ],
+				[ [ 34,100 ], "c0", "X", A.player1_queue_decrease_pop_time, 2 ],
+				[ [ 60,100 ], "c0", "C", A.player1_queue_startstop, 2 ],
+*/
 			];
 		}
 		else
