@@ -652,7 +652,7 @@ window.onload = function()
 		A.set_tool(0);
 	}
 	
-	A.texture_create = function(id, recipe, texture_size_id)
+	A.gfx__texture_create = function(id, recipe, texture_size_id)
 	{
 		var i, j, k, r, g, b, args, s,
 			w = A.texture_sizes[texture_size_id][0],
@@ -739,7 +739,7 @@ window.onload = function()
 		A.textures[id] = cv;
 	}
 	
-	A.texture_show = function(texture_id, x, y)
+	A.gfx__texture_put = function(texture_id, x, y)
 	{
 		A.cv.ctx.drawImage(A.textures[texture_id].cv, x, y);
 	}
@@ -812,12 +812,12 @@ window.onload = function()
 			c.fillStyle = color;
 			c.fillRect(8 + button_order * 28, 8, 24, 24);
 			c.strokeStyle = "#fff";
-			A.texture_show(texture_id, 8 + button_order * 28, 8);
+			A.gfx__texture_put(texture_id, 8 + button_order * 28, 8);
 			c.strokeRect(8 + button_order * 28, 8, 24, 24);
 		}
 		else
 		{
-			A.texture_show(texture_id, 8 + button_order * 28, 8);
+			A.gfx__texture_put(texture_id, 8 + button_order * 28, 8);
 			c.fillStyle = "rgba(0,0,0,0.3)";
 			c.fillRect(8 + button_order * 28, 8, 24, 24);
 		}
@@ -954,16 +954,16 @@ window.onload = function()
 			for (b=0; b<A.config.world_height; b++)
 			{
 				p = A._world_position_to_layer_position([ a, b ]);
-				A.texture_show(A.map[a][b], p[0] - 32, p[1] - 16);
+				A.gfx__texture_put(A.map[a][b], p[0] - 32, p[1] - 16);
 			}
 		}
-		// A.texture_show(0, "r1", 0, 0);
+		// A.gfx__texture_put(0, "r1", 0, 0);
 	}
 	
 	A.render_layer1 = function()
 	{
 		p = A._world_position_to_layer_position([ Math.floor(A.cursor_position_in_world[0] - 0.5), Math.floor(A.cursor_position_in_world[1] + 0.5) ]);
-		A.texture_show(1, p[0] + 23, p[1] - 8);
+		A.gfx__texture_put(1, p[0] + 23, p[1] - 8);
 	}
 	
 	A.render_layer2 = function()
@@ -980,12 +980,12 @@ window.onload = function()
 				if (A.fog[i][j] == 2)
 				{
 					p = A._world_position_to_layer_position([ i, j ]);
-					A.texture_show(9, p[0] - 32, p[1] - 16);
+					A.gfx__texture_put(9, p[0] - 32, p[1] - 16);
 				}
 				else if (A.fog[i][j] == 1)
 				{
 					p = A._world_position_to_layer_position([ i, j ]);
-					A.texture_show(10, p[0] - 32, p[1] - 16);
+					A.gfx__texture_put(10, p[0] - 32, p[1] - 16);
 				}
 			}
 		}
@@ -1014,7 +1014,7 @@ window.onload = function()
 			
 			if (obj.selected)
 			{
-				A.texture_show(obj.selection_sprite_id, p[0] - 32, p[1] - 16);
+				A.gfx__texture_put(obj.selection_sprite_id, p[0] - 32, p[1] - 16);
 			}
 			
 			// show the targets for player 2
@@ -1024,7 +1024,7 @@ window.onload = function()
 				{
 					if (A.objects[j].owner_player == 2 && A.objects[j].attack_target_object_id == i)
 					{
-						A.texture_show(12, p[0] - 32, p[1] - 16);
+						A.gfx__texture_put(12, p[0] - 32, p[1] - 16);
 					}
 				}
 			}
@@ -1033,7 +1033,7 @@ window.onload = function()
 			if (obj.shadow_sprite_id != -1)
 			{
 				// TODO: this is for 64x32 sprites only
-				A.texture_show(obj.shadow_sprite_id, p[0] - 32, p[1] - 16);
+				A.gfx__texture_put(obj.shadow_sprite_id, p[0] - 32, p[1] - 16);
 			}
 			
 			for (j in obj.sprites)
@@ -1046,7 +1046,7 @@ window.onload = function()
 				rx = (Math.cos(sprite[5]) * sprite[3]) || 0;
 				ry = (Math.sin(sprite[6]) * sprite[4]) || 0;
 				
-				A.texture_show(sprite[0], p[0] + sprite[1] + rx, p[1] + sprite[2] + ry);
+				A.gfx__texture_put(sprite[0], p[0] + sprite[1] + rx, p[1] + sprite[2] + ry);
 			}
 		}
 		
@@ -1117,7 +1117,7 @@ window.onload = function()
 				{
 					if (A.player1_queues[i][4][j] == 1)
 					{
-						A.texture_show("c3", 4 + k*24, 40 + i*30);
+						A.gfx__texture_put("c3", 4 + k*24, 40 + i*30);
 						k++;
 					}
 				}
@@ -1180,7 +1180,7 @@ window.onload = function()
 		c.font = "16px Arial bold";
 		c.fillText(A.golds[A.current_player - 1], A.cv.cv.width - 100, 18);
 		
-		A.texture_show(8, A.inputs.mouse_position[0], A.inputs.mouse_position[1]);
+		A.gfx__texture_put(8, A.inputs.mouse_position[0], A.inputs.mouse_position[1]);
 	}
 	
 	A.handle_mouseout = function(event)
@@ -1352,35 +1352,35 @@ window.onload = function()
 	A.init_textures = function()
 	{
 		var grid = "IJAoY/23/YoA."
-		A.texture_create(0, "p23" + grid + "aAF", A.TEXTURE_SIZE_64X32); // grass tile
-		A.texture_create(1, "p01" + grid, A.TEXTURE_SIZE_64X32); // highlighted tile (cursor)
-		A.texture_create(2, "p45" + grid + "aAF", A.TEXTURE_SIZE_64X32); // road tile
-		A.texture_create(3, "p67M2W5etkvq702wOhJPQIM.p87VUfdmR.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost1 sprite
-		A.texture_create(4, "p678lvybeHZEsQ0gt.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost1 sprite
-		A.texture_create(5, "p67MTcpwopV.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost1 sprite
-		A.texture_create(6, "p00eZYcamgonlmc.", A.TEXTURE_SIZE_64X32); // small object shadow
-		A.texture_create(7, "pb0" + grid + "aDM", A.TEXTURE_SIZE_64X32); // concrete tile
-		A.texture_create(8, "pggAAAkKWbW.", A.TEXTURE_SIZE_32X32); // cursor
-		A.texture_create(9, "p00" + grid + "aHK", A.TEXTURE_SIZE_64X32); // fog (light)
-		A.texture_create(10, "p00" + grid + "aAC", A.TEXTURE_SIZE_64X32); // fog (heavy)
-		A.texture_create(11, "pihLMElX40y7YnF.", A.TEXTURE_SIZE_64X32); // small object selection
-		A.texture_create(12, "pkjMUKcTa.pkjjrizqw.pkjsOqVxT.", A.TEXTURE_SIZE_64X32); // small object selection
-		A.texture_create("a0", "p00gSsesS.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
-		A.texture_create("a1", "p00gssssg.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
-		A.texture_create("a2", "p00SgSses.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
-		A.texture_create("a3", "p00SSSeeS.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
-		A.texture_create("b0", "p9agSsesS.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
-		A.texture_create("b1", "p9agssssg.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
-		A.texture_create("b2", "p9aSgSses.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
-		A.texture_create("b3", "p9aSSSeeS.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
-		A.texture_create(20, "pbbf7f//w/s.aAFpdbAsAwf/f7.aAFpdbAsf7/sfc.aAF", A.TEXTURE_SIZE_64X64); // ObjectPlayer2* concrete base tile
-		A.texture_create(21, "peebgYrftmrjg.pfeLiutmV.peecabgfjjgia.pfeaTUete.peeeRcafciagR.pcffIYMYQZRfUkRmOkK.", A.TEXTURE_SIZE_64X64); // ObjectPlayer2Tower1
-		A.texture_create(22, "pllbgYrftmrjg.pmlLiutmV.pllcabgfjjgia.pmlaTUete.plleRcafciagR.pcmfIYMYQZRfUkRmOkK.", A.TEXTURE_SIZE_64X64); // ObjectPlayer2Tower2
-		// A.texture_create(21, "peebgYrftmrjg.pfeLiutmV.aAKpeecabgfjjgia.pfeaTUete.aAKpeeeRcafciagR.pcffIYMYQZRfUkRmOkK.aAF", A.TEXTURE_SIZE_64X64);
-		A.texture_create("c1", "pggRRR1chuh.", A.TEXTURE_SIZE_24X24); // toolbar icon, mouse
-		A.texture_create("c2", "pgghJZbGbbmQ2kp7xpg4WmW.", A.TEXTURE_SIZE_24X24); // toolbar icon, explode
-		A.texture_create("c3", "pggagTlR7Z6b1j1l6u7rlkh.p11blftjl.", A.TEXTURE_SIZE_24X24); // toolbar icon, explode
-		A.texture_create("c0", "p11RdRTcKjKuTuyRyRdqdqTjOcOVTVd.", A.TEXTURE_SIZE_24X24); // toolbar icon, locked
+		A.gfx__texture_create(0, "p23" + grid + "aAF", A.TEXTURE_SIZE_64X32); // grass tile
+		A.gfx__texture_create(1, "p01" + grid, A.TEXTURE_SIZE_64X32); // highlighted tile (cursor)
+		A.gfx__texture_create(2, "p45" + grid + "aAF", A.TEXTURE_SIZE_64X32); // road tile
+		A.gfx__texture_create(3, "p67M2W5etkvq702wOhJPQIM.p87VUfdmR.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost1 sprite
+		A.gfx__texture_create(4, "p678lvybeHZEsQ0gt.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost1 sprite
+		A.gfx__texture_create(5, "p67MTcpwopV.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost1 sprite
+		A.gfx__texture_create(6, "p00eZYcamgonlmc.", A.TEXTURE_SIZE_64X32); // small object shadow
+		A.gfx__texture_create(7, "pb0" + grid + "aDM", A.TEXTURE_SIZE_64X32); // concrete tile
+		A.gfx__texture_create(8, "pggAAAkKWbW.", A.TEXTURE_SIZE_32X32); // cursor
+		A.gfx__texture_create(9, "p00" + grid + "aHK", A.TEXTURE_SIZE_64X32); // fog (light)
+		A.gfx__texture_create(10, "p00" + grid + "aAC", A.TEXTURE_SIZE_64X32); // fog (heavy)
+		A.gfx__texture_create(11, "pihLMElX40y7YnF.", A.TEXTURE_SIZE_64X32); // small object selection
+		A.gfx__texture_create(12, "pkjMUKcTa.pkjjrizqw.pkjsOqVxT.", A.TEXTURE_SIZE_64X32); // small object selection
+		A.gfx__texture_create("a0", "p00gSsesS.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("a1", "p00gssssg.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("a2", "p00SgSses.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("a3", "p00SSSeeS.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("b0", "p9agSsesS.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("b1", "p9agssssg.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("b2", "p9aSgSses.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("b3", "p9aSSSeeS.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create(20, "pbbf7f//w/s.aAFpdbAsAwf/f7.aAFpdbAsf7/sfc.aAF", A.TEXTURE_SIZE_64X64); // ObjectPlayer2* concrete base tile
+		A.gfx__texture_create(21, "peebgYrftmrjg.pfeLiutmV.peecabgfjjgia.pfeaTUete.peeeRcafciagR.pcffIYMYQZRfUkRmOkK.", A.TEXTURE_SIZE_64X64); // ObjectPlayer2Tower1
+		A.gfx__texture_create(22, "pllbgYrftmrjg.pmlLiutmV.pllcabgfjjgia.pmlaTUete.plleRcafciagR.pcmfIYMYQZRfUkRmOkK.", A.TEXTURE_SIZE_64X64); // ObjectPlayer2Tower2
+		// A.gfx__texture_create(21, "peebgYrftmrjg.pfeLiutmV.aAKpeecabgfjjgia.pfeaTUete.aAKpeeeRcafciagR.pcffIYMYQZRfUkRmOkK.aAF", A.TEXTURE_SIZE_64X64);
+		A.gfx__texture_create("c1", "pggRRR1chuh.", A.TEXTURE_SIZE_24X24); // toolbar icon, mouse
+		A.gfx__texture_create("c2", "pgghJZbGbbmQ2kp7xpg4WmW.", A.TEXTURE_SIZE_24X24); // toolbar icon, explode
+		A.gfx__texture_create("c3", "pggagTlR7Z6b1j1l6u7rlkh.p11blftjl.", A.TEXTURE_SIZE_24X24); // toolbar icon, explode
+		A.gfx__texture_create("c0", "p11RdRTcKjKuTuyRyRdqdqTjOcOVTVd.", A.TEXTURE_SIZE_24X24); // toolbar icon, locked
 	}
 	
 	A.find_targets = function(position, max_distance, player_id, skip_permanents)
