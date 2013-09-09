@@ -759,6 +759,14 @@ window.onload = function()
 		return true;
 	}
 	
+	A.create_object = function(args)
+	{
+		if (args[0] == 1)
+		{
+			A.objects.push(new A.ObjectPlayer1Ghost1(args[1], args[2]));
+		}
+	}
+	
 	A.set_player = function(player_id)
 	{
 		A.current_player = player_id;
@@ -1785,7 +1793,7 @@ window.onload = function()
 					j = q[4].pop();
 					if (j == 1)
 					{
-						A.objects.push(new A.ObjectPlayer1Ghost1(A._2d_copy(q[0]), q[1]));
+						B.send(10, "create_object", [ 1, A._2d_copy(q[0]), q[1] ]);
 					}
 				}
 				
@@ -1996,6 +2004,12 @@ window.onload = function()
 				}
 				B.log("processing: " + JSON.stringify(B.message_queue[i]));
 				// DEBUG END
+				
+				// we DO NOT want direct function calls here based on the message just came from the other half of the Earth...
+				if (B.message_queue[i][1] == "create_object")
+				{
+					A.create_object(B.message_queue[i][2]);
+				}
 				
 				B.message_queue = A._remove_array_item(B.message_queue, i);
 			}
