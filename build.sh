@@ -61,14 +61,15 @@ try mv -f build/js13kgames_entry/13312.min.js build/js13kgames_entry/13312.js
 
 try cd build
 
-echo "* Cleaning up old build archive..."
-rm 13312.zip || /bin/true
+now=`date +%Y%m%d_%H%M%S`
+git_id=`git log -1 --format="%H"`
+zip_file="13312_${now}_${git_id}.zip"
 
-echo "* Creating new archive..."
-try zip 13312.zip -r js13kgames_entry
+echo "* Creating new archive $zip_file ..."
+try zip $zip_file -r js13kgames_entry
 
 try cd ..
 
 echo "Done."
 
-du -b ./src ./build/js13kgames_entry ./build/13312.zip
+du -b ./src ./build/js13kgames_entry ./build/$zip_file
