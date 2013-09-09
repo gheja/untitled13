@@ -1793,7 +1793,7 @@ window.onload = function()
 					j = q[4].pop();
 					if (j == 1)
 					{
-						B.send(10, "create_object", [ 1, A._2d_copy(q[0]), q[1] ]);
+						B.send("create_object", [ 1, A._2d_copy(q[0]), q[1] ]);
 					}
 				}
 				
@@ -1959,6 +1959,7 @@ window.onload = function()
 	/* client-server communication */
 	B = {};
 	B.message_queue = [];
+	B.delay = 10;
 	
 	// DEBUG BEGIN
 	B.log = function(s)
@@ -1967,9 +1968,9 @@ window.onload = function()
 	}
 	// DEBUG END
 	
-	B.send = function(ticks_plus, command, args)
+	B.send = function(command, args)
 	{
-		var message = JSON.stringify([ (A.tick_number + ticks_plus), command, args ]);
+		var message = JSON.stringify([ (A.tick_number + B.delay), command, args ]);
 		
 		// DEBUG BEGIN
 		B.log("sending: " + message);
