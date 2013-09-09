@@ -1350,7 +1350,7 @@ window.onload = function()
 		A.cv.ctx.translate(-A.scroll[0], -A.scroll[1]);
 		A.render_layer2();
 		
-		////// DEBUG
+		// DEBUG BEGIN
 		var i, p;
 		for (i in A.shots)
 		{
@@ -1358,7 +1358,7 @@ window.onload = function()
 			A.cv.ctx.fillStyle = "#f0f";
 			A.cv.ctx.fillRect(p[0]-1, p[1]-1, 3, 3);
 		}
-		//////
+		// DEBUG END
 		
 		A.cv.ctx.restore();
 		
