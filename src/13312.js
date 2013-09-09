@@ -629,6 +629,11 @@ window.onload = function()
 		return x[0] >= a[0] && x[0] < b[0] && x[1] >= a[1] && x[1] < b[1];
 	}
 	
+	A._2d_equals = function(a, b)
+	{
+		return a[0] == b[0] && a[1] == b[1];
+	}
+	
 	A._format_time = function(seconds)
 	{
 		var m, s, minus = seconds < 0;
@@ -714,6 +719,30 @@ window.onload = function()
 	{
 		A.player1_queues[queue_id][5] = !A.player1_queues[queue_id][5];
 		A.player1_queue_select(queue_id);
+	}
+	
+	A.player2_build_tower = function(position, tower_id)
+	{
+		var i;
+		
+		// if a concrete tile is under the cursor
+		if (A.map[position[0]][position[1]] != 7)
+		{
+			return false;
+		}
+		
+		// if the tile is not used yet
+		for (i in A.objects)
+		{
+			if (A.objects[i].owner_player == 2 && A._2d_equals(A.objects[i].position, position))
+			{
+				return false;
+			}
+		}
+		
+		A.objects.push(new A.ObjectPlayer2Tower1(position));
+		
+		return true;
 	}
 	
 	A.set_player = function(player_id)
@@ -1417,6 +1446,15 @@ window.onload = function()
 	
 	A.handle_mousedown_tile = function()
 	{
+		var p = [  Math.floor(A.cursor_position_in_world[0] + 0.5), Math.floor(A.cursor_position_in_world[1] + 0.5) ];
+		
+		if (A.current_player == 2)
+		{
+			if (A.selected_tool == 3)
+			{
+				A.player2_build_tower(p, 1);
+			}
+		}
 		return true;
 	}
 	
