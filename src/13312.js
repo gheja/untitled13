@@ -941,8 +941,8 @@ window.onload = function()
 	{
 		var i, j, p;
 		
-		p = A._world_position_to_layer_position([ Math.floor(A.cursor_position_in_world[0] - 0.5), Math.floor(A.cursor_position_in_world[1] + 0.5) ]);
-		A.gfx__texture_put(1, p[0] + 23, p[1] - 8);
+		p = A._world_position_to_layer_position([ Math.floor(A.cursor_position_in_world[0] + 0.5), Math.floor(A.cursor_position_in_world[1] + 0.5) ]);
+		A.gfx__texture_put(1, p[0] - 32, p[1] - 16);
 		
 		for (i in A.objects)
 		{
