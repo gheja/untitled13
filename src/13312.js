@@ -481,6 +481,13 @@ window.onload = function()
 		return obj;
 	}
 	
+	// DEBUG BEGIN
+	A.log = function(s)
+	{
+		console.log("[" + A.tick_number + "] " + s);
+	}
+	// DEBUG END
+	
 	A._distance = function(p, q)
 	{
 		return Math.sqrt(Math.pow(p[0] - q[0], 2)+ Math.pow(p[1] - q[1], 2));
@@ -1891,7 +1898,7 @@ window.onload = function()
 		// DEBUG BEGIN
 		if (A.tick_number % 100 == 0)
 		{
-			console.log("ticks: " + A.tick_number + ", frames: " + A.frame_number + ", game_time*1000: " + Math.round(A.game_time * 1000));
+			A.log("ticks: " + A.tick_number + ", frames: " + A.frame_number + ", game_time*1000: " + Math.round(A.game_time * 1000));
 		}
 		// DEBUG END
 		
