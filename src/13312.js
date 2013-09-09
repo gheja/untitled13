@@ -1947,5 +1947,36 @@ window.onload = function()
 		A.set_player(1);
 	}
 	
+	/* client-server communication */
+	B = {};
+	B.message_queue = [];
+	
+	B.send = function(ticks_plus, command, args)
+	{
+		var message = JSON.stringify([ (A.tick_number + ticks_plus), command, args ]);
+		
+		B.receive(message);
+		
+		// TODO: also send over network :)
+	}
+	
+	B.receive = function(message)
+	{
+		B.message_queue.push(JSON.parse(message));
+	}
+	
+	B.process_tick = function(tick_number)
+	{
+		var i;
+		
+		for (i in B.message_queue)
+		{
+			if (B.message_queue[i][0] <= tick_number)
+			{
+				B.message_queue = A._remove_array_item(B.message_queue, i);
+			}
+		}
+	}
+	
 	A.start();
 }
