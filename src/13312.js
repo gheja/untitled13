@@ -740,7 +740,14 @@ window.onload = function()
 			}
 		}
 		
-		A.objects.push(new A.ObjectPlayer2Tower1(position));
+		if (tower_id == 1)
+		{
+			A.objects.push(new A.ObjectPlayer2Tower1(position));
+		}
+		else if (tower_id == 2)
+		{
+			A.objects.push(new A.ObjectPlayer2Tower2(position));
+		}
 		
 		return true;
 	}
@@ -773,7 +780,8 @@ window.onload = function()
 			A.gui_buttons = [
 				[ [  8,  4 ], "c1", "1", A.set_tool, 1 ],
 				[ [ 34,  4 ], "c2", "2", A.set_tool, 2 ],
-				[ [ 60,  4 ], "c3", "3", A.set_tool, 3 ]
+				[ [ 60,  4 ], "c3", "3", A.set_tool, 3 ],
+				[ [ 86,  4 ], "c3", "4", A.set_tool, 4 ]
 			];
 		}
 	}
@@ -1453,6 +1461,10 @@ window.onload = function()
 			if (A.selected_tool == 3)
 			{
 				A.player2_build_tower(p, 1);
+			}
+			else if (A.selected_tool == 4)
+			{
+				A.player2_build_tower(p, 2);
 			}
 		}
 		return true;
