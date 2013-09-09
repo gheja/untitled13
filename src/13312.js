@@ -39,7 +39,7 @@ window.onload = function()
 	A.golds = []; /* golds of player 1 and player 2 */
 	A.player1_queues = []; /* array of queues: [ [ [ position_x, position_y ], direction, ticks_until_pop, ticks_until_pop_total, [ obj1, obj2, ... ], is_started ], ... ] */
 	A.player1_current_queue = 0;
-	A.inputs = { modified: 0, mouse_position: [ 640, 360 ], mouse_on_canvas: 0, mouse_click_position: [ 0, 0 ], mouse_button_statuses: [ 0, 0, 0 ] };
+	A.inputs = { modified: 0, mouse_position: [ 640, 360 ], mouse_on_canvas: 0, mouse_click_position: [ 0, 0, 0 ], mouse_button_statuses: [ 0, 0, 0 ] };
 	A.inputs_prev = {};
 	A.cursor_position_in_world = [ 10, 10 ]; /* tiles */
 	A.scroll = [ 0, -40 ] /* pixels */
@@ -1434,10 +1434,13 @@ window.onload = function()
 		A.inputs.mouse_button_statuses[0] |= 1; // press happened
 		A.inputs.mouse_click_position = A.inputs.mouse_position;
 		
+		A.inputs.mouse_click_position[2] = 1;
 		if (!A.handle_mousedown_gui())
 		{
+			A.inputs.mouse_click_position[2] = 2;
 			if (!A.handle_mousedown_object())
 			{
+				A.inputs.mouse_click_position[2] = 3;
 				A.handle_mousedown_tile();
 			}
 		}
