@@ -1417,7 +1417,6 @@ window.onload = function()
 	
 	A.handle_mousedown_tile = function()
 	{
-		A.selection_clear();
 		return true;
 	}
 	
