@@ -1903,6 +1903,7 @@ window.onload = function()
 		// DEBUG END
 		
 		A.tick_number++;
+		B.process_tick(A.tick_number);
 		A.process_input();
 		A.process_player1_queues();
 		A.process_shots();
