@@ -2,7 +2,7 @@ bugs
 [x] fix the issue when an object leaves the screen and causes an error after ctx.save() but before ctx.restore() so screen scrolls away
 
 interface
-[ ] fix single click selection
+[x] fix single click selection
 [ ] fix "reverse rectangle" selection (bottom-right then top-left)
 
 gameplay
