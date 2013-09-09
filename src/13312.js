@@ -939,10 +939,32 @@ window.onload = function()
 	
 	A.gfx_render_markers = function()
 	{
-		var p;
+		var i, j, p;
 		
 		p = A._world_position_to_layer_position([ Math.floor(A.cursor_position_in_world[0] - 0.5), Math.floor(A.cursor_position_in_world[1] + 0.5) ]);
 		A.gfx__texture_put(1, p[0] + 23, p[1] - 8);
+		
+		for (i in A.objects)
+		{
+			p = A.objects[i].position_on_layer;
+			
+			if (A.objects[i].selected)
+			{
+				A.gfx__texture_put(A.objects[i].selection_sprite_id, p[0] - 32, p[1] - 16);
+			}
+			
+			// show the targets for player 2
+			if (A.current_player == 2)
+			{
+				for (j in A.objects)
+				{
+					if (A.objects[j].owner_player == 2 && A.objects[j].attack_target_object_id == i)
+					{
+						A.gfx__texture_put(12, p[0] - 32, p[1] - 16);
+					}
+				}
+			}
+		}
 	}
 	
 	A.gfx_render_fog = function()
@@ -997,23 +1019,6 @@ window.onload = function()
 			}
 			
 			p = obj.position_on_layer;
-			
-			if (obj.selected)
-			{
-				A.gfx__texture_put(obj.selection_sprite_id, p[0] - 32, p[1] - 16);
-			}
-			
-			// show the targets for player 2
-			if (A.current_player == 2)
-			{
-				for (j in A.objects)
-				{
-					if (A.objects[j].owner_player == 2 && A.objects[j].attack_target_object_id == i)
-					{
-						A.gfx__texture_put(12, p[0] - 32, p[1] - 16);
-					}
-				}
-			}
 			
 			// shadow
 			if (obj.shadow_sprite_id != -1)
