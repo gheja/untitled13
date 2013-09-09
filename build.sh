@@ -50,7 +50,12 @@ rm build/js13kgames_entry/* || /bin/true
 echo "* Copying resources..."
 try cp -xarv src/* build/js13kgames_entry/
 
-cat build/js13kgames_entry/13312.js | sed -e 's/\.direction/.d/g' -e 's/\.position/.p/g' -e 's/\.speed/.s/g' > build/js13kgames_entry/13312.js.1
+echo "* Removing debug parts and renaming some variables..."
+cat build/js13kgames_entry/13312.js | sed \
+	-e '/DEBUG BEGIN/,/\DEBUG END/{d}' \
+	-e 's/\.direction/.d/g' \
+	-e 's/\.position/.p/g' \
+	-e 's/\.speed/.s/g' > build/js13kgames_entry/13312.js.1
 mv build/js13kgames_entry/13312.js.1 build/js13kgames_entry/13312.js
 
 echo "* Running Closure Compiler..."
