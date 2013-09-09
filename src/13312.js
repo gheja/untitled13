@@ -1951,9 +1951,20 @@ window.onload = function()
 	B = {};
 	B.message_queue = [];
 	
+	// DEBUG BEGIN
+	B.log = function(s)
+	{
+		A.log("[net] " + s);
+	}
+	// DEBUG END
+	
 	B.send = function(ticks_plus, command, args)
 	{
 		var message = JSON.stringify([ (A.tick_number + ticks_plus), command, args ]);
+		
+		// DEBUG BEGIN
+		B.log("sending: " + message);
+		// DEBUG END
 		
 		B.receive(message);
 		
@@ -1962,6 +1973,10 @@ window.onload = function()
 	
 	B.receive = function(message)
 	{
+		// DEBUG BEGIN
+		B.log("received: " + message);
+		// DEBUG END
+		
 		B.message_queue.push(JSON.parse(message));
 	}
 	
@@ -1973,6 +1988,14 @@ window.onload = function()
 		{
 			if (B.message_queue[i][0] <= tick_number)
 			{
+				// DEBUG BEGIN
+				if (B.message_queue[i][0] < tick_number)
+				{
+					B.log("WARNING: late message processing");
+				}
+				B.log("processing: " + JSON.stringify(B.message_queue[i]));
+				// DEBUG END
+				
 				B.message_queue = A._remove_array_item(B.message_queue, i);
 			}
 		}
