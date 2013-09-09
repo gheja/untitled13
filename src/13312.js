@@ -1461,7 +1461,10 @@ window.onload = function()
 		{
 			A.inputs.mouse_button_statuses[0] |= 2; // release happened
 			
-			A.selection_set(A._2d_add(A.inputs.mouse_click_position, A.scroll), A._2d_add(A.inputs.mouse_position, A.scroll));
+			if (A.inputs.mouse_click_position[2] == 3)
+			{
+				A.selection_set(A._2d_add(A.inputs.mouse_click_position, A.scroll), A._2d_add(A.inputs.mouse_position, A.scroll));
+			}
 		}
 		
 		event.preventDefault();
