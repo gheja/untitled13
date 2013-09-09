@@ -1888,8 +1888,14 @@ window.onload = function()
 	
 	A.tick = function()
 	{
-		A.tick_number++;
+		// DEBUG BEGIN
+		if (A.tick_number % 100 == 0)
+		{
+			console.log("ticks: " + A.tick_number + ", frames: " + A.frame_number + ", game_time*1000: " + Math.round(A.game_time * 1000));
+		}
+		// DEBUG END
 		
+		A.tick_number++;
 		A.process_input();
 		A.process_player1_queues();
 		A.process_shots();
