@@ -115,6 +115,7 @@ window.onload = function()
 		obj.hidden_from_other_player = 0;
 		obj.detection_distance = 3;
 		obj.selected = 0;
+		obj.shake_size = 5;
 		
 		obj.command_destroy = function(mode)
 		{
@@ -135,7 +136,7 @@ window.onload = function()
 			A.hit_nearby_objects(this.position, 50, 3, this.owner_player);
 			this.speed = [ 0, 0 ];
 			this.position = [ -10, -10 ];
-			A.shake += 10;
+			A.shake += this.shake_size;
 		}
 		
 		obj.gui_show_bars = function()
@@ -250,6 +251,7 @@ window.onload = function()
 	{
 		var obj = new A.ObjectBase(2, position, 0, 0, health, sprites);
 		obj.shadow_sprite_id = -1;
+		obj.shake_size = 10;
 		
 		obj.attack_status = ammo > 0 ? A.ATTACK_STATUS_RELOADING : A.ATTACK_STATUS_NONE;
 		obj.attack_ammo = [ 0, ammo ];
