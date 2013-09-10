@@ -136,7 +136,7 @@ window.onload = function()
 			
 			for (i=0; i<this.shake_size * 5; i++)
 			{
-				A.gfx_effect_fire.push([ [ this.position_on_layer[0] + A._random_float(-1, 1) * this.shake_size * 3, this.position_on_layer[1] + A._random_float(-1, 1) * this.shake_size * 3 ], [ A._random_float(-5, 5), -50 ], A._random_float(1, 2), 2 ]);
+				A.gfx_effect_fire.push([ [ this.position_on_layer[0] + A._random_float(-1, 1) * this.shake_size * 2, this.position_on_layer[1] + A._random_float(-1, 1) * this.shake_size * 2 ], [ A._random_float(-20, 20), -50 ], A._random_float(1, 2), 2 ]);
 			}
 			
 			this.status = A.OBJECT_STATUS_DESTROYED;
