@@ -1881,13 +1881,9 @@ window.onload = function()
 				if (q[5] == 1)
 				{
 					j = q[4].pop();
-					if (j == 1)
+					if (j)
 					{
-						B.send("object_create", [ 1, A._generate_uid(), A._2d_copy(q[0]), q[1] ]);
-					}
-					else if (j == 2)
-					{
-						B.send("object_create", [ 2, A._generate_uid(), A._2d_copy(q[0]), q[1] ]);
+						B.send("object_create", [ j, A._generate_uid(), A._2d_copy(q[0]), q[1] ]);
 					}
 				}
 				
