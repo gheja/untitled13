@@ -72,7 +72,9 @@ window.onload = function()
 		"j": "rgba(160,0,0,0.4)",
 		"k": "rgba(255,0,0,0.7)",
 		"l": "#842",
-		"m": "rgba(255,128,0,0.7)"
+		"m": "rgba(255,128,0,0.7)",
+		"o": "rgba(255,230,30,0.6)",
+		"p": "#fb6"
 	};
 	A.textures = {};
 	A.objects = [];
@@ -505,6 +507,24 @@ window.onload = function()
 		return obj;
 	}
 	
+	/** @constructor */
+	A.ObjectPlayer1Ghost2 = function(position, direction)
+	{
+		var obj = new A.ObjectPlayer1Base(position, 1.5, direction, 75, [ [ 16, -16, -32, 2, 2 ], [ 15, -16, -32, 2, 2 ], [ 14, -16, -32, 2, 2 ] ]);
+		obj.shake_size = 2.5;
+		
+		// candy for the eye!
+		for (j=0; j<3; j++)
+		{
+			obj.sprites[j][5] = A._random_float(0, 1);
+			obj.sprites[j][6] = A._random_float(0, 1);
+			obj.sprites[j][7] = A._random_float(1, 4);
+			obj.sprites[j][8] = A._random_float(1, 4);
+		}
+		
+		return obj;
+	}
+	
 	// DEBUG BEGIN
 	A.log = function(s)
 	{
@@ -697,6 +717,11 @@ window.onload = function()
 				A.golds[0] -= 100;
 				A.player1_queues[A.player1_current_queue][4].push(1);
 			}
+			else if (button_order == 4)
+			{
+				A.golds[0] -= 125;
+				A.player1_queues[A.player1_current_queue][4].push(2);
+			}
 			else
 			{
 				A.selected_tool = button_order;
@@ -798,6 +823,10 @@ window.onload = function()
 		{
 			A.objects.push(new A.ObjectPlayer1Ghost1(args[2], args[3]));
 		}
+		else if (args[0] == 2)
+		{
+			A.objects.push(new A.ObjectPlayer1Ghost2(args[2], args[3]));
+		}
 		else
 		{
 			return false;
@@ -832,6 +861,7 @@ window.onload = function()
 				[ [  8,  8 ], "c1", "1", A.set_tool, 1 ],
 				[ [ 34,  8 ], "c2", "2", A.set_tool, 2 ],
 				[ [ 60,  8 ], "c3", "3", A.set_tool, 3 ],
+				[ [ 86,  8 ], "c3", "4", A.set_tool, 4 ],
 				[ [  4, 40 ], "cx", "Q", A.player1_queue_startstop, 0 ],
 				[ [ 28, 40 ], "cx", "W", A.player1_queue_decrease_pop_time, 0 ],
 				[ [ 52, 40 ], "cx", "E", A.player1_queue_select, 0 ],
@@ -1253,8 +1283,12 @@ window.onload = function()
 					if (A.player1_queues[i][4][j] == 1)
 					{
 						A.gfx__texture_put("c3", 72 + k*24, 40 + i*26);
-						k++;
 					}
+					else if (A.player1_queues[i][4][j] == 2)
+					{
+						A.gfx__texture_put("c3", 72 + k*24, 40 + i*26);
+					}
+					k++;
 				}
 			}
 			
@@ -1682,6 +1716,9 @@ window.onload = function()
 		A.gfx__texture_create(11, "pih" + grid2, A.TEXTURE_SIZE_64X32); // small object selection
 		A.gfx__texture_create(12, "pkjMUKcTa.pkjjrizqw.pkjsOqVxT.", A.TEXTURE_SIZE_64X32); // small object selection
 		A.gfx__texture_create(13, "pkj" + grid2, A.TEXTURE_SIZE_64X32); // ObjectPlayer1Destination sprite
+		A.gfx__texture_create(14, "popM2W5etkvq702wOhJPQIM.p1pVUfdmR.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost2 sprite
+		A.gfx__texture_create(15, "pop8lvybeHZEsQ0gt.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost2 sprite
+		A.gfx__texture_create(16, "popMTcpwopV.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost2 sprite
 		A.gfx__texture_create("a0", "p00gSsesS.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.gfx__texture_create("a1", "p00gssssg.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.gfx__texture_create("a2", "p00SgSses.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
@@ -1847,6 +1884,10 @@ window.onload = function()
 					if (j == 1)
 					{
 						B.send("object_create", [ 1, A._generate_uid(), A._2d_copy(q[0]), q[1] ]);
+					}
+					else if (j == 2)
+					{
+						B.send("object_create", [ 2, A._generate_uid(), A._2d_copy(q[0]), q[1] ]);
 					}
 				}
 				
