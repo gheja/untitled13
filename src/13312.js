@@ -21,6 +21,9 @@ window.onload = function()
 	/** @const */ A.ATTACK_STATUS_RELOADING = 0;
 	/** @const */ A.ATTACK_STATUS_CYCLING = 1;
 	/** @const */ A.ATTACK_STATUS_READY = 2;
+	/** @const */ A.OBJECT_STATUS_ALIVE = 0;
+	/** @const */ A.OBJECT_STATUS_DESTRUCTING = 1;
+	/** @const */ A.OBJECT_STATUS_DESTROYED = 2;
 	A.texture_sizes = [ [ 32, 32 ], [ 64, 32 ], [ 64, 64 ], [ 24, 24 ] ];
 	
 	A.tick_number = 0;
@@ -107,7 +110,7 @@ window.onload = function()
 		obj.position_prev = obj.position;
 		obj.shadow_sprite_id = 6;
 		obj.selection_sprite_id = 11;
-		obj.destroyed = 0;
+		obj.status = A.OBJECT_STATUS_ALIVE;
 		obj.permanent = (health == -1); /* this object cannot be hurt or destroyed */
 		obj.hidden_from_other_player = 0;
 		obj.detection_distance = 3;
@@ -115,6 +118,8 @@ window.onload = function()
 		
 		obj.command_destroy = function(mode)
 		{
+			this.status = A.OBJECT_STATUS_DESTRUCTING;
+			
 			// make sure the object is really destroyed on both side
 			B.send("object_destroy", [ this.uid, mode ]);
 		}
@@ -126,7 +131,7 @@ window.onload = function()
 				return;
 			}
 			
-			this.destroyed = 1;
+			this.status = A.OBJECT_STATUS_DESTROYED;
 			A.hit_nearby_objects(this.position, 50, 3, this.owner_player);
 			this.speed = [ 0, 0 ];
 			this.position = [ -10, -10 ];
@@ -147,7 +152,7 @@ window.onload = function()
 				return;
 			}
 			
-			if (this.health == -1 || this.destroyed)
+			if (this.health == -1 || this.status != A.OBJECT_STATUS_ALIVE)
 			{
 				return;
 			}
@@ -1093,7 +1098,7 @@ window.onload = function()
 			
 			obj = A.objects[i];
 			
-			if (obj.destroyed || (obj.owner_player != A.current_player && obj.hidden_from_other_player))
+			if (obj.status == A.OBJECT_STATUS_DESTROYED || (obj.owner_player != A.current_player && obj.hidden_from_other_player))
 			{
 				continue;
 			}
@@ -1742,7 +1747,7 @@ window.onload = function()
 		
 		for (i in A.objects)
 		{
-			if (A.objects[i].destroyed == 1)
+			if (A.objects[i].status != A.OBJECT_STATUS_ALIVE)
 			{
 				continue;
 			}
@@ -1889,7 +1894,7 @@ window.onload = function()
 		// clean up destroyed objects
 		for (i in A.objects)
 		{
-			if (A.objects[i].destroyed)
+			if (A.objects[i].status == A.OBJECT_STATUS_DESTROYED)
 			{
 				A.objects = A._remove_array_item(A.objects, i);
 				for (j in A.objects)
@@ -1907,7 +1912,7 @@ window.onload = function()
 		for (i in A.objects)
 		{
 			// dead objects don't move...
-			if (A.objects[i].destroyed)
+			if (A.objects[i].status == A.OBJECT_STATUS_DESTROYED)
 			{
 				continue;
 			}
