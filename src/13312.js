@@ -142,7 +142,10 @@ window.onload = function()
 			}
 			
 			this.status = A.OBJECT_STATUS_DESTROYED;
-			A.hit_nearby_objects(this.position, 50, 3, this.owner_player);
+			
+			// hit nearby objects based on the original health of this object
+			A.hit_nearby_objects(this.position, this.health[1] / 2, 2, this.owner_player);
+			
 			this.speed = [ 0, 0 ];
 			this.position = [ -10, -10 ];
 			A.shake += this.shake_size;
