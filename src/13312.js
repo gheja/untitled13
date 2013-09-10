@@ -1997,6 +1997,8 @@ window.onload = function()
 	B.message_queue = [];
 	B.delay = 10;
 	
+	/* TODO: add pings, auto correction of delay based on pings (ie. good -1, normal +0, bad +5), warning about slow network */
+	
 	// DEBUG BEGIN
 	B.log = function(s)
 	{
