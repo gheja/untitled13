@@ -640,6 +640,18 @@ window.onload = function()
 		return result;
 	}
 	
+	A._array_reindex = function(array)
+	{
+		var i, result = [];
+		
+		for (i in array)
+		{
+			result.push(array[i]);
+		}
+		
+		return result;
+	}
+	
 	A._cv_gradient = function(c, p1, p2, stops)
 	{
 		var i, gradient;
@@ -2008,12 +2020,16 @@ window.onload = function()
 	
 	A.tick = function()
 	{
-		// DEBUG BEGIN
 		if (A.tick_number % 100 == 0)
 		{
+			A.shots = A._array_reindex(A.shots);
+			A.gfx_effect_shot = A._array_reindex(A.gfx_effect_shot);
+			A.gfx_effect_fire = A._array_reindex(A.gfx_effect_fire);
+			
+			// DEBUG BEGIN
 			A.log("ticks: " + A.tick_number + ", frames: " + A.frame_number + ", game_time*1000: " + Math.round(A.game_time * 1000) + ", objects: " + A.objects.length + ", shots: " + A.shots.length + ", fire particles: " + A.gfx_effect_fire.length);
+			// DEBUG END
 		}
-		// DEBUG END
 		
 		A.tick_number++;
 		B.process_tick(A.tick_number);
