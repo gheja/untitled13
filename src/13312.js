@@ -966,7 +966,7 @@ window.onload = function()
 		{
 			a = (progress - 0.5) / 0.2;
 			radius = 20 + a * -4;
-			c.fillStyle = "rgba(" + Math.floor(255 - a * 255) + ",0,0," + (0.2 - a * 0.2) + ")";
+			c.fillStyle = "rgba(" + Math.floor(255 - a * 255) + ",0,0," + (0.2 - a * 0.1) + ")";
 		}
 		else
 		{
