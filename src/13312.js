@@ -100,6 +100,7 @@ window.onload = function()
 		obj.direction = direction; /* 0: up, 1: right, 2: down, 3: left */
 		obj.sprites = sprites; /* array of sprites and properties: [ [ sprite_id, screen_position_x, screen_positon_y ], ... ] */
 		obj.health = [ health, health ]; /* current, maximal */
+		obj.uid = A._generate_uid();
 		
 		obj.position_on_layer = A._world_position_to_layer_position(position);
 		obj.gui_show_bars_until_tick = 0;
@@ -490,6 +491,16 @@ window.onload = function()
 	}
 	// DEBUG END
 	
+	A._generate_uid = function()
+	{
+		var i, result = "";
+		for (i=0; i<32; i++)
+		{
+			result += A.BASE64_CHARS[Math.floor(Math.random() * (A.BASE64_CHARS.length - 1))];
+		}
+		return result;
+	}
+	
 	A._distance = function(p, q)
 	{
 		return Math.sqrt(Math.pow(p[0] - q[0], 2)+ Math.pow(p[1] - q[1], 2));
@@ -764,8 +775,15 @@ window.onload = function()
 	{
 		if (args[0] == 1)
 		{
-			A.objects.push(new A.ObjectPlayer1Ghost1(args[1], args[2]));
+			A.objects.push(new A.ObjectPlayer1Ghost1(args[2], args[3]));
 		}
+		else
+		{
+			return false;
+		}
+		
+		// synchronize object UID across players (indexes can be different)
+		A.objects[A.objects.length - 1].uid = args[1];
 	}
 	
 	A.set_player = function(player_id)
@@ -1794,7 +1812,7 @@ window.onload = function()
 					j = q[4].pop();
 					if (j == 1)
 					{
-						B.send("create_object", [ 1, A._2d_copy(q[0]), q[1] ]);
+						B.send("create_object", [ 1, A._generate_uid(), A._2d_copy(q[0]), q[1] ]);
 					}
 				}
 				
