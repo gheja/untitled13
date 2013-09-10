@@ -11,6 +11,8 @@ window.onload = function()
 		game_duration: 30
 	};
 	
+	/** @const */ A.BASE64_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+	
 	/** @const */ A.TEXTURE_SIZE_32X32 = 0;
 	/** @const */ A.TEXTURE_SIZE_64X32 = 1;
 	/** @const */ A.TEXTURE_SIZE_64X64 = 2;
@@ -495,11 +497,10 @@ window.onload = function()
 	
 	A._decode = function(s, start, length)
 	{
-		var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 		var args = [];
 		for (var i=0; i<length; i++)
 		{
-			args[i] = chars.indexOf(s[i + start]) / (chars.length - 1);
+			args[i] = A.BASE64_CHARS.indexOf(s[i + start]) / (A.BASE64_CHARS.length - 1);
 		}
 		return args;
 	}
