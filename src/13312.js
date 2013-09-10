@@ -1872,7 +1872,7 @@ window.onload = function()
 			
 			if ((i + A.frame_number) % 2 == 0)
 			{
-				A.gfx_effect_fire.push([ [ p[0] + A._random_float(-10, 10), p[1] + A._random_float(-10, 10) ], [ A.shots[i][1][0], A.shots[i][1][0] - 50 ], 1, 1 ]);
+				A.gfx_effect_fire.push([ [ p[0] + A._random_float(-10, 10), p[1] + A._random_float(-10, 10) ], [ A.shots[i][1][0], A.shots[i][1][0] - 50 ], 0.7, 0.7 ]);
 			}
 			
 			// move the shot
