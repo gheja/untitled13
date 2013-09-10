@@ -1963,6 +1963,15 @@ window.onload = function()
 		// move the objects
 		for (i in A.objects)
 		{
+			// add some smoke for towers with low health
+			if (A.objects[i].owner_player == 2 && !A.objects[i].permanent)
+			{
+				for (j=0.6; j>A.objects[i].health[0]/A.objects[i].health[1]; j -= 0.2)
+				{
+					A.gfx_effect_fire.push([ [ A.objects[i].position_on_layer[0] + A._random_float(-5, 5), A.objects[i].position_on_layer[1] + A._random_float(-20, 0) ], [ A._random_float(5, 25), -50 ], 1.75, 6 ]);
+				}
+			}
+			
 			// dead objects don't move...
 			if (A.objects[i].status == A.OBJECT_STATUS_DESTROYED)
 			{
