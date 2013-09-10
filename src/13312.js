@@ -113,6 +113,12 @@ window.onload = function()
 		obj.detection_distance = 3;
 		obj.selected = 0;
 		
+		obj.command_destroy = function(mode)
+		{
+			// make sure the object is really destroyed on both side
+			B.send("object_destroy", [ this.uid, mode ]);
+		}
+		
 		obj.explode = function()
 		{
 			if (this.permanent)
@@ -151,9 +157,7 @@ window.onload = function()
 			if (this.health[0] <= 0)
 			{
 				this.health[0] = 0;
-				
-				// make sure the object is really exploded on both side
-				B.send("object_destroy", [ this.uid, 1 ]);
+				this.command_destroy(1);
 			}
 		}
 		
@@ -165,8 +169,7 @@ window.onload = function()
 			}
 			else if (A.selected_tool == 2)
 			{
-				// make sure the object is really exploded on both side
-				B.send("object_destroy", [ this.uid, 1 ]);
+				this.command_destroy(1);
 			}
 		}
 		
@@ -417,8 +420,7 @@ window.onload = function()
 		obj.on_collision_middle = function(obj2, i, distance)
 		{
 			obj2.direction = -1;
-			// make sure the object is really exploded on both side
-			B.send("object_destroy", [ obj2.uid, 1 ]);
+			obj2.command_destroy(1);
 		}
 		
 		obj.on_tick = function()
