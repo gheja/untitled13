@@ -2065,7 +2065,8 @@ window.onload = function()
 				if (B.message_queue[i][1] == "object_create")
 				{
 					A.object_create(B.message_queue[i][2]);
-				} else if (B.message_queue[i][1] == "object_destroy")
+				}
+				else if (B.message_queue[i][1] == "object_destroy")
 				{
 					A.object_destroy(B.message_queue[i][2]);
 				}
