@@ -792,7 +792,7 @@ window.onload = function()
 		return true;
 	}
 	
-	A.create_object = function(args)
+	A.object_create = function(args)
 	{
 		if (args[0] == 1)
 		{
@@ -1846,7 +1846,7 @@ window.onload = function()
 					j = q[4].pop();
 					if (j == 1)
 					{
-						B.send("create_object", [ 1, A._generate_uid(), A._2d_copy(q[0]), q[1] ]);
+						B.send("object_create", [ 1, A._generate_uid(), A._2d_copy(q[0]), q[1] ]);
 					}
 				}
 				
@@ -2062,9 +2062,9 @@ window.onload = function()
 				// DEBUG END
 				
 				// we DO NOT want direct function calls here based on the message just came from the other half of the Earth...
-				if (B.message_queue[i][1] == "create_object")
+				if (B.message_queue[i][1] == "object_create")
 				{
-					A.create_object(B.message_queue[i][2]);
+					A.object_create(B.message_queue[i][2]);
 				} else if (B.message_queue[i][1] == "object_destroy")
 				{
 					A.object_destroy(B.message_queue[i][2]);
