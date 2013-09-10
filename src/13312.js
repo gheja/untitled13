@@ -267,7 +267,7 @@ window.onload = function()
 			{
 				// check if we use target locking, the target is still alive and it is in range
 				if (this.attack_target_selection_lock == 0 ||
-					A.objects[this.attack_target_object_id].destroyed ||
+					A.objects[this.attack_target_object_id].health <= 0 ||
 					A._distance(A.objects[this.attack_target_object_id].position, this.position) > this.attack_distance)
 				{
 					this.attack_target_object_id = -1;
@@ -1696,7 +1696,7 @@ window.onload = function()
 		
 		for (i in A.objects)
 		{
-			if (A.objects[i].owner_player == player_id && (!skip_permanents || (skip_permanents && !A.objects[i].permanent)))
+			if (A.objects[i].owner_player == player_id && (!skip_permanents || (skip_permanents && !A.objects[i].permanent)) && A.objects[i].health[0] > 0)
 			{
 				distance = A._distance(position, A.objects[i].position);
 				if (distance > max_distance)
