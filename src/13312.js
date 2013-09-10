@@ -151,7 +151,9 @@ window.onload = function()
 			if (this.health[0] <= 0)
 			{
 				this.health[0] = 0;
-				this.explode();
+				
+				// make sure the object is really exploded on both side
+				B.send("object_destroy", [ this.uid, 1 ]);
 			}
 		}
 		
@@ -163,7 +165,8 @@ window.onload = function()
 			}
 			else if (A.selected_tool == 2)
 			{
-				this.explode(); // or sell
+				// make sure the object is really exploded on both side
+				B.send("object_destroy", [ this.uid, 1 ]);
 			}
 		}
 		
@@ -413,7 +416,8 @@ window.onload = function()
 		
 		obj.on_collision_middle = function(obj2, i, distance)
 		{
-			obj2.explode();
+			// make sure the object is really exploded on both side
+			B.send("object_destroy", [ obj2.uid, 1 ]);
 		}
 		
 		obj.on_tick = function()
@@ -784,6 +788,19 @@ window.onload = function()
 		
 		// synchronize object UID across players (indexes can be different)
 		A.objects[A.objects.length - 1].uid = args[1];
+	}
+	
+	A.object_destroy = function(args)
+	{
+		var i;
+		
+		for (i in A.objects)
+		{
+			if (A.objects[i].uid == args[0])
+			{
+				A.objects[i].explode();
+			}
+		}
 	}
 	
 	A.set_player = function(player_id)
@@ -2029,6 +2046,9 @@ window.onload = function()
 				if (B.message_queue[i][1] == "create_object")
 				{
 					A.create_object(B.message_queue[i][2]);
+				} else if (B.message_queue[i][1] == "object_destroy")
+				{
+					A.object_destroy(B.message_queue[i][2]);
 				}
 				
 				B.message_queue = A._remove_array_item(B.message_queue, i);
