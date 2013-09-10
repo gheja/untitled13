@@ -625,7 +625,7 @@ window.onload = function()
 		}
 	}
 	
-	A._remove_array_item = function(array, id)
+	A._array_remove_item = function(array, id)
 	{
 		var i, result = [];
 		
@@ -1203,7 +1203,7 @@ window.onload = function()
 			
 			if (A.gfx_effect_fire[i][2] < 0)
 			{
-				A.gfx_effect_fire = A._remove_array_item(A.gfx_effect_fire, i);
+				A.gfx_effect_fire = A._array_remove_item(A.gfx_effect_fire, i);
 			}
 		}
 	}
@@ -1240,7 +1240,7 @@ window.onload = function()
 			
 			if (A.gfx_effect_shot[i][3] <= 0)
 			{
-				A.gfx_effect_shot = A._remove_array_item(A.gfx_effect_shot, i);
+				A.gfx_effect_shot = A._array_remove_item(A.gfx_effect_shot, i);
 			}
 		}
 	}
@@ -1929,7 +1929,7 @@ window.onload = function()
 			// clean up if no ticks remaining
 			if (A.shots[i][4] == 0)
 			{
-				A.shots = A._remove_array_item(A.shots, i);
+				A.shots = A._array_remove_item(A.shots, i);
 			}
 		}
 	}
@@ -1948,7 +1948,7 @@ window.onload = function()
 		{
 			if (A.objects[i].status == A.OBJECT_STATUS_DESTROYED)
 			{
-				A.objects = A._remove_array_item(A.objects, i);
+				A.objects = A._array_remove_item(A.objects, i);
 				for (j in A.objects)
 				{
 					// invalidate all targets
@@ -2123,7 +2123,7 @@ window.onload = function()
 					A.object_destroy(B.message_queue[i][2]);
 				}
 				
-				B.message_queue = A._remove_array_item(B.message_queue, i);
+				B.message_queue = A._array_remove_item(B.message_queue, i);
 			}
 		}
 	}
