@@ -416,6 +416,7 @@ window.onload = function()
 		
 		obj.on_collision_middle = function(obj2, i, distance)
 		{
+			obj2.direction = -1;
 			// make sure the object is really exploded on both side
 			B.send("object_destroy", [ obj2.uid, 1 ]);
 		}
