@@ -1870,7 +1870,10 @@ window.onload = function()
 			
 			p = A._world_position_to_layer_position(A.shots[i][0]);
 			
-			A.gfx_effect_fire.push([ [ p[0] + A._random_float(-10, 10), p[1] + A._random_float(-10, 10) ], [ A.shots[i][1][0], A.shots[i][1][0] - 50 ], 1, 1 ]);
+			if ((i + A.frame_number) % 2 == 0)
+			{
+				A.gfx_effect_fire.push([ [ p[0] + A._random_float(-10, 10), p[1] + A._random_float(-10, 10) ], [ A.shots[i][1][0], A.shots[i][1][0] - 50 ], 1, 1 ]);
+			}
 			
 			// move the shot
 			A.shots[i][0][0] += A.shots[i][1][0] * A.seconds_passed_since_last_tick;
