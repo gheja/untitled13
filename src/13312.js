@@ -54,8 +54,8 @@ window.onload = function()
 	A.inputs_prev = {};
 	A.cursor_position_in_world = [ 10, 10 ]; /* tiles */
 	A.scroll = [ 0, -40 ] /* pixels */
-	A.map = {};
-	A.tile_statuses = {};
+	A.map = [];
+	A.tile_statuses = [];
 	A.palette = {
 		0: "rgba(0,0,0,0.2)",
 		1: "rgba(0,0,0,0.4)",
