@@ -24,6 +24,7 @@ S.log = function(socket, s)
 io.sockets.on("connection", function(socket) {
 	S.log(socket, "connected");
 	
+	socket.ping_result = 0; // ms
 	socket.emit("welcome", { uid: socket.id, version: 1 });
 	
 	socket.on("disconnect", function() {
@@ -76,6 +77,24 @@ io.sockets.on("connection", function(socket) {
 		S.log(socket, "message: " + data);
 		
 		io.sockets.socket(socket.partner_id).emit("message", data);
+	});
+	
+	socket.on("ping", function(data) {
+		socket.ping_start = (new Date()).getTime();
+		socket.emit("ping_request", socket.ping_start);
+	});
+	
+	socket.on("ping_response", function(data) {
+		var now = (new Date()).getTime();
+		
+		socket.ping_result = (now - socket.ping_start);
+		
+		// DEBUG BEGIN
+		var a = Math.round(socket.ping_result / 2 + io.sockets.socket(socket.partner_id).ping_result / 2);
+		S.log("latency: " + a);
+		socket.emit("debug_log", "server-client-server latencies: you: " + (socket.ping_result) + " ms, partner: " + (io.sockets.socket(socket.partner_id).ping_result) + " ms");
+		socket.emit("debug_log", "client1-server-client2 latency: about " + a + " ms");
+		// DEBUG END
 	});
 });
 

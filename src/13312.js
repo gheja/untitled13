@@ -2105,6 +2105,12 @@ window.onload = function()
 			A.gfx_effect_fire = A._array_reindex(A.gfx_effect_fire);
 			
 			A.log("ticks: " + A.tick_number + ", frames: " + A.frame_number + ", game_time*1000: " + Math.round(A.game_time * 1000) + ", objects: " + A.objects.length + ", shots: " + A.shots.length + ", fire particles: " + A.gfx_effect_fire.length);
+			
+			// do interleaved pinging
+			if (A.tick_number / 100 % 2 == (A.current_player - 1))
+			{
+				B.ping();
+			}
 		}
 		
 		A.tick_number++;
@@ -2240,6 +2246,13 @@ window.onload = function()
 		A.server_url = document.getElementsByTagName("script")[0].src.match(new RegExp(/(http[s]*:\/\/|\/\/)[^/]+/))[0];
 	}
 	
+	B.ping = function()
+	{
+		// we tell the server we would like to start a ping test with this "ping"
+		// it then sends a "ping_request" and we send a "ping_response" in turn
+		B.socket.emit("ping");
+	}
+	
 	B.start = function()
 	{
 		B.log("connecting to server: " + A.server_url);
@@ -2303,6 +2316,10 @@ window.onload = function()
 			B.log("[server] " + data);
 		});
 		// DEBUG END
+		
+		B.socket.on("ping_request", function(data) {
+			B.socket.emit("ping_response", data);
+		});
 	}
 	
 	A.init();
