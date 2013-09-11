@@ -1656,7 +1656,7 @@ window.onload = function()
 		window.addEventListener("resize", A.handle_resize, false);
 		/* move the world to the middle of the page */
 		A.handle_resize();
-		document.getElementById("canvas0").appendChild(A.cv.cv);
+		document.getElementById("container").appendChild(A.cv.cv);
 	}
 	
 	A.init_map = function()
