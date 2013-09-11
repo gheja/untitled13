@@ -55,7 +55,13 @@ io.sockets.on("connection", function(socket) {
 				{
 					S.games[i].player2_uid = socket.uid;
 					S.log(socket, "connected to player " + S.games[i].player1_uid);
+					
+					// bind them together
+					socket.partner_id = S.games[i].player1_uid;
+					io.sockets.socket(S.games[i].player1_uid).partner_id = S.games[i].player2_uid;
+					
 					socket.emit("game_started", S.games[i]);
+					io.sockets.socket(socket.partner_id).emit("game_started", S.games[i]);
 					return;
 				}
 			}
