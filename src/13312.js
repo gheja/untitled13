@@ -379,6 +379,11 @@ window.onload = function()
 		obj.hidden_from_other_player = 1;
 		obj.detection_distance = 0;
 		
+		// make sure the uid is the same across players
+		// as switches are generated only on init_map() and A.objects is cleared there, we can count on A.objects.length
+		// but yeah, this is hackish
+		obj.uid = "object_" + A.objects.length;
+		
 		obj.update = function()
 		{
 			this.sprites = [];
