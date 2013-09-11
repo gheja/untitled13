@@ -53,6 +53,7 @@ try cp -xarv src/* build/js13kgames_entry/
 echo "* Removing debug parts and renaming some variables..."
 cat build/js13kgames_entry/13312.js | sed \
 	-e '/DEBUG BEGIN/,/\DEBUG END/{d}' \
+	-e 's/.*[A-Z].log.*//g' \
 	-e 's/\.direction/.d/g' \
 	-e 's/\.position/.p/g' \
 	-e 's/\.speed/.s/g' > build/js13kgames_entry/13312.js.1
