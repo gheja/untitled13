@@ -2196,7 +2196,7 @@ window.onload = function()
 		
 		B.socket.on("game_created", function(data) {
 			B.log("new game created successfully, URL is ?game=" + A.player_uid);
-			A.overlay_message("Game started, URL: ?game=" + A.player_uid);
+			A.overlay_message("Game created, give this URL to the other player:<br/><input type=\"text\" value=\"" + A.server_url + "?game=" + A.player_uid + "\" readonly=\"readonly\" />");
 		});
 		
 		B.socket.on("game_started", function(data) {
