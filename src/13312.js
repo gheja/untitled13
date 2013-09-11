@@ -1645,7 +1645,7 @@ window.onload = function()
 		A.cv.cv.height = window.innerHeight;
 	}
 	
-	A.init = function()
+	A.init_canvas = function()
 	{
 		A.cv = A._create_cv(1280, 720);
 		A.cv.cv.addEventListener("mousemove", A.handle_mousemove, false);
@@ -2067,13 +2067,17 @@ window.onload = function()
 		window.setInterval(A.render_frame, A.frame_interval);
 	}
 	
-	A.start = function()
+	A.init = function()
 	{
-		A.init();
+		A.init_canvas();
 		A.init_map();
 		A.init_textures();
 		A.init_ticks();
 		A.set_player(1);
+	}
+	
+	A.start = function()
+	{
 	}
 	
 	/* client-server communication */
@@ -2188,6 +2192,7 @@ window.onload = function()
 		});
 	}
 	
+	A.init();
 	B.init();
 	
 	A.start();
