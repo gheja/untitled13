@@ -846,6 +846,14 @@ window.onload = function()
 		{
 			A.objects.push(new A.ObjectPlayer1Ghost2(args[2], args[3]));
 		}
+		else if (args[0] == 21)
+		{
+			A.objects.push(new A.ObjectPlayer2Tower1(args[2]));
+		}
+		else if (args[0] == 22)
+		{
+			A.objects.push(new A.ObjectPlayer2Tower2(args[2]));
+		}
 		else
 		{
 			return false;
@@ -1581,11 +1589,11 @@ window.onload = function()
 		{
 			if (A.selected_tool == 3)
 			{
-				A.player2_build_tower(p, 1);
+				B.send("object_create", [ 21, A._generate_uid(), p ]);
 			}
 			else if (A.selected_tool == 4)
 			{
-				A.player2_build_tower(p, 2);
+				B.send("object_create", [ 22, A._generate_uid(), p ]);
 			}
 		}
 		return true;
