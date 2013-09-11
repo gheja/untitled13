@@ -14,6 +14,7 @@ function handler(request, response)
 var S = {};
 
 S.games = [];
+S.socket_partners = {};
 
 S.log = function(socket, s)
 {
@@ -53,7 +54,7 @@ io.sockets.on("connection", function(socket) {
 			{
 				if (S.games[i].player2_uid == null)
 				{
-					S.games[i].player2_uid = socket.uid;
+					S.games[i].player2_uid = socket.id;
 					S.log(socket, "connected to player " + S.games[i].player1_uid);
 					
 					// bind them together
@@ -62,6 +63,7 @@ io.sockets.on("connection", function(socket) {
 					
 					socket.emit("game_started", S.games[i]);
 					io.sockets.socket(socket.partner_id).emit("game_started", S.games[i]);
+					
 					return;
 				}
 			}
@@ -71,6 +73,9 @@ io.sockets.on("connection", function(socket) {
 	});
 	
 	socket.on("message", function(data) {
+		S.log(socket, "message: " + data);
+		
+		io.sockets.socket(socket.partner_id).emit("message", data);
 	});
 });
 
