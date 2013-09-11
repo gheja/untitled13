@@ -132,7 +132,11 @@ window.onload = function()
 			this.status = A.OBJECT_STATUS_DESTRUCTING;
 			
 			// make sure the object is really destroyed on both side
-			B.send("object_destroy", [ this.uid, mode ]);
+			// but only player 1 is the master of objects
+			if (A.current_player == 1)
+			{
+				B.send("object_destroy", [ this.uid, mode ]);
+			}
 		}
 		
 		obj.explode = function()
