@@ -2152,13 +2152,18 @@ window.onload = function()
 	
 	B.init = function()
 	{
+		// this accepts the following formats and extracts the string marked by <>:
+		//   * <http://server>/path/to/file
+		//   * <https://server>/path/to/file
+		//   * <//server>/path/to/file
+		A.server_url = document.getElementsByTagName("script")[0].src.match(new RegExp(/(http[s]*:\/\/|\/\/)[^/]+/))[0];
 	}
 	
 	B.start = function()
 	{
-		B.log("connecting...");
+		B.log("connecting to server: " + A.server_url);
 		
-		B.socket = io.connect('http://192.168.0.13');
+		B.socket = io.connect(A.server_url);
 		
 		B.socket.on("welcome", function(data) {
 			var match;
