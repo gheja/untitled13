@@ -727,6 +727,11 @@ window.onload = function()
 		return a[0] == b[0] && a[1] == b[1];
 	}
 	
+	A._clamp = function(x, a, b)
+	{
+		return Math.min(Math.max(x, a), b);
+	}
+	
 	A._format_time = function(seconds)
 	{
 		var m, s, minus = seconds < 0;
@@ -1273,7 +1278,7 @@ window.onload = function()
 				continue;
 			}
 			
-			a = (A.gfx_effect_shot[i][3]/A.gfx_effect_shot[i][4]);
+			a = A._clamp(A.gfx_effect_shot[i][3]/A.gfx_effect_shot[i][4], 0, 1);
 			
 			c.strokeStyle = A._cv_gradient(c, A.gfx_effect_shot[i][0], A.gfx_effect_shot[i][1],
 				[
