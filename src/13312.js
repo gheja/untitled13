@@ -2109,8 +2109,7 @@ window.onload = function()
 		B.log("sending: " + message);
 		
 		B.receive(message);
-		
-		// TODO: also send over network :)
+		B.socket.emit("message", message);
 	}
 	
 	B.receive = function(message)
