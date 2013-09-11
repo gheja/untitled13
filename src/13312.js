@@ -13,6 +13,8 @@ window.onload = function()
 	
 	/** @const */ A.BASE64_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 	
+	/** @const */ A.TILE_STATUS_NORMAL = 0;
+	/** @const */ A.TILE_STATUS_LOCKED = 1;
 	/** @const */ A.GAME_STATUS_STARTING = 0;
 	/** @const */ A.GAME_STATUS_RUNNING = 1;
 	/** @const */ A.TEXTURE_SIZE_32X32 = 0;
@@ -53,6 +55,7 @@ window.onload = function()
 	A.cursor_position_in_world = [ 10, 10 ]; /* tiles */
 	A.scroll = [ 0, -40 ] /* pixels */
 	A.map = {};
+	A.tile_statuses = {};
 	A.palette = {
 		0: "rgba(0,0,0,0.2)",
 		1: "rgba(0,0,0,0.4)",
@@ -824,13 +827,23 @@ window.onload = function()
 		{
 			A.objects.push(new A.ObjectPlayer1Ghost2(args[2], args[3]));
 		}
-		else if (args[0] == 21)
+		else if (args[0] > 20)
 		{
-			A.objects.push(new A.ObjectPlayer2Tower1(args[2]));
-		}
-		else if (args[0] == 22)
-		{
-			A.objects.push(new A.ObjectPlayer2Tower2(args[2]));
+			if (args[0] == 21)
+			{
+				A.objects.push(new A.ObjectPlayer2Tower1(args[2]));
+			}
+			else if (args[0] == 22)
+			{
+				A.objects.push(new A.ObjectPlayer2Tower2(args[2]));
+			}
+			else
+			{
+				return false;
+			}
+			
+			//unlock the tile
+			A.tile_statuses[args[2][0]][args[2][1]] = A.TILE_STATUS_NORMAL;
 		}
 		else
 		{
@@ -1580,6 +1593,14 @@ window.onload = function()
 				}
 			}
 			
+			// check if tile is locked
+			if (A.tile_statuses[p[0]][p[1]] != A.TILE_STATUS_NORMAL)
+			{
+				return false;
+			}
+			
+			A.tile_statuses[p[0]][p[1]] = A.TILE_STATUS_LOCKED;
+			
 			if (A.selected_tool == 3 && A.alter_gold(-100))
 			{
 				B.send("object_create", [ 21, A._generate_uid(), p ]);
@@ -1674,10 +1695,12 @@ window.onload = function()
 		{
 			A.fog[j] = [];
 			A.map[j] = {};
+			A.tile_statuses[j] = {};
 			for (i=0; i<A.config.world_height; i++)
 			{
 				A.fog[j][i] = 2;
 				A.map[j][i] = 0;
+				A.tile_statuses[j][i] = A.TILE_STATUS_NORMAL;
 			}
 		}
 		
