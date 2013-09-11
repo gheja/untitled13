@@ -13,6 +13,8 @@ window.onload = function()
 	
 	/** @const */ A.BASE64_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 	
+	/** @const */ A.GAME_STATUS_STARTING = 0;
+	/** @const */ A.GAME_STATUS_RUNNING = 1;
 	/** @const */ A.TEXTURE_SIZE_32X32 = 0;
 	/** @const */ A.TEXTURE_SIZE_64X32 = 1;
 	/** @const */ A.TEXTURE_SIZE_64X64 = 2;
@@ -36,7 +38,7 @@ window.onload = function()
 	A.seconds_passed_since_last_frame = 0;
 	A.last_frame_timestamp = 0;
 	
-	A.paused = 1;
+	A.game_status = A.GAME_STATUS_STARTING;
 	A.game_time = 0;
 	A.current_player = 1;
 	A.player_uid = -1;
@@ -2022,7 +2024,7 @@ window.onload = function()
 	
 	A.tick = function()
 	{
-		if (A.paused)
+		if (A.status != A.GAME_STATUS_RUNNING)
 		{
 			return;
 		}
@@ -2090,7 +2092,7 @@ window.onload = function()
 	
 	A.set_status = function(status)
 	{
-		A.paused = !status;
+		A.status = status;
 	}
 	
 	/* client-server communication */
@@ -2209,7 +2211,7 @@ window.onload = function()
 		B.socket.on("game_started", function(data) {
 			B.log("game started!");
 			A.set_player(data.player1_uid == A.player_uid ? 1 : 2);
-			A.set_status(1);
+			A.set_status(A.GAME_STATUS_RUNNING);
 			A.overlay_message("");
 		});
 		
