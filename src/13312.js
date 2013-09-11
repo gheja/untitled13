@@ -2169,6 +2169,13 @@ window.onload = function()
 	{
 		B.log("connecting to server: " + A.server_url);
 		
+		// security policy does not allow to local files to access remote servers
+		if (document.URL.indexOf("file://") == 0)
+		{
+			A.overlay_message("The game cannot run locally.");
+			return;
+		}
+		
 		B.socket = io.connect(A.server_url);
 		
 		B.socket.on("welcome", function(data) {
