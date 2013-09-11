@@ -755,7 +755,6 @@ window.onload = function()
 	
 	A.set_tool = function(button_order)
 	{
-		// TODO: validate selection
 		if (A.current_player == 1)
 		{
 			if (button_order == 3 && A.alter_gold(-100))
@@ -766,7 +765,8 @@ window.onload = function()
 			{
 				A.player1_queues[A.player1_current_queue][4].push(2);
 			}
-			else
+			
+			if (button_order < 3)
 			{
 				A.selected_tool = button_order;
 			}
