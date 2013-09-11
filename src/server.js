@@ -45,6 +45,23 @@ io.sockets.on("connection", function(socket) {
 	});
 	
 	socket.on("game_join", function(data) {
+		var i;
+		
+		for (i in S.games)
+		{
+			if (S.games[i].player1_uid == data)
+			{
+				if (S.games[i].player2_uid == null)
+				{
+					S.games[i].player2_uid = socket.uid;
+					S.log(socket, "connected to player " + S.games[i].player1_uid);
+					socket.emit("game_started", S.games[i]);
+					return;
+				}
+			}
+		}
+		
+		socket.emit("game_disconnected");
 	});
 	
 	socket.on("message", function(data) {
