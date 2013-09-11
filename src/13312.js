@@ -1736,8 +1736,6 @@ window.onload = function()
 		A.map[12][12] = 7;
 		A.map[13][12] = 7;
 		
-		A.objects.push(new A.ObjectPlayer2Tower1([ 10, 11 ]));
-		A.objects.push(new A.ObjectPlayer2Tower2([ 13, 10 ]));
 		A.objects.push(new A.ObjectPlayer1Destination([ 18, 6 ]));
 	}
 	
