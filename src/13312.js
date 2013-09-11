@@ -2084,8 +2084,8 @@ window.onload = function()
 	{
 		A.game_time += A.seconds_passed_since_last_tick;
 		
-		// add 100 golds every 5 seconds
-		if (A.tick_number % (5 * A.config.ticks_per_seconds) == 0)
+		// add 100 golds every 5 seconds in the normal game time
+		if (A.tick_number % (5 * A.config.ticks_per_seconds) == 0 && A.game_time <= A.config.game_duration)
 		{
 			A.alter_gold(100);
 		}
