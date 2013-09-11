@@ -8,7 +8,7 @@ window.onload = function()
 		world_width: 20,
 		world_height: 20,
 		bad_luck_mode: 0,
-		game_duration: 30
+		game_duration: 180
 	};
 	
 	/** @const */ A.BASE64_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
