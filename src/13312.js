@@ -177,7 +177,7 @@ window.onload = function()
 				return;
 			}
 			
-			if (this.health == -1 || this.status != A.OBJECT_STATUS_ALIVE)
+			if (this.permanent || this.status != A.OBJECT_STATUS_ALIVE)
 			{
 				return;
 			}
