@@ -2082,9 +2082,9 @@ window.onload = function()
 		A.set_player(1);
 	}
 	
-	A.start = function()
+	A.set_status = function(status)
 	{
-		A.paused = 0;
+		A.paused = !status;
 	}
 	
 	/* client-server communication */
@@ -2193,7 +2193,7 @@ window.onload = function()
 		B.socket.on("game_started", function(data) {
 			B.log("game started!");
 			A.set_player(data.player1_uid == A.player_uid ? 1 : 2);
-			A.start();
+			A.set_status(1);
 		});
 		
 		B.socket.on("game_disconnected", function(data) {
