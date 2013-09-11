@@ -2073,6 +2073,12 @@ window.onload = function()
 		window.setInterval(A.render_frame, A.frame_interval);
 	}
 	
+	A.overlay_message = function(message)
+	{
+		document.getElementById("overlay").style.display = message == "" ? "none" : "block";
+		document.getElementById("m1").innerHTML = message;
+	}
+	
 	A.init = function()
 	{
 		A.init_canvas();
@@ -2177,27 +2183,32 @@ window.onload = function()
 			if (match = document.URL.match(new RegExp('[?&]game=([0-9a-zA-Z\-\_]{20})')))
 			{
 				B.log("trying to connect to " + match[1] + "...");
+				A.overlay_message("Joining to game...");
 				B.socket.emit("game_join", match[1]);
 			}
 			else
 			{
 				B.log("creating a new game...");
+				A.overlay_message("Starting a new game...");
 				B.socket.emit("game_create");
 			}
 		});
 		
 		B.socket.on("game_created", function(data) {
 			B.log("new game created successfully, URL is ?game=" + A.player_uid);
+			A.overlay_message("Game started, URL: ?game=" + A.player_uid);
 		});
 		
 		B.socket.on("game_started", function(data) {
 			B.log("game started!");
 			A.set_player(data.player1_uid == A.player_uid ? 1 : 2);
 			A.set_status(1);
+			A.overlay_message("");
 		});
 		
 		B.socket.on("game_disconnected", function(data) {
 			B.log("game disconnected :(");
+			A.overlay_message("Disconnected :(");
 		});
 		
 		B.socket.on("message", function(data) {
