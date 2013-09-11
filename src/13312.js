@@ -38,6 +38,7 @@ window.onload = function()
 	
 	A.game_time = 0;
 	A.current_player = 1;
+	A.player_uid = -1;
 	A.shake = 0;
 	A.selected_tool = 0;
 	A.gui_buttons = []; /* array of GUI buttons: [ [ [ position_x, position_y ], texture, hotkey, function_to_call, [ function_arg1, function_arg2, ... ] ], ... ] */
@@ -2150,11 +2151,28 @@ window.onload = function()
 		B.socket = io.connect('http://192.168.0.13');
 		
 		B.socket.on("welcome", function(data) {
+			var match;
+			
 			B.log("connected to server, player uid: " + data.uid + ", version: " + data.version);
+			
+			A.player_uid = data.uid;
+			
+			// check if we find a "?game=xxx" string in the URL
+			// if so, try to join to that game
+			if (match = document.URL.match(new RegExp('[?&]game=([0-9a-zA-Z\-\_]{20})')))
+			{
+				B.log("trying to connect to " + match[1] + "...");
+				B.socket.emit("game_join", match[1]);
+			}
+			else
+			{
+				B.log("creating a new game...");
+				B.socket.emit("game_create");
+			}
 		});
 		
 		B.socket.on("game_created", function(data) {
-			B.log("new game created successfully, URL is /?game=xxx");
+			B.log("new game created successfully, URL is ?game=" + A.player_uid);
 		});
 		
 		B.socket.on("game_started", function(data) {

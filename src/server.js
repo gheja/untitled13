@@ -30,6 +30,18 @@ io.sockets.on("connection", function(socket) {
 	});
 	
 	socket.on("game_create", function() {
+		var game = {
+			player1_uid: socket.id,
+			player2_uid: null,
+			players_swapped: Math.random() < 0.5,
+			map: null
+		};
+		
+		S.games.push(game);
+		
+		console.log(game);
+		
+		socket.emit("game_created");
 	});
 	
 	socket.on("game_join", function(data) {
