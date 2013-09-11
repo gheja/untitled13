@@ -2026,9 +2026,7 @@ window.onload = function()
 			A.gfx_effect_shot = A._array_reindex(A.gfx_effect_shot);
 			A.gfx_effect_fire = A._array_reindex(A.gfx_effect_fire);
 			
-			// DEBUG BEGIN
 			A.log("ticks: " + A.tick_number + ", frames: " + A.frame_number + ", game_time*1000: " + Math.round(A.game_time * 1000) + ", objects: " + A.objects.length + ", shots: " + A.shots.length + ", fire particles: " + A.gfx_effect_fire.length);
-			// DEBUG END
 		}
 		
 		A.tick_number++;
@@ -2096,9 +2094,7 @@ window.onload = function()
 	{
 		var message = JSON.stringify([ (A.tick_number + B.delay), command, args ]);
 		
-		// DEBUG BEGIN
 		B.log("sending: " + message);
-		// DEBUG END
 		
 		B.receive(message);
 		
@@ -2107,9 +2103,7 @@ window.onload = function()
 	
 	B.receive = function(message)
 	{
-		// DEBUG BEGIN
 		B.log("received: " + message);
-		// DEBUG END
 		
 		B.message_queue.push(JSON.parse(message));
 	}
