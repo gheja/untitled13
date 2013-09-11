@@ -67,6 +67,10 @@ try java -jar build/compiler/compiler.jar \
 
 try mv -f build/js13kgames_entry/13312.min.js build/js13kgames_entry/13312.js
 
+echo "* Optimizing index.html..."
+cat build/js13kgames_entry/index.html | tr '\n' ' ' | sed -r 's/\s+/ /g' | sed -e 's/> </></g' > build/js13kgames_entry/index.html.1
+mv build/js13kgames_entry/index.html.1 build/js13kgames_entry/index.html
+
 try cd build
 
 now=`date +%Y%m%d_%H%M%S`
