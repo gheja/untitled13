@@ -1499,10 +1499,11 @@ window.onload = function()
 	
 	A.render_canvas = function()
 	{
+		// reset the canvas
+		A.cv.ctx.setTransform(1, 0, 0, 1, 0, 0);
 		A.cv.ctx.fillStyle = "#111";
 		A.cv.ctx.fillRect(0, 0, A.cv.cv.width, A.cv.cv.height);
 		
-		A.cv.ctx.save();
 		if (A.shake > 0)
 		{
 			A.cv.ctx.translate(A._random_int(-A.shake, A.shake, 1), A._random_int(-A.shake, A.shake, 1));
@@ -1528,8 +1529,6 @@ window.onload = function()
 		
 		// fixed to the screen not to the world
 		A.render_layer3();
-		
-		A.cv.ctx.restore();
 	}
 	
 	A.render_layer2 = function()
