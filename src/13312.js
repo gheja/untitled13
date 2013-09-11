@@ -301,7 +301,7 @@ window.onload = function()
 			{
 				// check if we use target locking, the target is still alive and it is in range
 				if (this.attack_target_selection_lock == 0 ||
-					A.objects[this.attack_target_object_id].health <= 0 ||
+					A.objects[this.attack_target_object_id].status != A.OBJECT_STATUS_ALIVE ||
 					A._distance(A.objects[this.attack_target_object_id].position, this.position) > this.attack_distance)
 				{
 					this.attack_target_object_id = -1;
