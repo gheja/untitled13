@@ -2081,6 +2081,7 @@ window.onload = function()
 	B = {};
 	B.message_queue = [];
 	B.delay = 10;
+	B.socket = {};
 	
 	/* TODO: add pings, auto correction of delay based on pings (ie. good -1, normal +0, bad +5), warning about slow network */
 	
@@ -2144,5 +2145,39 @@ window.onload = function()
 		}
 	}
 	
+	B.init = function()
+	{
+	}
+	
+	B.start = function()
+	{
+		B.log("connecting...");
+		
+		B.socket = io.connect('http://192.168.0.13');
+		
+		B.socket.on("welcome", function(data) {
+			B.log("connected to server, player uid: " + data.uid + ", version: " + data.version);
+		});
+		
+		B.socket.on("game_created", function(data) {
+			B.log("new game created successfully, URL is /?game=xxx");
+		});
+		
+		B.socket.on("game_started", function(data) {
+			B.log("game started!")
+		});
+		
+		B.socket.on("game_disconnected", function(data) {
+			B.log("game disconnected :(");
+		});
+		
+		B.socket.on("message", function(data) {
+			B.receive(data);
+		});
+	}
+	
+	B.init();
+	
 	A.start();
+	B.start();
 }
