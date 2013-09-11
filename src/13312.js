@@ -36,6 +36,7 @@ window.onload = function()
 	A.seconds_passed_since_last_frame = 0;
 	A.last_frame_timestamp = 0;
 	
+	A.paused = 1;
 	A.game_time = 0;
 	A.current_player = 1;
 	A.player_uid = -1;
@@ -2021,6 +2022,11 @@ window.onload = function()
 	
 	A.tick = function()
 	{
+		if (A.paused)
+		{
+			return;
+		}
+		
 		if (A.tick_number % 100 == 0)
 		{
 			A.shots = A._array_reindex(A.shots);
@@ -2078,6 +2084,7 @@ window.onload = function()
 	
 	A.start = function()
 	{
+		A.paused = 0;
 	}
 	
 	/* client-server communication */
@@ -2181,6 +2188,8 @@ window.onload = function()
 		
 		B.socket.on("game_started", function(data) {
 			B.log("game started!");
+			A.set_player(data.player1_uid == A.player_uid ? 1 : 2);
+			A.start();
 		});
 		
 		B.socket.on("game_disconnected", function(data) {
@@ -2195,6 +2204,6 @@ window.onload = function()
 	A.init();
 	B.init();
 	
-	A.start();
+	// A.start();
 	B.start();
 }
