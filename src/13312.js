@@ -726,19 +726,28 @@ window.onload = function()
 		return (minus ? "-" : "") + (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
 	}
 	
+	A.alter_gold = function(amount)
+	{
+		if (A.golds[A.current_player-1] + amount < 0)
+		{
+			return false;
+		}
+		
+		A.golds[A.current_player-1] += amount;
+		return true;
+	}
+	
 	A.set_tool = function(button_order)
 	{
 		// TODO: validate selection
 		if (A.current_player == 1)
 		{
-			if (button_order == 3)
+			if (button_order == 3 && A.alter_gold(-100))
 			{
-				A.golds[0] -= 100;
 				A.player1_queues[A.player1_current_queue][4].push(1);
 			}
-			else if (button_order == 4)
+			else if (button_order == 4 && A.alter_gold(-125))
 			{
-				A.golds[0] -= 125;
 				A.player1_queues[A.player1_current_queue][4].push(2);
 			}
 			else
@@ -1587,11 +1596,11 @@ window.onload = function()
 		
 		if (A.current_player == 2)
 		{
-			if (A.selected_tool == 3)
+			if (A.selected_tool == 3 && A.alter_gold(-100))
 			{
 				B.send("object_create", [ 21, A._generate_uid(), p ]);
 			}
-			else if (A.selected_tool == 4)
+			else if (A.selected_tool == 4 && A.alter_gold(-125))
 			{
 				B.send("object_create", [ 22, A._generate_uid(), p ]);
 			}
