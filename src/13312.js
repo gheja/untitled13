@@ -418,13 +418,8 @@ window.onload = function()
 			this.collision_check();
 		}
 		
-		obj.on_owner_click = function()
+		obj.toggle = function()
 		{
-			if (A.selected_tool != 1)
-			{
-				return;
-			}
-			
 			var first = 1;
 			
 			while (first || this.valid_directions[this.direction] == 0)
@@ -434,6 +429,16 @@ window.onload = function()
 			}
 			
 			this.update();
+		}
+		
+		obj.on_owner_click = function()
+		{
+			if (A.selected_tool != 1)
+			{
+				return;
+			}
+			
+			B.send("player1_switch_toggle", [ this.uid ]);
 		}
 		
 		obj.update();
@@ -823,6 +828,19 @@ window.onload = function()
 	{
 		A.player1_queues[queue_id][5] = !A.player1_queues[queue_id][5];
 		A.player1_queue_select(queue_id);
+	}
+	
+	A.player1_switch_toggle = function(args)
+	{
+		var i;
+		
+		for (i in A.objects)
+		{
+			if (A.objects[i].uid == args[0])
+			{
+				A.objects[i].toggle();
+			}
+		}
 	}
 	
 	A.object_create = function(args)
@@ -2202,6 +2220,10 @@ window.onload = function()
 				else if (B.message_queue[i][1] == "object_destroy")
 				{
 					A.object_destroy(B.message_queue[i][2]);
+				}
+				else if (B.message_queue[i][1] == "player1_switch_toggle")
+				{
+					A.player1_switch_toggle(B.message_queue[i][2]);
 				}
 				
 				B.message_queue = A._array_remove_item(B.message_queue, i);
