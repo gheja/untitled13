@@ -2176,7 +2176,7 @@ window.onload = function()
 		});
 		
 		B.socket.on("game_started", function(data) {
-			B.log("game started!")
+			B.log("game started!");
 		});
 		
 		B.socket.on("game_disconnected", function(data) {
