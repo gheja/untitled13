@@ -1603,11 +1603,11 @@ window.onload = function()
 			
 			A.tile_statuses[p[0]][p[1]] = A.TILE_STATUS_LOCKED;
 			
-			if (A.selected_tool == 3 && A.alter_gold(-100))
+			if (A.selected_tool == 3 && A.alter_gold(-200))
 			{
 				B.send("object_create", [ 21, A._generate_uid(), p ]);
 			}
-			else if (A.selected_tool == 4 && A.alter_gold(-125))
+			else if (A.selected_tool == 4 && A.alter_gold(-300))
 			{
 				B.send("object_create", [ 22, A._generate_uid(), p ]);
 			}
