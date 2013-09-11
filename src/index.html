@@ -12,7 +12,8 @@
 				margin: 0;
 				overflow: hidden;
 			}
-			#container
+			#container,
+			#overlay
 			{
 				position: fixed;
 				top: 0;
@@ -21,9 +22,21 @@
 				left: 0;
 				cursor: none;
 			}
+			#overlay
+			{
+				background: rgba(0,0,0,0.6);
+				font-size: 20pt;
+				cursor: default;
+				padding-top: 200px;
+				color: #fff;
+				text-align: center;
+			}
 		</style>
 	</head>
 	<body>
 		<div id="container"></div>
+		<div id="overlay">
+			<div id="m1">Initializing...</div>
+		</div>
 	</body>
 </html>
