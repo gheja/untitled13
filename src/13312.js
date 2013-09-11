@@ -2296,6 +2296,13 @@ window.onload = function()
 		B.socket.on("message", function(data) {
 			B.receive(data);
 		});
+		
+		// DEBUG BEGIN
+		B.socket.on("debug_log", function(data)
+		{
+			B.log("[server] " + data);
+		});
+		// DEBUG END
 	}
 	
 	A.init();
