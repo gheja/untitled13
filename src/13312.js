@@ -814,37 +814,6 @@ window.onload = function()
 		A.player1_queue_select(queue_id);
 	}
 	
-	A.player2_build_tower = function(position, tower_id)
-	{
-		var i;
-		
-		// if a concrete tile is under the cursor
-		if (A.map[position[0]][position[1]] != 7)
-		{
-			return false;
-		}
-		
-		// if the tile is not used yet
-		for (i in A.objects)
-		{
-			if (A.objects[i].owner_player == 2 && A._2d_equals(A.objects[i].position, position))
-			{
-				return false;
-			}
-		}
-		
-		if (tower_id == 1)
-		{
-			A.objects.push(new A.ObjectPlayer2Tower1(position));
-		}
-		else if (tower_id == 2)
-		{
-			A.objects.push(new A.ObjectPlayer2Tower2(position));
-		}
-		
-		return true;
-	}
-	
 	A.object_create = function(args)
 	{
 		if (args[0] == 1)
@@ -1596,6 +1565,21 @@ window.onload = function()
 		
 		if (A.current_player == 2)
 		{
+			// check if the tile under the cursos is not concrete
+			if (A.map[p[0]][p[1]] != 7)
+			{
+				return false;
+			}
+			
+			// check if tile is already occupied
+			for (i in A.objects)
+			{
+				if (A.objects[i].owner_player == 2 && A._2d_equals(A.objects[i].position, p))
+				{
+					return false;
+				}
+			}
+			
 			if (A.selected_tool == 3 && A.alter_gold(-100))
 			{
 				B.send("object_create", [ 21, A._generate_uid(), p ]);
