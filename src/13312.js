@@ -1504,31 +1504,46 @@ window.onload = function()
 		A.cv.ctx.fillStyle = "#111";
 		A.cv.ctx.fillRect(0, 0, A.cv.cv.width, A.cv.cv.height);
 		
-		if (A.shake > 0)
+		try
 		{
-			A.cv.ctx.translate(A._random_int(-A.shake, A.shake, 1), A._random_int(-A.shake, A.shake, 1));
-			// TODO: this does not calculate the passed time (effect is fps-dependent)
-			A.shake = Math.floor(A.shake / 2);
+			if (A.shake > 0)
+			{
+				A.cv.ctx.translate(A._random_int(-A.shake, A.shake, 1), A._random_int(-A.shake, A.shake, 1));
+				// TODO: this does not calculate the passed time (effect is fps-dependent)
+				A.shake = Math.floor(A.shake / 2);
+			}
+			
+			A.cv.ctx.save();
+			A.cv.ctx.translate(-A.scroll[0], -A.scroll[1]);
+			A.render_layer2();
+			
+			// DEBUG BEGIN
+			var i, p;
+			for (i in A.shots)
+			{
+				p = A._world_position_to_layer_position(A.shots[i][0]);
+				A.cv.ctx.fillStyle = "#f0f";
+				A.cv.ctx.fillRect(p[0]-1, p[1]-1, 3, 3);
+			}
+			// DEBUG END
+		}
+		catch (e)
+		{
+			A.log("Exception in render_canvas(), part1: " + e);
 		}
 		
-		A.cv.ctx.save();
-		A.cv.ctx.translate(-A.scroll[0], -A.scroll[1]);
-		A.render_layer2();
-		
-		// DEBUG BEGIN
-		var i, p;
-		for (i in A.shots)
+		// even if the drawing of world fails, try to draw the toolbar and other gui items
+		try
 		{
-			p = A._world_position_to_layer_position(A.shots[i][0]);
-			A.cv.ctx.fillStyle = "#f0f";
-			A.cv.ctx.fillRect(p[0]-1, p[1]-1, 3, 3);
+			A.cv.ctx.restore();
+			
+			// fixed to the screen not to the world
+			A.render_layer3();
 		}
-		// DEBUG END
-		
-		A.cv.ctx.restore();
-		
-		// fixed to the screen not to the world
-		A.render_layer3();
+		catch (e)
+		{
+			A.log("Exception in render_canvas(), part2: " + e);
+		}
 	}
 	
 	A.render_layer2 = function()
