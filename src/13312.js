@@ -729,7 +729,7 @@ window.onload = function()
 	
 	A._clamp = function(x, a, b)
 	{
-		return Math.min(Math.max(x, a), b);
+		return x < a ? a : (x > b ? b : x);
 	}
 	
 	A._format_time = function(seconds)
