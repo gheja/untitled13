@@ -733,9 +733,11 @@ window.onload = function()
 	{
 		if (A.golds[A.current_player-1] + amount < 0)
 		{
+			A.log("not enough golds (tried to alter by " + amount + ")");
 			return false;
 		}
 		
+		A.log("golds altered by " + (amount > 0 ? "+" : "") + amount);
 		A.golds[A.current_player-1] += amount;
 		return true;
 	}
@@ -2042,6 +2044,12 @@ window.onload = function()
 	A.process_game_status = function()
 	{
 		A.game_time += A.seconds_passed_since_last_tick;
+		
+		// add 100 golds every 5 seconds
+		if (A.tick_number % (5 * A.config.ticks_per_seconds) == 0)
+		{
+			A.alter_gold(100);
+		}
 	}
 	
 	A.tick = function()
