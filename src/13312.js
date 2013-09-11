@@ -81,7 +81,8 @@ window.onload = function()
 		"l": "#842",
 		"m": "rgba(255,128,0,0.7)",
 		"o": "rgba(255,230,30,0.6)",
-		"p": "#fb6"
+		"p": "#fb6",
+		"q": "rgba(128,0,128,0.4)"
 	};
 	A.textures = {};
 	A.objects = [];
@@ -1120,6 +1121,19 @@ window.onload = function()
 				}
 			}
 		}
+		
+		// draw locked tiles
+		for (i=0; i<A.config.world_width; i++)
+		{
+			for (j=0; j<A.config.world_height; j++)
+			{
+				if (A.tile_statuses[i][j] == A.TILE_STATUS_LOCKED)
+				{
+					p = A._world_position_to_layer_position([i, j]);
+					A.gfx__texture_put(17, p[0] - 32, p[1] - 16);
+				}
+			}
+		}
 	}
 	
 	A.gfx_render_fog = function()
@@ -1601,8 +1615,8 @@ window.onload = function()
 				return false;
 			}
 			
-			A.tile_statuses[p[0]][p[1]] = A.TILE_STATUS_LOCKED;
 			
+			A.tile_statuses[p[0]][p[1]] = A.TILE_STATUS_LOCKED;
 			if (A.selected_tool == 3 && A.alter_gold(-200))
 			{
 				B.send("object_create", [ 21, A._generate_uid(), p ]);
@@ -1762,6 +1776,7 @@ window.onload = function()
 		A.gfx__texture_create(14, "popM2W5etkvq702wOhJPQIM.p1pVUfdmR.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost2 sprite
 		A.gfx__texture_create(15, "pop8lvybeHZEsQ0gt.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost2 sprite
 		A.gfx__texture_create(16, "popMTcpwopV.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost2 sprite
+		A.gfx__texture_create(17, "pqq" + grid, A.TEXTURE_SIZE_64X32); // locked tile
 		A.gfx__texture_create("a0", "p00gSsesS.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.gfx__texture_create("a1", "p00gssssg.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.gfx__texture_create("a2", "p00SgSses.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
