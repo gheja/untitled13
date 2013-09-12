@@ -8,7 +8,8 @@ window.onload = function()
 		world_width: 20,
 		world_height: 20,
 		bad_luck_mode: 0,
-		game_duration: 180
+		game_duration: 180,
+		overtime_duration: 60
 	};
 	
 	/** @const */ A.BASE64_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -2170,7 +2171,7 @@ window.onload = function()
 			A.log("player 1 won");
 		}
 		// check the queues and player 1 objects if the time is up, also check for the bonus time
-		else if ((A.game_time > A.config.game_duration && player1_object_count == 0 && player1_queue_length == 0) || A.game_time > A.config.game_duration + 60)
+		else if ((A.game_time > A.config.game_duration && player1_object_count == 0 && player1_queue_length == 0) || A.game_time > A.config.game_duration + A.config.overtime_duration)
 		{
 			A.set_status(A.GAME_STATUS_WIN_DELAY);
 			B.send("game_status", A.GAME_STATUS_PLAYER2_WON);
