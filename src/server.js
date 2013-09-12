@@ -107,7 +107,7 @@ io.sockets.on("connection", function(socket) {
 		
 		// DEBUG BEGIN
 		var a = Math.round(socket.ping_result / 2 + io.sockets.socket(socket.partner_id).ping_result / 2);
-		S.log("latency: " + a);
+		S.log(socket, "latency: " + a);
 		socket.emit2("debug_log", "server-client-server latencies: you: " + (socket.ping_result) + " ms, partner: " + (io.sockets.socket(socket.partner_id).ping_result) + " ms");
 		socket.emit2("debug_log", "client1-server-client2 latency: about " + a + " ms");
 		// DEBUG END
