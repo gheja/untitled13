@@ -24,10 +24,28 @@ io.sockets.on("connection", function(socket) {
 	S.log(socket, "connected");
 	
 	socket.ping_result = 0; // ms
-	socket.emit("welcome", { uid: socket.id, version: 1 });
+	
+	socket.emit2 = function(s, data)
+	{
+		S.log(socket, "sending: " + s + " " + data);
+		socket.emit(s, data);
+	}
+	
+	socket.emit2_partner = function(s, data)
+	{
+		var partner_socket = io.sockets.socket(socket.partner_id);
+		
+		// check if socket exists
+		if (partner_socket.id)
+		{
+			S.log({}, socket);
+			partner_socket.emit2(s, data);
+		}
+	}
 	
 	socket.on("disconnect", function() {
 		S.log(socket, "disconnected");
+		socket.emit2_partner("game_disconnected");
 	});
 	
 	socket.on("game_create", function() {
@@ -40,9 +58,7 @@ io.sockets.on("connection", function(socket) {
 		
 		S.games.push(game);
 		
-		console.log(game);
-		
-		socket.emit("game_created");
+		socket.emit2("game_created", game);
 	});
 	
 	socket.on("game_join", function(data) {
@@ -61,26 +77,27 @@ io.sockets.on("connection", function(socket) {
 					socket.partner_id = S.games[i].player1_uid;
 					io.sockets.socket(S.games[i].player1_uid).partner_id = S.games[i].player2_uid;
 					
-					socket.emit("game_started", S.games[i]);
-					io.sockets.socket(socket.partner_id).emit("game_started", S.games[i]);
+					socket.emit2("game_started", S.games[i]);
+					socket.emit2_partner("game_started", S.games[i]);
 					
 					return;
 				}
 			}
 		}
 		
-		socket.emit("game_disconnected");
+		socket.emit2("game_disconnected");
 	});
 	
 	socket.on("message", function(data) {
 		S.log(socket, "message: " + data);
-		
-		io.sockets.socket(socket.partner_id).emit("message", data);
+		socket.emit2_partner("message", data);
 	});
 	
 	socket.on("ping", function(data) {
+		// socket.emit2_to_partner("heartbeat");
+		
 		socket.ping_start = (new Date()).getTime();
-		socket.emit("ping_request", socket.ping_start);
+		socket.emit2("ping_request", socket.ping_start);
 	});
 	
 	socket.on("ping_response", function(data) {
@@ -91,10 +108,12 @@ io.sockets.on("connection", function(socket) {
 		// DEBUG BEGIN
 		var a = Math.round(socket.ping_result / 2 + io.sockets.socket(socket.partner_id).ping_result / 2);
 		S.log("latency: " + a);
-		socket.emit("debug_log", "server-client-server latencies: you: " + (socket.ping_result) + " ms, partner: " + (io.sockets.socket(socket.partner_id).ping_result) + " ms");
-		socket.emit("debug_log", "client1-server-client2 latency: about " + a + " ms");
+		socket.emit2("debug_log", "server-client-server latencies: you: " + (socket.ping_result) + " ms, partner: " + (io.sockets.socket(socket.partner_id).ping_result) + " ms");
+		socket.emit2("debug_log", "client1-server-client2 latency: about " + a + " ms");
 		// DEBUG END
 	});
+	
+	socket.emit2("welcome", { uid: socket.id, version: 1 });
 });
 
 // the public TCP port 80 is forwarded to this port
