@@ -117,7 +117,6 @@ window.onload = function()
 		obj.direction = direction; /* 0: up, 1: right, 2: down, 3: left */
 		obj.sprites = sprites; /* array of sprites and properties: [ [ sprite_id, screen_position_x, screen_positon_y ], ... ] */
 		obj.health = [ health, health ]; /* current, maximal */
-		obj.uid = A._generate_uid();
 		
 		obj.position_on_layer = A._world_position_to_layer_position(position);
 		obj.gui_show_bars_until_tick = 0;
@@ -130,6 +129,10 @@ window.onload = function()
 		obj.detection_distance = 3;
 		obj.selected = 0;
 		obj.shake_size = 5;
+		
+		// by default we create objects with sequential IDs, as they are only static objects, this helps syncing across players
+		// // obj.uid = A._generate_uid();
+		obj.uid = "object_" + A.objects.length;
 		
 		obj.command_destroy = function(mode)
 		{
@@ -388,11 +391,6 @@ window.onload = function()
 		obj.shadow_sprite_id = -1;
 		obj.hidden_from_other_player = 1;
 		obj.detection_distance = 0;
-		
-		// make sure the uid is the same across players
-		// as switches are generated only on init_map() and A.objects is cleared there, we can count on A.objects.length
-		// but yeah, this is hackish
-		obj.uid = "object_" + A.objects.length;
 		
 		obj.update = function()
 		{
