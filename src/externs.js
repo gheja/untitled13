@@ -10,3 +10,13 @@ var io = {};
 io.listen = function(a){};
 io.sockets = {};
 io.sockets.socket = {};
+
+var fs = {};
+fs.readFile = function(a, b){};
+
+var request = {};
+request.url = "";
+
+var response = {};
+response.writeHead = function(a){};
+response.end = function(a){};
