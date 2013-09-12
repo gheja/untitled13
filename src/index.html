@@ -25,24 +25,50 @@
 			}
 			#overlay
 			{
+				padding: 140px 20px 0 20px;
 				background: rgba(0,0,0,0.6);
-				font-size: 20pt;
+				font-size: 16pt;
 				cursor: default;
-				padding-top: 200px;
 				color: #fff;
+				text-align: justify;
+			}
+			#m1
+			{
+				line-height: 2em;
+				font-size: 20pt;
 				text-align: center;
 			}
 			#overlay input
 			{
 				font-size: 16pt;
-				width: 80%;
+				width: 100%;
+			}
+			#overlay p
+			{
+				margin: 10pt auto;
+				max-width: 800px;
+			}
+			a,
+			a:visited
+			{
+				text-decoration: none;
+				color: #0af;
+			}
+			a:hover
+			{
+				color: #ff0;
 			}
 		</style>
 	</head>
 	<body>
 		<div id="container"></div>
 		<div id="overlay">
-			<div id="m1">Initializing...</div>
+			<p id="m1">Initializing...</p>
+			<p>13312 is a multiplayer tower attack-defense game, an entry to the <a href="http://2013.js13kgames.com">js13kGames 2013 competition</a>.</p>
+			<p>As the Red player you send the creatures to attack the Blue's base. Your mission is to destroy the crystals around the red markers. You have three entry points on the map, represented by three queues on the left.</p>
+			<p>As the Blue player you have to build towers to prevent the creatures from destroying the crystals and keep up until the time is up.</p>
+			<p>If the crystals are still there when the time is up, another one minute is added to the gameplay when no creatures and towers can be bought.</p>
+			<p>See the full source on the <a href="https://github.com/gheja/13312/">GitHub project page</a>.</p>
 		</div>
 	</body>
 </html>
