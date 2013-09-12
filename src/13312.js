@@ -790,7 +790,6 @@ window.onload = function()
 		}
 		m = Math.floor(seconds / 60);
 		s = Math.floor(seconds % 60);
-		// z = Math.floor(seconds * 10 - Math.floor(seconds) * 10;
 		return (minus ? "-" : "") + (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
 	}
 	
@@ -1127,7 +1126,6 @@ window.onload = function()
 			c.fillStyle = "rgba(0,0,0,0.1)";
 			c.fillRect(button[0][0], button[0][1], 24, 24);
 		}
-		// A.gfx__texture_put(button[1], button[0][0], button[0][1]);
 	}
 	
 	A.gfx__render_gui_bar_background = function(x, y, width, height)
@@ -1167,7 +1165,6 @@ window.onload = function()
 				A.gfx__texture_put(A.map[a][b], p[0] - 32, p[1] - 16);
 			}
 		}
-		// A.gfx__texture_put(0, "r1", 0, 0);
 	}
 	
 	A.gfx_render_markers = function()
