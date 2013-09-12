@@ -60,7 +60,7 @@ sfx
 [ ] create it
 
 --- before release ---
-[ ] index.html: add some infos about the game
+[x] index.html: add some infos about the game
 [ ] player 2: add crystals!
 [ ] gameplay: add win/lose conditions!
 [ ] create a better map
