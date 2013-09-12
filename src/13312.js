@@ -17,6 +17,9 @@ window.onload = function()
 	/** @const */ A.TILE_STATUS_LOCKED = 1;
 	/** @const */ A.GAME_STATUS_STARTING = 0;
 	/** @const */ A.GAME_STATUS_RUNNING = 1;
+	/** @const */ A.GAME_STATUS_WIN_DELAY = 2;
+	/** @const */ A.GAME_STATUS_PLAYER1_WON = 3;
+	/** @const */ A.GAME_STATUS_PLAYER2_WON = 4;
 	/** @const */ A.TEXTURE_SIZE_32X32 = 0;
 	/** @const */ A.TEXTURE_SIZE_64X32 = 1;
 	/** @const */ A.TEXTURE_SIZE_64X64 = 2;
@@ -2126,6 +2129,8 @@ window.onload = function()
 	
 	A.process_game_status = function()
 	{
+		var i, goal_object_count = 0, player1_object_count = 0, player1_queue_length = 0;
+		
 		A.game_time += A.seconds_passed_since_last_tick;
 		
 		// add 100 golds every 5 seconds in the normal game time
@@ -2133,11 +2138,49 @@ window.onload = function()
 		{
 			A.alter_gold(100);
 		}
+		
+		// only player 1 does the checks
+		if (A.current_player != 1 || A.status != A.GAME_STATUS_RUNNING)
+		{
+			return;
+		}
+		
+		// always check the crsytals
+		for (i in A.objects)
+		{
+			if (A.objects[i].owner_player == 1 && !A.objects[i].permanent)
+			{
+				player1_object_count++;
+			}
+			else if (A.objects[i].owner_player == 2 && A.objects[i].goal_object)
+			{
+				goal_object_count++;
+			}
+		}
+		
+		for (i in A.player1_queues)
+		{
+			player1_queue_length += A.player1_queues[i][4].length;
+		}
+		
+		if (goal_object_count == 0)
+		{
+			A.set_status(A.GAME_STATUS_WIN_DELAY);
+			B.send("game_status", A.GAME_STATUS_PLAYER1_WON);
+			A.log("player 1 won");
+		}
+		// check the queues and player 1 objects if the time is up, also check for the bonus time
+		else if ((A.game_time > A.config.game_duration && player1_object_count == 0 && player1_queue_length == 0) || A.game_time > A.config.game_duration + 60)
+		{
+			A.set_status(A.GAME_STATUS_WIN_DELAY);
+			B.send("game_status", A.GAME_STATUS_PLAYER2_WON);
+			A.log("player 2 won");
+		}
 	}
 	
 	A.tick = function()
 	{
-		if (A.status != A.GAME_STATUS_RUNNING)
+		if (A.status != A.GAME_STATUS_RUNNING && A.status != A.GAME_STATUS_WIN_DELAY)
 		{
 			return;
 		}
@@ -2214,7 +2257,20 @@ window.onload = function()
 	
 	A.set_status = function(status)
 	{
+		var s;
+		
+		if (status == A.GAME_STATUS_PLAYER1_WON)
+		{
+			s = A.current_player == 1 ? "Congratulations, you won!" : "Red player won!";
+		}
+		else if (status == A.GAME_STATUS_PLAYER2_WON)
+		{
+			s = A.current_player == 2 ? "Congratulations, you won!" : "Blue player won!";
+		}
+		
 		A.status = status;
+		
+		A.overlay_message(s);
 	}
 	
 	/* client-server communication */
@@ -2277,6 +2333,10 @@ window.onload = function()
 				else if (B.message_queue[i][1] == "player1_switch_toggle")
 				{
 					A.player1_switch_toggle(B.message_queue[i][2]);
+				}
+				else if (B.message_queue[i][1] == "game_status")
+				{
+					A.set_status(B.message_queue[i][2]);
 				}
 				
 				B.message_queue = A._array_remove_item(B.message_queue, i);
