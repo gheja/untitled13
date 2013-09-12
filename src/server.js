@@ -17,7 +17,7 @@ S.games = [];
 
 S.log = function(socket, s)
 {
-	console.log((new Date()).getTime() + ": " + socket.id + ": " + s);
+	console.log("[" + (new Date()).getTime() + "] [" + socket.id + "] " + s);
 }
 
 io.sockets.on("connection", function(socket) {
