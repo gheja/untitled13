@@ -528,7 +528,7 @@ window.onload = function()
 	/** @constructor */
 	A.ObjectPlayer2Crystal = function(position)
 	{
-		var obj = new A.ObjectPlayer2Base(position, 300, 0, 0, 0, [ [ 20, -32, -48 ], [ (A.objects.length % 2) ? "d1" : "d2", -32, -58 ] ]);
+		var obj = new A.ObjectPlayer2Base(position, 50, 0, 0, 0, [ [ 20, -32, -48 ], [ (A.objects.length % 2) ? "d1" : "d2", -32, -58 ] ]);
 		
 		obj.goal_object = 1;
 		
