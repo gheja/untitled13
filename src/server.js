@@ -38,7 +38,6 @@ io.sockets.on("connection", function(socket) {
 		// check if socket exists
 		if (partner_socket.id)
 		{
-			S.log({}, socket);
 			partner_socket.emit2(s, data);
 		}
 	}
