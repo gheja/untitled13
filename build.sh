@@ -101,6 +101,7 @@ echo "  * Running Closure Compiler..."
 try java -jar build/compiler/compiler.jar \
 	--compilation_level ADVANCED_OPTIMIZATIONS \
 	--use_types_for_optimization \
+	--externs src/externs.js \
 	--js build/server/server.js \
 	--js_output_file build/server/server.min.js
 
