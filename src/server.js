@@ -1,13 +1,31 @@
 // requires no special packages, just the base "npm install socket.io"
 
 var app = require('http').createServer(handler),
-	io = require('socket.io').listen(app);
+	io = require('socket.io').listen(app),
+	fs = require('fs');
 
 function handler(request, response)
 {
-	console.log(request);
-	response.writeHead(302, { "Location": "http://github.com/gheja/13312" } );
-	response.end();
+	S.log({}, "http request: " + request.url);
+	if (request.url != "/" && request.url.indexOf("/?") != 0)
+	{
+		S.log({}, " 302 redirecting");
+		response.writeHead(302, { "Location": "/" } );
+		response.end();
+		return;
+	}
+	fs.readFile("index.html", function(error, data) {
+		if (!error)
+		{
+			S.log({}, "  200 found");
+			response.writeHead(200);
+			return response.end(data);
+			
+		}
+		S.log({}, " 404 not found");
+		response.writeHead(404);
+		response.end("not found");
+	});
 }
 
 
