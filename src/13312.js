@@ -2144,12 +2144,15 @@ window.onload = function()
 			return;
 		}
 		
-		if (A.tick_number % 100 == 0)
+		if (A.tick_number % 15 == 0)
 		{
 			A.shots = A._array_reindex(A.shots);
 			A.gfx_effect_shot = A._array_reindex(A.gfx_effect_shot);
 			A.gfx_effect_fire = A._array_reindex(A.gfx_effect_fire);
-			
+		}
+		
+		if (A.tick_number % 100 == 0)
+		{
 			A.log("ticks: " + A.tick_number + ", frames: " + A.frame_number + ", game_time*1000: " + Math.round(A.game_time * 1000) + ", objects: " + A.objects.length + ", shots: " + A.shots.length + ", fire particles: " + A.gfx_effect_fire.length);
 			
 			// do interleaved pinging
