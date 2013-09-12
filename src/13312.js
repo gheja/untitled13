@@ -2370,11 +2370,8 @@ window.onload = function()
 	
 	B.init = function()
 	{
-		// this accepts the following formats and extracts the string marked by <>:
-		//   * <http://server>/path/to/file
-		//   * <https://server>/path/to/file
-		//   * <//server>/path/to/file
-		A.server_url = document.getElementsByTagName("script")[0].src.match(new RegExp(/(http[s]*:\/\/|\/\/)[^/]+/))[0];
+		// extract the server URL from the first <script> tag
+		A.server_url = document.getElementsByTagName("script")[0].src.replace("socket.io/socket.io.js", "");
 	}
 	
 	B.ping = function()
