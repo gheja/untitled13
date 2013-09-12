@@ -2326,6 +2326,7 @@ window.onload = function()
 		
 		B.socket.on("game_disconnected", function(data) {
 			B.log("game disconnected :(");
+			A.set_status(A.GAME_STATUS_STARTING);
 			A.overlay_message("Disconnected :(");
 		});
 		
