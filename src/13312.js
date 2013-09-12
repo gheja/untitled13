@@ -973,10 +973,10 @@ window.onload = function()
 		else
 		{
 			A.gui_buttons = [
-				[ [  8,  4 ], "c1", "1", A.set_tool, 1 ],
-				[ [ 34,  4 ], "c2", "2", A.set_tool, 2 ],
-				[ [ 60,  4 ], "c3", "3", A.set_tool, 3 ],
-				[ [ 86,  4 ], "c3", "4", A.set_tool, 4 ]
+				[ [  8,  8 ], "c1", "1", A.set_tool, 1 ],
+				[ [ 34,  8 ], "c2", "2", A.set_tool, 2 ],
+				[ [ 60,  8 ], "c3", "3", A.set_tool, 3 ],
+				[ [ 86,  8 ], "c3", "4", A.set_tool, 4 ]
 			];
 		}
 	}
@@ -1378,7 +1378,7 @@ window.onload = function()
 					[ 1, "#800" ]
 				]
 			);
-			c.fillRect(4, 4, 300, 32);
+			c.fillRect(4, 4, 110, 32);
 			color1 = "#000";
 			
 			for (i in A.player1_queues)
@@ -1411,12 +1411,12 @@ window.onload = function()
 					[ 1, "#04a" ]
 				]
 			);
-			c.fillRect(4, 4, 300, 32);
+			c.fillRect(4, 4, 110, 32);
 			
 			color1 = "#04c";
 		}
 		c.fillStyle = "rgba(0,0,0,0.2)";
-		c.fillRect(6, 6, 296, 28);
+		c.fillRect(6, 6, 106, 28);
 		
 		for (i in A.gui_buttons)
 		{
