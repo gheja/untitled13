@@ -1,7 +1,7 @@
 bugs
 [x] fix the issue when an object leaves the screen and causes an error after ctx.save() but before ctx.restore() so screen scrolls away
 
-interface
+gui
 [x] fix single click selection
 [ ] fix "reverse rectangle" selection (bottom-right then top-left)
 [ ] add tool name display on hover
@@ -58,3 +58,23 @@ gfx
 
 sfx
 [ ] create it
+
+--- before release ---
+[ ] index.html: add some infos about the game
+[ ] player 2: add crystals!
+[ ] gameplay: add win/lose conditions!
+[ ] create a better map
+[ ] gui: add unit/tower info display on toolbar hover
+[ ] gui: player 2 toolbar button position
+[ ] gfx: fix building base (square, not hexagon)
+[ ] gfx: player 1 ghost 2 sprites
+[ ] gfx: player 1 ghost 2 toolbar icon
+[ ] gfx: player 2 tower 1 sprites
+[ ] gfx: player 2 tower 2 sprites
+[ ] gfx: player 2 tower 1 toolbar icon
+[ ] gfx: player 2 tower 2 toolbar icon
+[ ] gui: move icons for towers/ghost a little more to the right
+[ ] gui: set width of toolbar to the size of buttons
+[ ] server, gameplay: implement player swap
+[ ] update github page
+[ ] find a better name
