@@ -28,22 +28,30 @@ io.sockets.on("connection", function(socket) {
 	socket.emit2 = function(s, data)
 	{
 		S.log(socket, "sending: " + s + " " + data);
-		socket.emit(s, data);
+		try
+		{
+			socket.emit(s, data);
+		}
+		catch (e)
+		{
+			S.log(socket, "ERROR: could not send data!");
+		}
 	}
 	
 	socket.emit2_partner = function(s, data)
 	{
-		var partner_socket = io.sockets.socket(socket.partner_id);
-		
-		// check if socket exists
-		if (partner_socket.id)
+		if (socket.partner_id != null)
 		{
-			partner_socket.emit2(s, data);
+			var partner_socket = io.sockets.socket(socket.partner_id);
+			
+			// when a socket gets disconnected, io.sockets.socket() returns a default socket (with no added methods)
+			partner_socket.emit2 && partner_socket.emit2(s, data);
 		}
 	}
 	
 	socket.on("disconnect", function() {
 		S.log(socket, "disconnected");
+		io.sockets.socket(socket.partner_id).partner_id = null;
 		socket.emit2_partner("game_disconnected");
 	});
 	
