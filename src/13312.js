@@ -1,3 +1,26 @@
+/**
+  * untitled13 - https://github.com/gheja/untitled13/
+  *
+  * A js13kgames 2013 gamedev compo entry.
+  *
+  * Earlier it was named 13312, that's why the filename is 13312.js .
+  *
+  * There are a lot of features which are not implemented yet (or
+  * implemented partly) and most likely will not be finished until the
+  * deadline.
+  *
+  * I tried to use descriptive function and variable names to keep
+  * the code relatively easy to understand. Please feel free to play
+  * around with it and if you find useful, use it anywhere else (okay,
+  * maybe not in a nuclear plant or on the Death Star), with no
+  * restrictions or copyright/left/up/down notice.
+  *
+  * For more info see the GitHub repository.
+  *
+  * -- gheja / Gabor Heja
+  *
+  */
+
 window.onload = function()
 {
 	A = {};
