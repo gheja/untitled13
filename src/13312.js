@@ -2276,6 +2276,13 @@ window.onload = function()
 		B.socket.emit("ping");
 	}
 	
+	B.disconnect = function()
+	{
+		B.log("disconnected");
+		A.set_status(A.GAME_STATUS_STARTING);
+		A.overlay_message("Disconnected :(");
+	}
+	
 	B.start = function()
 	{
 		B.log("connecting to server: " + A.server_url);
@@ -2287,7 +2294,18 @@ window.onload = function()
 			return;
 		}
 		
-		B.socket = io.connect(A.server_url);
+		try
+		{
+			B.socket = io.connect(A.server_url, { reconnect: 0 });
+		}
+		catch (e)
+		{
+			B.disconnect();
+			return;
+		}
+		
+		B.socket.on("disconnect", B.disconnect);
+		B.socket.on("game_disconnected", B.disconnect);
 		
 		B.socket.on("welcome", function(data) {
 			var match;
@@ -2317,17 +2335,12 @@ window.onload = function()
 			A.overlay_message("Game created, give this URL to the other player:<br/><input type=\"text\" value=\"" + A.server_url + "?game=" + A.player_uid + "\" readonly=\"readonly\" />");
 		});
 		
+		
 		B.socket.on("game_started", function(data) {
 			B.log("game started!");
 			A.set_player(data.player1_uid == A.player_uid ? 1 : 2);
 			A.set_status(A.GAME_STATUS_RUNNING);
 			A.overlay_message("");
-		});
-		
-		B.socket.on("game_disconnected", function(data) {
-			B.log("game disconnected :(");
-			A.set_status(A.GAME_STATUS_STARTING);
-			A.overlay_message("Disconnected :(");
 		});
 		
 		B.socket.on("message", function(data) {
