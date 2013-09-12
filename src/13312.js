@@ -281,6 +281,8 @@ window.onload = function()
 		obj.shadow_sprite_id = -1;
 		obj.shake_size = 10;
 		
+		obj.goal_object = 0;
+		
 		obj.attack_status = ammo > 0 ? A.ATTACK_STATUS_RELOADING : A.ATTACK_STATUS_NONE;
 		obj.attack_ammo = [ 0, ammo ];
 		obj.attack_cycle_time = [ 0, shoot_cycle_time ]; /* seconds */
@@ -527,6 +529,8 @@ window.onload = function()
 	A.ObjectPlayer2Crystal = function(position)
 	{
 		var obj = new A.ObjectPlayer2Base(position, 300, 0, 0, 0, [ [ 20, -32, -48 ], [ (A.objects.length % 2) ? "d1" : "d2", -32, -58 ] ]);
+		
+		obj.goal_object = 1;
 		
 		return obj;
 	}
@@ -1787,11 +1791,12 @@ window.onload = function()
 			[
 				[ 0, 1, 12, 1 ],
 				[ 12, 1, 12, 10 ],
-				[ 13, 6, 18, 6 ],
+				[ 13, 6, 17, 6 ],
 				[ 0, 14, 6, 14 ],
 				[ 6, 1, 6, 14 ],
 				[ 6, 10, 12, 10 ],
-				[ 6, 15, 6, 19 ]
+				[ 6, 15, 6, 19 ],
+				[ 13, 10, 16, 10 ]
 			],
 			[
 				[ 6, 1, 14, 1 ],
@@ -1799,14 +1804,13 @@ window.onload = function()
 				[ 12, 6, 7, 1 ],
 				[ 6, 14, 13, 0 ],
 				[ 6, 10, 7, 1 ],
-				[ 12, 10, 9, 0 ]
+				[ 12, 10, 11, 1 ]
 			]
 		);
 		
 		A.map[7][7] = 7;
 		A.map[7][8] = 7;
 		A.map[7][9] = 7;
-		A.map[13][10] = 7;
 		A.map[10][11] = 7;
 		A.map[11][11] = 7;
 		A.map[12][11] = 7;
@@ -1815,7 +1819,8 @@ window.onload = function()
 		A.map[12][12] = 7;
 		A.map[13][12] = 7;
 		
-		A.objects.push(new A.ObjectPlayer1Destination([ 18, 6 ]));
+		A.objects.push(new A.ObjectPlayer1Destination([ 17, 6 ]));
+		A.objects.push(new A.ObjectPlayer1Destination([ 16, 10 ]));
 	}
 	
 	A.init_textures = function()
