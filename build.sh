@@ -53,9 +53,6 @@ rm build/all/* || /bin/true
 
 echo "* Client"
 
-echo "  * Optimizing index.html..."
-cat src/index.html | tr '\n' ' ' | sed -r 's/\s+/ /g' | sed -e 's/> </></g' > build/client/index.html
-
 echo "  * Removing debug parts and renaming some variables..."
 cat src/13312.js | sed \
 	-e '/DEBUG BEGIN/,/\DEBUG END/{d}' \
@@ -72,6 +69,25 @@ try java -jar build/compiler/compiler.jar \
 	--js_output_file build/client/13312.min.js
 
 try mv -f build/client/13312.min.js build/client/13312.js
+
+echo "  * Embedding js into index.html..."
+{
+	cat src/index.html | while read line; do
+		echo "$line" | grep -Eq 'src=\"13312.js\"'
+		if [ $? == 0 ]; then
+			echo "<script>";
+			cat build/client/13312.js
+			echo "</script>"
+		else
+			echo "$line"
+		fi
+	done
+} > build/client/index.html
+
+echo "  * Optimizing index.html..."
+cat build/client/index.html | tr '\n' ' ' | sed -r 's/\s+/ /g' | sed -e 's/> </></g' > build/client/index.html.1
+try mv -v build/client/index.html.1 build/client/index.html
+try rm -v build/client/13312.js
 
 echo "* Server"
 
