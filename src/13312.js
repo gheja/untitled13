@@ -82,7 +82,11 @@ window.onload = function()
 		"m": "rgba(255,128,0,0.7)",
 		"o": "rgba(255,230,30,0.6)",
 		"p": "#fb6",
-		"q": "rgba(128,0,128,0.4)"
+		"q": "rgba(128,0,128,0.4)",
+		"r": "#06b",
+		"s": "#08f",
+		"t": "#3af",
+		"u": "#bdf"
 	};
 	A.textures = {};
 	A.objects = [];
@@ -469,6 +473,10 @@ window.onload = function()
 			this.collision_check();
 		}
 		
+		A.objects.push(new A.ObjectPlayer2Crystal(A._2d_add(position, [ -1, -1 ])));
+		A.objects.push(new A.ObjectPlayer2Crystal(A._2d_add(position, [  1,  0 ])));
+		A.objects.push(new A.ObjectPlayer2Crystal(A._2d_add(position, [  0,  1 ])));
+		
 		return obj;
 	}
 	
@@ -511,6 +519,14 @@ window.onload = function()
 			
 			A.shots.push([ A._2d_copy(this.position), [ Math.sin(angle) * -10, Math.cos(angle) * -10 ], [ 0.9, 0.9 ], 1, 25, this.attack_damage, this.attack_impact_radius, this.owner_player ]);
 		}
+		
+		return obj;
+	}
+	
+	/** @constructor */
+	A.ObjectPlayer2Crystal = function(position)
+	{
+		var obj = new A.ObjectPlayer2Base(position, 300, 0, 0, 0, [ [ 20, -32, -48 ], [ (A.objects.length % 2) ? "d1" : "d2", -32, -58 ] ]);
 		
 		return obj;
 	}
@@ -1845,6 +1861,8 @@ window.onload = function()
 		A.gfx__texture_create("cb", "pggdVdcVcVhdhdphphhphpdhdhV.", A.TEXTURE_SIZE_24X24); // toolbar icon, plus
 		A.gfx__texture_create("cc", "pggUTUrZrZT.pgglTlrsrsT.", A.TEXTURE_SIZE_24X24); // toolbar icon, pause
 		A.gfx__texture_create("cd", "pggXTXrof.", A.TEXTURE_SIZE_24X24); // toolbar icon, play
+		A.gfx__texture_create("d1", "puudEWcfZ.pttfZWcal.pssfZalji.puujialfr.pssalf5fr.prrjifrf5.prrfZjinZ.pssdEfZnZ.", A.TEXTURE_SIZE_64X64); // ObjectPlayer2Crystal sprite 1
+		A.gfx__texture_create("d2", "puuhGaUfT.prrfTaUai.puufTaifl.pttaib0fl.prrflb0kr.pssqcflkr.pttfTflrc.puunQfTrc.psshGfTmQ.", A.TEXTURE_SIZE_64X64); // ObjectPlayer2Crystal sprite 2
 	}
 	
 	A.find_targets = function(position, max_distance, player_id, skip_permanents)
