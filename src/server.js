@@ -14,7 +14,6 @@ function handler(request, response)
 var S = {};
 
 S.games = [];
-S.socket_partners = {};
 
 S.log = function(socket, s)
 {
