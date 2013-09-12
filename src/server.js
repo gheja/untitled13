@@ -15,10 +15,12 @@ var S = {};
 
 S.games = [];
 
+// DEBUG BEGIN
 S.log = function(socket, s)
 {
 	console.log("[" + (new Date()).getTime() + "] [" + socket.id + "] " + s);
 }
+// DEBUG END
 
 io.sockets.on("connection", function(socket) {
 	S.log(socket, "connected");
@@ -84,8 +86,8 @@ io.sockets.on("connection", function(socket) {
 					socket.partner_id = S.games[i].player1_uid;
 					io.sockets.socket(S.games[i].player1_uid).partner_id = S.games[i].player2_uid;
 					
-					socket.emit2("game_started", S.games[i]);
-					socket.emit2_partner("game_started", S.games[i]);
+					socket.emit2("game_started", [ S.games[i].player1_uid, S.games[i].player2_uid, S.games[i].players_swapped, null ]);
+					socket.emit2_partner("game_started", [ S.games[i].player1_uid, S.games[i].player2_uid, S.games[i].players_swapped, null ]);
 					
 					return;
 				}
@@ -120,7 +122,8 @@ io.sockets.on("connection", function(socket) {
 		// DEBUG END
 	});
 	
-	socket.emit2("welcome", { uid: socket.id, version: 1 });
+	// [ socket_id, version ]
+	socket.emit2("welcome", [ socket.id, 1 ]);
 });
 
 // the public TCP port 80 is forwarded to this port

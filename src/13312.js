@@ -2312,7 +2312,7 @@ window.onload = function()
 			
 			B.log("connected to server, player uid: " + data.uid + ", version: " + data.version);
 			
-			A.player_uid = data.uid;
+			A.player_uid = data[0];
 			
 			// check if we find a "?game=xxx" string in the URL
 			// if so, try to join to that game
@@ -2338,7 +2338,10 @@ window.onload = function()
 		
 		B.socket.on("game_started", function(data) {
 			B.log("game started!");
-			A.set_player(data.player1_uid == A.player_uid ? 1 : 2);
+			
+			// data is the game array: [ player1_uid, player2_uid, players_swapped, map ]
+			A.set_player(data[0] == A.player_uid ? 1 : 2);
+			
 			A.set_status(A.GAME_STATUS_RUNNING);
 			A.overlay_message("");
 		});
