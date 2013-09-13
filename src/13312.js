@@ -597,6 +597,23 @@ window.onload = function()
 		return obj;
 	}
 	
+	/** @constructor */
+	A.ObjectPlayer1Ghost3 = function(position, direction)
+	{
+		var obj = new A.ObjectPlayer1Base("Badaboom", position, 0.75, direction, 225, [ [ 5, -16, -32, 2, 2 ], [ 4, -16, -32, 2, 2 ], [ 3, -16, -32, 2, 2 ] ]);
+		
+		// candy for the eye!
+		for (j=0; j<3; j++)
+		{
+			obj.sprites[j][5] = A._random_float(0, 1);
+			obj.sprites[j][6] = A._random_float(0, 1);
+			obj.sprites[j][7] = A._random_float(1, 4);
+			obj.sprites[j][8] = A._random_float(1, 4);
+		}
+		
+		return obj;
+	}
+	
 	// DEBUG BEGIN
 	A.log = function(s)
 	{
@@ -861,6 +878,10 @@ window.onload = function()
 			{
 				A.player1_queues[A.player1_current_queue][4].push(12);
 			}
+			else if (button_order == 13 && A.alter_gold(-200))
+			{
+				A.player1_queues[A.player1_current_queue][4].push(13);
+			}
 			
 			if (button_order < 11)
 			{
@@ -950,6 +971,10 @@ window.onload = function()
 		{
 			A.objects.push(new A.ObjectPlayer1Ghost2(args[2], args[3]));
 		}
+		else if (args[0] == 13)
+		{
+			A.objects.push(new A.ObjectPlayer1Ghost3(args[2], args[3]));
+		}
 		else if (args[0] > 20)
 		{
 			if (args[0] == 21)
@@ -1003,6 +1028,7 @@ window.onload = function()
 				[ [ 34,  8 ], "c2", "2", A.set_tool, 2, "Explode" ],
 				[ [ 60,  8 ], "c3", "3", A.set_tool, 11, "Floaty" ],
 				[ [ 86,  8 ], "c3", "4", A.set_tool, 12, "Runner" ],
+				[ [112,  8 ], "c3", "5", A.set_tool, 13, "Badaboom" ],
 				[ [  4, 40 ], "cx", "Q", A.player1_queue_startstop, 0, "Start/stop" ],
 				[ [ 28, 40 ], "cx", "W", A.player1_queue_decrease_pop_time, 0, "Change delay" ],
 				[ [ 52, 40 ], "cx", "E", A.player1_queue_select, 0, "Select queue" ],
@@ -1422,7 +1448,7 @@ window.onload = function()
 					[ 1, "#800" ]
 				]
 			);
-			c.fillRect(4, 4, 110, 32);
+			c.fillRect(4, 4, 136, 32);
 			color1 = "#000";
 			
 			for (i in A.player1_queues)
@@ -1432,14 +1458,7 @@ window.onload = function()
 				k = 0;
 				for (j in A.player1_queues[i][4])
 				{
-					if (A.player1_queues[i][4][j] == 11)
-					{
-						A.gfx__texture_put("c3", 72 + k*24, 40 + i*26);
-					}
-					else if (A.player1_queues[i][4][j] == 12)
-					{
-						A.gfx__texture_put("c3", 72 + k*24, 40 + i*26);
-					}
+					A.gfx__texture_put("c3", 72 + k*24, 40 + i*26);
 					k++;
 				}
 			}
@@ -1455,12 +1474,12 @@ window.onload = function()
 					[ 1, "#04a" ]
 				]
 			);
-			c.fillRect(4, 4, 110, 32);
+			c.fillRect(4, 4, 136, 32);
 			
 			color1 = "#04c";
 		}
 		c.fillStyle = "rgba(0,0,0,0.2)";
-		c.fillRect(6, 6, 106, 28);
+		c.fillRect(6, 6, 132, 28);
 		
 		for (i in A.gui_buttons)
 		{
@@ -1534,7 +1553,7 @@ window.onload = function()
 		c.font = "16px Arial bold";
 		c.textAlign = "left";
 		c.fillStyle = "#fff";
-		c.fillText(A.tooltip_object.display_name, 130, 18);
+		c.fillText(A.tooltip_object.display_name, 166, 18);
 	}
 	
 	A.gfx_render_gui_cursor = function()
