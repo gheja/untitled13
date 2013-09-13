@@ -115,6 +115,7 @@ window.onload = function()
 		"t": "#3af",
 		"u": "#bdf"
 	};
+	A.tooltip_object = {};
 	A.textures = {};
 	A.objects = [];
 	A.fog = []; /* hidden tiles from the current player */
@@ -807,6 +808,37 @@ window.onload = function()
 		return true;
 	}
 	
+	A.update_tooltip = function()
+	{
+		var i, p;
+		
+		for (i in A.gui_buttons)
+		{
+			if (A._2d_between(A.inputs.mouse_position, A.gui_buttons[i][0], A._2d_add(A.gui_buttons[i][0], [ 24, 24 ])))
+			{
+				A.tooltip_object = { display_name: "toolbar icon" };
+				return;
+			}
+		}
+		
+		for (i in A.objects)
+		{
+			if (A._distance(A.cursor_position_in_world, A.objects[i].position) < 0.5)
+			{
+				// check if the current user is allowed to see the object and it is not behind the fog
+				if (A.current_player != A.objects[i].owner_player && A.objects[i].hidden_from_other_player || A.fog[Math.round(A.objects[i].position[0])][Math.round(A.objects[i].position[1])] == 2)
+				{
+					continue;
+				}
+				
+				A.tooltip_object = { display_name: "object" };
+				return;
+			}
+		}
+		
+		A.tooltip_object = {};
+	}
+	
 	A.set_tool = function(button_order)
 	{
 		if (A.current_player == 1)
@@ -1479,6 +1511,21 @@ window.onload = function()
 		}
 	}
 	
+	A.gfx_render_gui_tooltip = function()
+	{
+		var c = A.cv.ctx;
+		
+		if (!A.tooltip_object || !A.tooltip_object.display_name)
+		{
+			return;
+		}
+		
+		c.font = "16px Arial bold";
+		c.textAlign = "left";
+		c.fillStyle = "#fff";
+		c.fillText(A.tooltip_object.display_name, 130, 18);
+	}
+	
 	A.gfx_render_gui_cursor = function()
 	{
 		A.gfx__texture_put(8, A.inputs.mouse_position[0], A.inputs.mouse_position[1]);
@@ -1625,6 +1672,7 @@ window.onload = function()
 		A.gfx_render_gui_selection();
 		A.gfx_render_gui_toolbars();
 		A.gfx_render_gui_bars(); // health, ammo, ...
+		A.gfx_render_gui_tooltip();
 		A.gfx_render_gui_cursor();
 	}
 	
@@ -2249,6 +2297,7 @@ window.onload = function()
 		A.seconds_passed_since_last_frame = (now - A.last_frame_timestamp) / 1000;
 		
 		A.process_fog();
+		A.update_tooltip();
 		A.render_canvas();
 		
 		A.last_tick_timestamp = A.last_tick_timestamp + ticks_needed * A.tick_interval;
