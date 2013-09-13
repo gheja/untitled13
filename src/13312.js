@@ -582,7 +582,7 @@ window.onload = function()
 	/** @constructor */
 	A.ObjectPlayer1Ghost2 = function(position, direction)
 	{
-		var obj = new A.ObjectPlayer1Base("Runner", position, 1.5, direction, 75, [ [ 16, -16, -32, 2, 2 ], [ 15, -16, -32, 2, 2 ], [ 14, -16, -32, 2, 2 ] ]);
+		var obj = new A.ObjectPlayer1Base("Runner", position, 1.5, direction, 75, [ [ 16, -16, -32, 2, 1 ], [ 15, -16, -34, 0, 3 ], [ 14, -16, -32, 2, 2 ] ]);
 		obj.shake_size = 2.5;
 		
 		// candy for the eye!
@@ -1923,9 +1923,9 @@ window.onload = function()
 		A.gfx__texture_create(11, "pih" + grid2, A.TEXTURE_SIZE_64X32); // small object selection
 		A.gfx__texture_create(12, "pkjMUKcTa.pkjjrizqw.pkjsOqVxT.", A.TEXTURE_SIZE_64X32); // small object selection
 		A.gfx__texture_create(13, "pkj" + grid2, A.TEXTURE_SIZE_64X32); // ObjectPlayer1Destination sprite
-		A.gfx__texture_create(14, "popM2W5etkvq702wOhJPQIM.p1pVUfdmR.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost2 sprite
-		A.gfx__texture_create(15, "pop8lvybeHZEsQ0gt.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost2 sprite
-		A.gfx__texture_create(16, "popMTcpwopV.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost2 sprite
+		A.gfx__texture_create(14, "popKaEjIyN5V2d6j5p0x646605m1bucqedhPe.pp1TjVqYj.pp1ljqqqj.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost2 sprite
+		A.gfx__texture_create(15, "popPxU9f1q9w0kt.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost2 sprite
+		A.gfx__texture_create(16, "popYearuvugnded.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost2 sprite
 		A.gfx__texture_create(17, "pqq" + grid, A.TEXTURE_SIZE_64X32); // locked tile
 		A.gfx__texture_create("a0", "p00gSsesS.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.gfx__texture_create("a1", "p00gssssg.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
