@@ -2219,6 +2219,14 @@ window.onload = function()
 			A.alter_gold(100);
 		}
 		
+		// if the time is up disable buying of new objects
+		if (A.game_time > A.config.game_duration && A.gui_buttons[2])
+		{
+			A.set_tool(1);
+			A.gui_buttons = A._array_remove_item(A.gui_buttons, 2);
+			A.gui_buttons = A._array_remove_item(A.gui_buttons, 3);
+		}
+		
 		// only player 1 does the checks
 		if (A.current_player != 1 || A.status != A.GAME_STATUS_RUNNING)
 		{
