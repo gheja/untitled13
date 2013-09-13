@@ -1,0 +1,19 @@
+{
+  "name": "untitled13",
+  "description": "untitled13 an entry to http://2013.js13kgames.com/",
+  "version": "0.0.1",
+  "author": "Gabor Heja (gheja)",
+  "homepage": "https://github.com/gheja/untitled13",
+  "main": "./server.js",
+  "dependencies" :
+  {
+    "socket.io": "~0.9.16"
+  },
+  "engines": {
+    "node": "*"
+  },
+  "keywords": [
+    "game"
+   ],
+  "devDependencies": {}
+}
