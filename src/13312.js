@@ -853,16 +853,16 @@ window.onload = function()
 	{
 		if (A.current_player == 1)
 		{
-			if (button_order == 3 && A.alter_gold(-100))
+			if (button_order == 11 && A.alter_gold(-100))
 			{
-				A.player1_queues[A.player1_current_queue][4].push(1);
+				A.player1_queues[A.player1_current_queue][4].push(11);
 			}
-			else if (button_order == 4 && A.alter_gold(-125))
+			else if (button_order == 12 && A.alter_gold(-125))
 			{
-				A.player1_queues[A.player1_current_queue][4].push(2);
+				A.player1_queues[A.player1_current_queue][4].push(12);
 			}
 			
-			if (button_order < 3)
+			if (button_order < 11)
 			{
 				A.selected_tool = button_order;
 			}
@@ -941,11 +941,12 @@ window.onload = function()
 	
 	A.object_create = function(args)
 	{
-		if (args[0] == 1)
+		// TODO: remove hard-coded numbers, put them to the objects
+		if (args[0] == 11)
 		{
 			A.objects.push(new A.ObjectPlayer1Ghost1(args[2], args[3]));
 		}
-		else if (args[0] == 2)
+		else if (args[0] == 12)
 		{
 			A.objects.push(new A.ObjectPlayer1Ghost2(args[2], args[3]));
 		}
@@ -1000,8 +1001,8 @@ window.onload = function()
 			A.gui_buttons = [
 				[ [  8,  8 ], "c1", "1", A.set_tool, 1, "Select" ],
 				[ [ 34,  8 ], "c2", "2", A.set_tool, 2, "Explode" ],
-				[ [ 60,  8 ], "c3", "3", A.set_tool, 3, "Floaty" ],
-				[ [ 86,  8 ], "c3", "4", A.set_tool, 4, "Runner" ],
+				[ [ 60,  8 ], "c3", "3", A.set_tool, 11, "Floaty" ],
+				[ [ 86,  8 ], "c3", "4", A.set_tool, 12, "Runner" ],
 				[ [  4, 40 ], "cx", "Q", A.player1_queue_startstop, 0, "Start/stop" ],
 				[ [ 28, 40 ], "cx", "W", A.player1_queue_decrease_pop_time, 0, "Change delay" ],
 				[ [ 52, 40 ], "cx", "E", A.player1_queue_select, 0, "Select queue" ],
@@ -1018,8 +1019,8 @@ window.onload = function()
 			A.gui_buttons = [
 				[ [  8,  8 ], "c1", "1", A.set_tool, 1, "Select" ],
 				[ [ 34,  8 ], "c2", "2", A.set_tool, 2, "Explode" ],
-				[ [ 60,  8 ], "c3", "3", A.set_tool, 3, "Tower one" ],
-				[ [ 86,  8 ], "c3", "4", A.set_tool, 4, "Flame tower" ]
+				[ [ 60,  8 ], "c3", "3", A.set_tool, 21, "Tower one" ],
+				[ [ 86,  8 ], "c3", "4", A.set_tool, 22, "Flame tower" ]
 			];
 		}
 	}
@@ -1155,7 +1156,7 @@ window.onload = function()
 	{
 		var c = A.cv.ctx;
 		
-		if (A.selected_tool == button[2])
+		if (button[3] == A.set_tool && A.selected_tool == button[4])
 		{
 			c.fillStyle = "#000";
 			c.fillRect(button[0][0], button[0][1], 24, 24);
@@ -1431,11 +1432,11 @@ window.onload = function()
 				k = 0;
 				for (j in A.player1_queues[i][4])
 				{
-					if (A.player1_queues[i][4][j] == 1)
+					if (A.player1_queues[i][4][j] == 11)
 					{
 						A.gfx__texture_put("c3", 72 + k*24, 40 + i*26);
 					}
-					else if (A.player1_queues[i][4][j] == 2)
+					else if (A.player1_queues[i][4][j] == 12)
 					{
 						A.gfx__texture_put("c3", 72 + k*24, 40 + i*26);
 					}
@@ -1763,12 +1764,12 @@ window.onload = function()
 			}
 			
 			
-			if (A.selected_tool == 3 && A.alter_gold(-200))
+			if (A.selected_tool == 21 && A.alter_gold(-200))
 			{
 				A.tile_statuses[p[0]][p[1]] = A.TILE_STATUS_LOCKED;
 				B.send("object_create", [ 21, A._generate_uid(), p ]);
 			}
-			else if (A.selected_tool == 4 && A.alter_gold(-300))
+			else if (A.selected_tool == 22 && A.alter_gold(-300))
 			{
 				A.tile_statuses[p[0]][p[1]] = A.TILE_STATUS_LOCKED;
 				B.send("object_create", [ 22, A._generate_uid(), p ]);
