@@ -1063,9 +1063,9 @@ window.onload = function()
 			A.gui_buttons = [
 				[ [  8,  8 ], "c1", "1", A.set_tool, 1, "Select" ],
 				[ [ 34,  8 ], "c2", "2", A.set_tool, 2, "Explode" ],
-				[ [ 60,  8 ], "e3", "3", A.set_tool, 11, "Floaty" ],
-				[ [ 86,  8 ], "e4", "4", A.set_tool, 12, "Runner" ],
-				[ [112,  8 ], "e5", "5", A.set_tool, 13, "Badaboom" ],
+				[ [ 60,  8 ], "e3", "3", A.set_tool, 11, "Floaty (100)" ],
+				[ [ 86,  8 ], "e4", "4", A.set_tool, 12, "Runner (125)" ],
+				[ [112,  8 ], "e5", "5", A.set_tool, 13, "Badaboom (200)" ],
 				[ [  4, 40 ], "cx", "Q", A.player1_queue_startstop, 0, "Start/stop" ],
 				[ [ 28, 40 ], "cx", "W", A.player1_queue_decrease_pop_time, 0, "Change delay" ],
 				[ [ 52, 40 ], "cx", "E", A.player1_queue_select, 0, "Select queue" ],
@@ -1082,9 +1082,9 @@ window.onload = function()
 			A.gui_buttons = [
 				[ [  8,  8 ], "c1", "1", A.set_tool, 1, "Select" ],
 				[ [ 34,  8 ], "c2", "2", A.set_tool, 2, "Explode" ],
-				[ [ 60,  8 ], "f3", "3", A.set_tool, 21, "Tower one" ],
-				[ [ 86,  8 ], "f4", "4", A.set_tool, 22, "Flame tower" ],
-				[ [112,  8 ], "f5", "5", A.set_tool, 23, "Tower two" ]
+				[ [ 60,  8 ], "f3", "3", A.set_tool, 21, "Tower one (200)" ],
+				[ [ 86,  8 ], "f4", "4", A.set_tool, 22, "Flame tower (300)" ],
+				[ [112,  8 ], "f5", "5", A.set_tool, 23, "Tower two (400)" ]
 			];
 		}
 	}
