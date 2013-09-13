@@ -812,11 +812,21 @@ window.onload = function()
 	{
 		var i, p;
 		
+		delete A.tooltip_object;
+		
 		for (i in A.gui_buttons)
 		{
 			if (A._2d_between(A.inputs.mouse_position, A.gui_buttons[i][0], A._2d_add(A.gui_buttons[i][0], [ 24, 24 ])))
 			{
-				A.tooltip_object = { display_name: "toolbar icon" };
+				if (A.gui_buttons[i][5] != "")
+				{
+					A.tooltip_object = { display_name: A.gui_buttons[i][5] };
+				}
+				else
+				{
+					A.tooltip_object = { display_name: "toolbar" };
+				}
+				// A.tooltip_object = new A.object_classes();
 				return;
 			}
 		}
@@ -831,7 +841,7 @@ window.onload = function()
 					continue;
 				}
 				
-				A.tooltip_object = { display_name: "object" };
+				A.tooltip_object = A.objects[i];
 				return;
 			}
 		}
@@ -988,28 +998,28 @@ window.onload = function()
 		if (player_id == 1)
 		{
 			A.gui_buttons = [
-				[ [  8,  8 ], "c1", "1", A.set_tool, 1 ],
-				[ [ 34,  8 ], "c2", "2", A.set_tool, 2 ],
-				[ [ 60,  8 ], "c3", "3", A.set_tool, 3 ],
-				[ [ 86,  8 ], "c3", "4", A.set_tool, 4 ],
-				[ [  4, 40 ], "cx", "Q", A.player1_queue_startstop, 0 ],
-				[ [ 28, 40 ], "cx", "W", A.player1_queue_decrease_pop_time, 0 ],
-				[ [ 52, 40 ], "cx", "E", A.player1_queue_select, 0 ],
-				[ [  4, 66 ], "cx", "A", A.player1_queue_startstop, 1 ],
-				[ [ 28, 66 ], "cx", "S", A.player1_queue_decrease_pop_time, 1 ],
-				[ [ 52, 66 ], "cx", "D", A.player1_queue_select, 1 ],
-				[ [  4, 92 ], "cx", "Z", A.player1_queue_startstop, 2 ],
-				[ [ 28, 92 ], "cx", "X", A.player1_queue_decrease_pop_time, 2 ],
-				[ [ 52, 92 ], "cx", "C", A.player1_queue_select, 2 ]
+				[ [  8,  8 ], "c1", "1", A.set_tool, 1, "Select" ],
+				[ [ 34,  8 ], "c2", "2", A.set_tool, 2, "Explode" ],
+				[ [ 60,  8 ], "c3", "3", A.set_tool, 3, "Floaty" ],
+				[ [ 86,  8 ], "c3", "4", A.set_tool, 4, "Runner" ],
+				[ [  4, 40 ], "cx", "Q", A.player1_queue_startstop, 0, "Start/stop" ],
+				[ [ 28, 40 ], "cx", "W", A.player1_queue_decrease_pop_time, 0, "Change delay" ],
+				[ [ 52, 40 ], "cx", "E", A.player1_queue_select, 0, "Select queue" ],
+				[ [  4, 66 ], "cx", "A", A.player1_queue_startstop, 1, "Start/stop" ],
+				[ [ 28, 66 ], "cx", "S", A.player1_queue_decrease_pop_time, 1, "Change delay" ],
+				[ [ 52, 66 ], "cx", "D", A.player1_queue_select, 1, "Select queue" ],
+				[ [  4, 92 ], "cx", "Z", A.player1_queue_startstop, 2, "Start/stop" ],
+				[ [ 28, 92 ], "cx", "X", A.player1_queue_decrease_pop_time, 2, "Change delay" ],
+				[ [ 52, 92 ], "cx", "C", A.player1_queue_select, 2, "Select queue" ]
 			];
 		}
 		else
 		{
 			A.gui_buttons = [
-				[ [  8,  8 ], "c1", "1", A.set_tool, 1 ],
-				[ [ 34,  8 ], "c2", "2", A.set_tool, 2 ],
-				[ [ 60,  8 ], "c3", "3", A.set_tool, 3 ],
-				[ [ 86,  8 ], "c3", "4", A.set_tool, 4 ]
+				[ [  8,  8 ], "c1", "1", A.set_tool, 1, "Select" ],
+				[ [ 34,  8 ], "c2", "2", A.set_tool, 2, "Explode" ],
+				[ [ 60,  8 ], "c3", "3", A.set_tool, 3, "Tower one" ],
+				[ [ 86,  8 ], "c3", "4", A.set_tool, 4, "Flame tower" ]
 			];
 		}
 	}
