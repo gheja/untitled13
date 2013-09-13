@@ -73,7 +73,7 @@ sfx
 [ ] gfx: player 2 tower 2 sprites
 [ ] gfx: player 2 tower 1 toolbar icon
 [ ] gfx: player 2 tower 2 toolbar icon
-[ ] gui: move icons for towers/ghost a little more to the right
+--- gui: move icons for towers/ghost a little more to the right
 [x] gui: set width of toolbar to the size of buttons
 [ ] server, gameplay: implement player swap
 [/] update github page
