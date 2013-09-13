@@ -5,8 +5,8 @@ gui
 [x] fix single click selection
 [ ] fix "reverse rectangle" selection (bottom-right then top-left)
 [ ] add tool name display on hover
-[ ] add unit/tower info display on toolbar hover
-[ ] add unit/tower info display on unit/tower hover/selection
+[/] add unit/tower info display on toolbar hover
+[/] add unit/tower info display on unit/tower hover/selection
 
 gameplay
 [x] add proper queue management for player 1
@@ -22,6 +22,7 @@ engine
 [ ] add two more directions to ObjectPlayer1Switch and process_objects()
 [x] client-server-client event queue
 [x] redesign rendering, render tile by tile based on depth
+[ ] add a full resync method when things skew
 
 player 1
 [ ] add more objects...
@@ -67,7 +68,7 @@ sfx
 [/] gui: add unit/tower info display on toolbar hover
 [x] gui: player 2 toolbar button position
 [x] gfx: fix building base (square, not hexagon)
-[ ] gfx: player 1 ghost 2 sprites
+[x] gfx: player 1 ghost 2 sprites
 [ ] gfx: player 1 ghost 2 toolbar icon
 [ ] gfx: player 2 tower 1 sprites
 [ ] gfx: player 2 tower 2 sprites
