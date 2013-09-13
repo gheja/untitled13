@@ -7,14 +7,23 @@ var app = require('http').createServer(handler),
 function handler(request, response)
 {
 	S.log({}, "http request: " + request.url);
-	if (request.url != "/" && request.url.indexOf("/?") != 0)
+	
+	var url = request.url, files = { "/": "index.html", "/13312.js": "13312.js" };
+	
+	if (url.indexOf("/?") == 0)
+	{
+		url = "/";
+	}
+	
+	if (!files[url])
 	{
 		S.log({}, " 302 redirecting");
 		response.writeHead(302, { "Location": "/" } );
 		response.end();
 		return;
 	}
-	fs.readFile("index.html", function(error, data) {
+	
+	fs.readFile(files[url], function(error, data) {
 		if (!error)
 		{
 			S.log({}, "  200 found");
