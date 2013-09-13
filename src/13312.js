@@ -134,10 +134,11 @@ window.onload = function()
 	];
 	
 	/** @constructor */
-	A.ObjectBase = function(owner_player, position, speed, direction, health, sprites)
+	A.ObjectBase = function(display_name, owner_player, position, speed, direction, health, sprites)
 	{
 		var obj = {};
 		
+		obj.display_name = display_name;
 		obj.owner_player = owner_player;
 		obj.position = position; /* tiles on map */
 		obj.speed = speed; /* tiles per second */
@@ -298,16 +299,16 @@ window.onload = function()
 	}
 	
 	/** @constructor */
-	A.ObjectPlayer1Base = function(position, speed, direction, health, sprites)
+	A.ObjectPlayer1Base = function(display_name, position, speed, direction, health, sprites)
 	{
-		var obj = new A.ObjectBase(1, position, speed, direction, health, sprites);
+		var obj = new A.ObjectBase(display_name, 1, position, speed, direction, health, sprites);
 		return obj;
 	}
 	
 	/** @constructor */
-	A.ObjectPlayer2Base = function(position, health, ammo, shoot_cycle_time, reload_time, sprites)
+	A.ObjectPlayer2Base = function(display_name, position, health, ammo, shoot_cycle_time, reload_time, sprites)
 	{
-		var obj = new A.ObjectBase(2, position, 0, 0, health, sprites);
+		var obj = new A.ObjectBase(display_name, 2, position, 0, 0, health, sprites);
 		obj.shadow_sprite_id = -1;
 		obj.shake_size = 10;
 		
@@ -411,7 +412,7 @@ window.onload = function()
 	/** @constructor */
 	A.ObjectPlayer1Switch = function(position, valid_directions, direction)
 	{
-		var obj = new A.ObjectPlayer1Base(position, 0, 0, -1, []);
+		var obj = new A.ObjectPlayer1Base("Switch", position, 0, 0, -1, []);
 		
 		obj.valid_directions = valid_directions;
 		obj.direction = direction;
@@ -484,7 +485,7 @@ window.onload = function()
 	/** @constructor */
 	A.ObjectPlayer1Destination = function(position, valid_directions, direction)
 	{
-		var obj = new A.ObjectPlayer1Base(position, 0, 0, -1, [ [ 13, -32, -16 ] ] );
+		var obj = new A.ObjectPlayer1Base("The mark", position, 0, 0, -1, [ [ 13, -32, -16 ] ] );
 		obj.shadow_sprite_id = -1;
 		obj.hidden_from_other_player = 1;
 		obj.detection_distance = 0;
@@ -510,7 +511,7 @@ window.onload = function()
 	/** @constructor */
 	A.ObjectPlayer2Tower1 = function(position)
 	{
-		var obj = new A.ObjectPlayer2Base(position, 100, 40, 0.1, 2, [ [ 20, -32, -48 ], [ 21, -32, -48 ] ]);
+		var obj = new A.ObjectPlayer2Base("Tower one", position, 100, 40, 0.1, 2, [ [ 20, -32, -48 ], [ 21, -32, -48 ] ]);
 		
 		obj.attack_damage = 5;
 		
@@ -535,7 +536,7 @@ window.onload = function()
 	/** @constructor */
 	A.ObjectPlayer2Tower2 = function(position)
 	{
-		var obj = new A.ObjectPlayer2Base(position, 100, 100, 0, 2, [ [ 20, -32, -48 ], [ 22, -32, -48 ] ]);
+		var obj = new A.ObjectPlayer2Base("Flame tower", position, 100, 100, 0, 2, [ [ 20, -32, -48 ], [ 22, -32, -48 ] ]);
 		
 		obj.attack_damage = 1;
 		obj.attack_impact_radius = 0.5;
@@ -553,7 +554,7 @@ window.onload = function()
 	/** @constructor */
 	A.ObjectPlayer2Crystal = function(position)
 	{
-		var obj = new A.ObjectPlayer2Base(position, 50, 0, 0, 0, [ [ 20, -32, -48 ], [ (A.objects.length % 2) ? "d1" : "d2", -32, -58 ] ]);
+		var obj = new A.ObjectPlayer2Base("Crystal", position, 50, 0, 0, 0, [ [ 20, -32, -48 ], [ (A.objects.length % 2) ? "d1" : "d2", -32, -58 ] ]);
 		
 		obj.goal_object = 1;
 		
@@ -563,7 +564,7 @@ window.onload = function()
 	/** @constructor */
 	A.ObjectPlayer1Ghost1 = function(position, direction)
 	{
-		var obj = new A.ObjectPlayer1Base(position, 0.75, direction, 100, [ [ 5, -16, -32, 2, 2 ], [ 4, -16, -32, 2, 2 ], [ 3, -16, -32, 2, 2 ] ]);
+		var obj = new A.ObjectPlayer1Base("Floaty", position, 0.75, direction, 100, [ [ 5, -16, -32, 2, 2 ], [ 4, -16, -32, 2, 2 ], [ 3, -16, -32, 2, 2 ] ]);
 		
 		// candy for the eye!
 		for (j=0; j<3; j++)
@@ -580,7 +581,7 @@ window.onload = function()
 	/** @constructor */
 	A.ObjectPlayer1Ghost2 = function(position, direction)
 	{
-		var obj = new A.ObjectPlayer1Base(position, 1.5, direction, 75, [ [ 16, -16, -32, 2, 2 ], [ 15, -16, -32, 2, 2 ], [ 14, -16, -32, 2, 2 ] ]);
+		var obj = new A.ObjectPlayer1Base("Runner", position, 1.5, direction, 75, [ [ 16, -16, -32, 2, 2 ], [ 15, -16, -32, 2, 2 ], [ 14, -16, -32, 2, 2 ] ]);
 		obj.shake_size = 2.5;
 		
 		// candy for the eye!
