@@ -1063,9 +1063,9 @@ window.onload = function()
 			A.gui_buttons = [
 				[ [  8,  8 ], "c1", "1", A.set_tool, 1, "Select" ],
 				[ [ 34,  8 ], "c2", "2", A.set_tool, 2, "Explode" ],
-				[ [ 60,  8 ], "c3", "3", A.set_tool, 11, "Floaty" ],
-				[ [ 86,  8 ], "c3", "4", A.set_tool, 12, "Runner" ],
-				[ [112,  8 ], "c3", "5", A.set_tool, 13, "Badaboom" ],
+				[ [ 60,  8 ], "e3", "3", A.set_tool, 11, "Floaty" ],
+				[ [ 86,  8 ], "e4", "4", A.set_tool, 12, "Runner" ],
+				[ [112,  8 ], "e5", "5", A.set_tool, 13, "Badaboom" ],
 				[ [  4, 40 ], "cx", "Q", A.player1_queue_startstop, 0, "Start/stop" ],
 				[ [ 28, 40 ], "cx", "W", A.player1_queue_decrease_pop_time, 0, "Change delay" ],
 				[ [ 52, 40 ], "cx", "E", A.player1_queue_select, 0, "Select queue" ],
@@ -1082,9 +1082,9 @@ window.onload = function()
 			A.gui_buttons = [
 				[ [  8,  8 ], "c1", "1", A.set_tool, 1, "Select" ],
 				[ [ 34,  8 ], "c2", "2", A.set_tool, 2, "Explode" ],
-				[ [ 60,  8 ], "c3", "3", A.set_tool, 21, "Tower one" ],
-				[ [ 86,  8 ], "c3", "4", A.set_tool, 22, "Flame tower" ],
-				[ [112,  8 ], "c3", "5", A.set_tool, 23, "Tower two" ]
+				[ [ 60,  8 ], "f3", "3", A.set_tool, 21, "Tower one" ],
+				[ [ 86,  8 ], "f4", "4", A.set_tool, 22, "Flame tower" ],
+				[ [112,  8 ], "f5", "5", A.set_tool, 23, "Tower two" ]
 			];
 		}
 	}
@@ -1489,7 +1489,18 @@ window.onload = function()
 				k = 0;
 				for (j in A.player1_queues[i][4])
 				{
-					A.gfx__texture_put("c3", 72 + k*24, 40 + i*26);
+					if (A.player1_queues[i][4][j] == 11)
+					{
+						A.gfx__texture_put("e3", 72 + k*24, 40 + i*26);
+					}
+					else if (A.player1_queues[i][4][j] == 12)
+					{
+						A.gfx__texture_put("e4", 72 + k*24, 40 + i*26);
+					}
+					else if (A.player1_queues[i][4][j] == 13)
+					{
+						A.gfx__texture_put("e5", 72 + k*24, 40 + i*26);
+					}
 					k++;
 				}
 			}
@@ -2013,7 +2024,13 @@ window.onload = function()
 		// A.gfx__texture_create(21, "peebgYrftmrjg.pfeLiutmV.aAKpeecabgfjjgia.pfeaTUete.aAKpeeeRcafciagR.pcffIYMYQZRfUkRmOkK.aAF", A.TEXTURE_SIZE_64X64);
 		A.gfx__texture_create("c1", "pggRRR1chuh.", A.TEXTURE_SIZE_24X24); // toolbar icon, mouse
 		A.gfx__texture_create("c2", "pgghJZbGbbmQ2kp7xpg4WmW.", A.TEXTURE_SIZE_24X24); // toolbar icon, explode
-		A.gfx__texture_create("c3", "pggagTlR7Z6b1j1l6u7rlkh.p11blftjl.", A.TEXTURE_SIZE_24X24); // toolbar icon, explode
+		// A.gfx__texture_create("e3", "pg7agTlR7Z6b1j1l6u7rlkh.p77blftjl.", A.TEXTURE_SIZE_24X24); // toolbar icon, ObjectPlayer1Ghost1
+		A.gfx__texture_create("e3", "p7gSSSttttS.", A.TEXTURE_SIZE_24X24); // toolbar icon, ObjectPlayer1Ghost1
+		A.gfx__texture_create("e4", "ppgSSSttttS.", A.TEXTURE_SIZE_24X24); // toolbar icon, ObjectPlayer1Ghost2
+		A.gfx__texture_create("e5", "pwgSSSttttS.", A.TEXTURE_SIZE_24X24); // toolbar icon, ObjectPlayer1Ghost3
+		A.gfx__texture_create("f3", "pegSSSttttS.", A.TEXTURE_SIZE_24X24); // toolbar icon, ObjectPlayer1Tower1
+		A.gfx__texture_create("f4", "plgSSSttttS.", A.TEXTURE_SIZE_24X24); // toolbar icon, ObjectPlayer1Tower2
+		A.gfx__texture_create("f5", "pxgSSSttttS.", A.TEXTURE_SIZE_24X24); // toolbar icon, ObjectPlayer1Tower3
 		A.gfx__texture_create("c0", "p11RdRTcKjKuTuyRyRdqdqTjOcOVTVd.", A.TEXTURE_SIZE_24X24); // toolbar icon, locked
 		A.gfx__texture_create("cx", "", A.TEXTURE_SIZE_24X24); // toolbar icon, empty
 		A.gfx__texture_create("ca", "p1gdddhhhhd.", A.TEXTURE_SIZE_24X24); // toolbar icon, middle dot
