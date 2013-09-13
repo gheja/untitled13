@@ -163,13 +163,13 @@ window.onload = function()
 		// // obj.uid = A._generate_uid();
 		obj.uid = "object_" + A.objects.length;
 		
-		obj.command_destroy = function(mode)
+		obj.command_destroy = function(mode, force)
 		{
 			this.status = A.OBJECT_STATUS_DESTRUCTING;
 			
 			// make sure the object is really destroyed on both side
 			// but only player 1 is the master of objects
-			if (A.current_player == 1)
+			if (A.current_player == 1 || force)
 			{
 				B.send("object_destroy", [ this.uid, mode ]);
 			}
@@ -223,7 +223,7 @@ window.onload = function()
 			if (this.health[0] <= 0)
 			{
 				this.health[0] = 0;
-				this.command_destroy(1);
+				this.command_destroy(1, 0);
 			}
 		}
 		
@@ -235,7 +235,7 @@ window.onload = function()
 			}
 			else if (A.selected_tool == 2)
 			{
-				this.command_destroy(1);
+				this.command_destroy(1, 1);
 			}
 		}
 		
@@ -494,7 +494,7 @@ window.onload = function()
 		obj.on_collision_middle = function(obj2, i, distance)
 		{
 			obj2.direction = -1;
-			obj2.command_destroy(1);
+			obj2.command_destroy(1, 0);
 		}
 		
 		obj.on_tick = function()
