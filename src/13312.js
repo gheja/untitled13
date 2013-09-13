@@ -1725,16 +1725,23 @@ window.onload = function()
 		{
 			for (y=0; y<A.config.world_height; y++)
 			{
-				p = [ x - 0.5, y - 0.5 ];
-				q = [ x + 0.5, y + 0.5 ];
-				
-				A.gfx_render_objects(p, q);
-				
-				/* TODO: this is a rough approximation, also it has some overlaps, need to be fixed */
-				a = A._2d_subtract(A._world_position_to_layer_position([ x, y ]), [ 32, 16 ]);
-				b = A._2d_add(a, [ 55, 28 ]);
-				A.gfx_render_fire(a, b);
-				A.gfx_render_shots(a, b);
+				try
+				{
+					p = [ x - 0.5, y - 0.5 ];
+					q = [ x + 0.5, y + 0.5 ];
+					
+					A.gfx_render_objects(p, q);
+					
+					/* TODO: this is a rough approximation, also it has some overlaps, need to be fixed */
+					a = A._2d_subtract(A._world_position_to_layer_position([ x, y ]), [ 32, 16 ]);
+					b = A._2d_add(a, [ 55, 28 ]);
+					A.gfx_render_fire(a, b);
+					A.gfx_render_shots(a, b);
+				}
+				catch (e)
+				{
+					A.log("Exception in render_layer2(): " + e);
+				}
 			}
 		}
 	}
