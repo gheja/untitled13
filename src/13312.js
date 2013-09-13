@@ -1850,7 +1850,7 @@ window.onload = function()
 	
 	A.init_map = function()
 	{
-		var i, j, obj;
+		var i, j, k, obj;
 		
 		A.game_time = 0;
 		A.golds = [ 1000, 1000 ];
@@ -1890,16 +1890,31 @@ window.onload = function()
 			]
 		);
 		
-		A.map[7][7] = 7;
-		A.map[7][8] = 7;
-		A.map[7][9] = 7;
-		A.map[10][11] = 7;
-		A.map[11][11] = 7;
-		A.map[12][11] = 7;
-		A.map[13][11] = 7;
-		A.map[11][12] = 7;
-		A.map[12][12] = 7;
-		A.map[13][12] = 7;
+		// concrete block generation
+		// TODO: this is a really hackish solution works with the current map only, change that
+		for (i=12; i<18; i++)
+		{
+			for (j=2; j<14; j++)
+			{
+				if (A.map[i][j] == 2)
+				{
+					for (k in A.hexagon_neighbours[1])
+					{
+						if (A.map[i+A.hexagon_neighbours[1][k][0]][j+A.hexagon_neighbours[1][k][1]] == 0)
+						{
+							A.map[i+A.hexagon_neighbours[1][k][0]][j+A.hexagon_neighbours[1][k][1]] = 7;
+						}
+					}
+					for (k in A.hexagon_neighbours[2])
+					{
+						if (A.map[i+A.hexagon_neighbours[2][k][0]][j+A.hexagon_neighbours[2][k][1]] == 0)
+						{
+							A.map[i+A.hexagon_neighbours[2][k][0]][j+A.hexagon_neighbours[2][k][1]] = 7;
+						}
+					}
+				}
+			}
+		}
 		
 		A.objects.push(new A.ObjectPlayer1Destination([ 17, 6 ]));
 		A.objects.push(new A.ObjectPlayer1Destination([ 16, 10 ]));
