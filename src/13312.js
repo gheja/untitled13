@@ -2315,6 +2315,7 @@ window.onload = function()
 			A.set_tool(1);
 			A.gui_buttons = A._array_remove_item(A.gui_buttons, 2);
 			A.gui_buttons = A._array_remove_item(A.gui_buttons, 3);
+			A.gui_buttons = A._array_remove_item(A.gui_buttons, 4);
 		}
 		
 		// only player 1 does the checks
