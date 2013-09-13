@@ -115,7 +115,9 @@ window.onload = function()
 		"t": "#3af",
 		"u": "#bdf",
 		"v": "rgba(190,60,80,0.7)",
-		"w": "#824"
+		"w": "#824",
+		"x": "#082",
+		"y": "rgba(0,230,80,0.7)"
 	};
 	A.tooltip_object = {};
 	A.textures = {};
@@ -555,6 +557,35 @@ window.onload = function()
 	}
 	
 	/** @constructor */
+	A.ObjectPlayer2Tower3 = function(position)
+	{
+		var obj = new A.ObjectPlayer2Base("Tower two", position, 200, 75, 0, 2, [ [ 20, -32, -48 ], [ 23, -32, -48 ] ]);
+		
+		obj.attack_damage = 2;
+		obj.attack_impact_radius = 0.5;
+		
+		obj.attack = function()
+		{
+			// attack gfx
+			for (var i=0; i<2; i++)
+			{
+				// TODO: move the start and end points to their correct positions
+				A.gfx_effect_shot.push([
+					A._2d_subtract(this.position_on_layer, [ -4 + i * 8, 32 ]), // start position
+					A._2d_subtract(A.objects[this.attack_target_object_id].position_on_layer, [ A._random_int(-6, 6, 1), A._random_int(12, 20, 1) ]), // end position
+					2, // width
+					0.2, // seconds left to display
+					0.2 // seconds total display
+				]);
+				
+				A.hit_nearby_objects(A.objects[this.attack_target_object_id].position, this.attack_damage, this.attack_impact_radius, this.owner_player);
+			}
+		}
+		
+		return obj;
+	}
+	
+	/** @constructor */
 	A.ObjectPlayer2Crystal = function(position)
 	{
 		var obj = new A.ObjectPlayer2Base("Crystal", position, 50, 0, 0, 0, [ [ 20, -32, -48 ], [ (A.objects.length % 2) ? "d1" : "d2", -32, -58 ] ]);
@@ -987,6 +1018,10 @@ window.onload = function()
 			{
 				A.objects.push(new A.ObjectPlayer2Tower2(args[2]));
 			}
+			else if (args[0] == 23)
+			{
+				A.objects.push(new A.ObjectPlayer2Tower3(args[2]));
+			}
 			else
 			{
 				return false;
@@ -1048,7 +1083,8 @@ window.onload = function()
 				[ [  8,  8 ], "c1", "1", A.set_tool, 1, "Select" ],
 				[ [ 34,  8 ], "c2", "2", A.set_tool, 2, "Explode" ],
 				[ [ 60,  8 ], "c3", "3", A.set_tool, 21, "Tower one" ],
-				[ [ 86,  8 ], "c3", "4", A.set_tool, 22, "Flame tower" ]
+				[ [ 86,  8 ], "c3", "4", A.set_tool, 22, "Flame tower" ],
+				[ [112,  8 ], "c3", "5", A.set_tool, 23, "Tower two" ]
 			];
 		}
 	}
@@ -1795,6 +1831,11 @@ window.onload = function()
 				A.tile_statuses[p[0]][p[1]] = A.TILE_STATUS_LOCKED;
 				B.send("object_create", [ 22, A._generate_uid(), p ]);
 			}
+			else if (A.selected_tool == 23 && A.alter_gold(-400))
+			{
+				A.tile_statuses[p[0]][p[1]] = A.TILE_STATUS_LOCKED;
+				B.send("object_create", [ 23, A._generate_uid(), p ]);
+			}
 		}
 		return true;
 	}
@@ -1975,6 +2016,7 @@ window.onload = function()
 		A.gfx__texture_create(20, "pbb3337/s/o.aAFpdbY7Y/3733.aAFpdbAwA0Y/Y7.aAFpdbIlAwY733/oog.", A.TEXTURE_SIZE_64X64); // ObjectPlayer2* concrete base tile
 		A.gfx__texture_create(21, "peebgYrftmrjg.pfeLiutmV.peecabgfjjgia.pfeaTUete.peeeRcafciagR.pcffIYMYQZRfUkRmOkK.", A.TEXTURE_SIZE_64X64); // ObjectPlayer2Tower1
 		A.gfx__texture_create(22, "pllbgYrftmrjg.pmlLiutmV.pllcabgfjjgia.pmlaTUete.plleRcafciagR.pcmfIYMYQZRfUkRmOkK.", A.TEXTURE_SIZE_64X64); // ObjectPlayer2Tower2
+		A.gfx__texture_create(23, "pxxbgYrftmrjg.pyxLiutmV.pxxcabgfjjgia.pyxaTUete.pxxeRcafciagR.pcyfIYMYQZRfUkRmOkK.", A.TEXTURE_SIZE_64X64); // ObjectPlayer2Tower3
 		// A.gfx__texture_create(21, "peebgYrftmrjg.pfeLiutmV.aAKpeecabgfjjgia.pfeaTUete.aAKpeeeRcafciagR.pcffIYMYQZRfUkRmOkK.aAF", A.TEXTURE_SIZE_64X64);
 		A.gfx__texture_create("c1", "pggRRR1chuh.", A.TEXTURE_SIZE_24X24); // toolbar icon, mouse
 		A.gfx__texture_create("c2", "pgghJZbGbbmQ2kp7xpg4WmW.", A.TEXTURE_SIZE_24X24); // toolbar icon, explode
