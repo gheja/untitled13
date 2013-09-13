@@ -1411,13 +1411,6 @@ window.onload = function()
 			A.gfx_effect_fire[i][1][1] *= 0.99;
 			
 			A.gfx__render_fire_particle(A.gfx_effect_fire[i][0], 1 - A.gfx_effect_fire[i][2] / A.gfx_effect_fire[i][3]);
-			
-			A.gfx_effect_fire[i][2] -= A.seconds_passed_since_last_frame;
-			
-			if (A.gfx_effect_fire[i][2] < 0)
-			{
-				A.gfx_effect_fire = A._array_remove_item(A.gfx_effect_fire, i);
-			}
 		}
 	}
 	
@@ -2346,6 +2339,21 @@ window.onload = function()
 		}
 	}
 	
+	A.process_fire = function()
+	{
+		var i;
+		
+		for (i in A.gfx_effect_fire)
+		{
+			A.gfx_effect_fire[i][2] -= A.seconds_passed_since_last_frame;
+			
+			if (A.gfx_effect_fire[i][2] < 0)
+			{
+				A.gfx_effect_fire = A._array_remove_item(A.gfx_effect_fire, i);
+			}
+		}
+	}
+	
 	A.tick = function()
 	{
 		if (A.status != A.GAME_STATUS_RUNNING && A.status != A.GAME_STATUS_WIN_DELAY)
@@ -2378,6 +2386,7 @@ window.onload = function()
 		A.process_shots();
 		A.process_objects();
 		A.process_game_status();
+		A.process_fire();
 	}
 	
 	A.render_frame = function()
