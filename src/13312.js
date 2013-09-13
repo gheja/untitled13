@@ -2124,10 +2124,10 @@ window.onload = function()
 				// check if running
 				if (q[5] == 1)
 				{
-					j = q[4].pop();
-					if (j)
+					if (q[4][0])
 					{
-						B.send("object_create", [ j, A._generate_uid(), A._2d_copy(q[0]), q[1] ]);
+						B.send("object_create", [ q[4][0], A._generate_uid(), A._2d_copy(q[0]), q[1] ]);
+						q[4] = A._array_reindex(A._array_remove_item(q[4], 0));
 					}
 				}
 				
