@@ -113,7 +113,9 @@ window.onload = function()
 		"r": "#06b",
 		"s": "#08f",
 		"t": "#3af",
-		"u": "#bdf"
+		"u": "#bdf",
+		"v": "rgba(190,60,80,0.7)",
+		"w": "#824"
 	};
 	A.tooltip_object = {};
 	A.textures = {};
@@ -600,7 +602,7 @@ window.onload = function()
 	/** @constructor */
 	A.ObjectPlayer1Ghost3 = function(position, direction)
 	{
-		var obj = new A.ObjectPlayer1Base("Badaboom", position, 0.75, direction, 225, [ [ 5, -16, -32, 2, 2 ], [ 4, -16, -32, 2, 2 ], [ 3, -16, -32, 2, 2 ] ]);
+		var obj = new A.ObjectPlayer1Base("Badaboom", position, 0.75, direction, 225, [ [ 5, -16, -32, 2, 2 ], [ 4, -16, -32, 2, 2 ], [ 18, -16, -32, 2, 2 ] ]);
 		
 		// candy for the eye!
 		for (j=0; j<3; j++)
@@ -1961,6 +1963,7 @@ window.onload = function()
 		A.gfx__texture_create(15, "popPxU9f1q9w0kt.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost2 sprite
 		A.gfx__texture_create(16, "popYearuvugnded.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost2 sprite
 		A.gfx__texture_create(17, "pqq" + grid, A.TEXTURE_SIZE_64X32); // locked tile
+		A.gfx__texture_create(18, "pvwGQHlMtO7V3e0k7p8uu0nzXuNbJ.p8wVUfdmR.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost3 sprite
 		A.gfx__texture_create("a0", "p00gSsesS.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.gfx__texture_create("a1", "p00gssssg.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.gfx__texture_create("a2", "p00SgSses.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
