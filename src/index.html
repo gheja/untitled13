@@ -65,17 +65,69 @@
 			{
 				color: #ff0;
 			}
+			#div_next
+			{
+				display: none;
+				text-align: center;
+			}
+			#div_next span
+			{
+				padding: 0 0 0 4px;
+				text-shadow: none;
+				color: #333;
+				background: #fff;
+				border: 2px solid #fff;
+				border-radius: 8px;
+			}
+			#div_next a
+			{
+				padding: 0 8px;
+				color: #000;
+				background: #f00;
+				border-radius: 8px 0 0 8px;
+			}
+			#div_next a.yes
+			{
+				background: #0e0;
+			}
+			#div_next span.other
+			{
+				padding: 0 8px;
+				background: #aaa;
+				color: #666;
+				border-radius: 0 8px 8px 0;
+			}
 		</style>
+		<script type="text/javascript">
+			function button_set(obj, value)
+			{
+				obj.innerHTML = obj.className = value;
+			}
+			function button_toggle(obj)
+			{
+				button_set(obj, obj.innerHTML == "no" ? "yes" : "no");
+				return false;
+			}
+		</script>
 	</head>
 	<body>
 		<div id="container"></div>
 		<div id="overlay">
 			<h1>untitled13</h1>
 			<p id="m1">Initializing...</p>
-			<p>untitled13 is a multiplayer tower attack-defense game.</p>
-			<p>As the Red player you send the creatures to attack the Blue's base. Your mission is to destroy the crystals around the red markers. You have three entry points on the map, represented by three queues on the left.</p>
-			<p>As the Blue player you have to build towers to prevent the creatures from destroying the crystals and keep up until the time is up.</p>
-			<p>If the crystals are still there when the time is up, another one minute is added to the gameplay when no creatures and towers can be bought.</p>
+			<div id="div_intro">
+				<p>untitled13 is a multiplayer tower attack-defense game.</p>
+				<p>As the Red player you send the creatures to attack the Blue's base. Your mission is to destroy the crystals around the red markers. You have three entry points on the map, represented by three queues on the left.</p>
+				<p>As the Blue player you have to build towers to prevent the creatures from destroying the crystals and keep up until the time is up.</p>
+				<p>If the crystals are still there when the time is up, another one minute is added to the gameplay when no creatures and towers can be bought.</p>
+			</div>
+			<div id="div_next">
+				<p id="next">
+					<span>New level? <a href="#" id="next1a" onclick="return button_toggle(this);">no</a><span class="other" id="next1b">no</span></span>
+					<span>Switch sides? <a href="#" id="next2a" onclick="return button_toggle(this);">no</a><span class="other" id="next2b">no</span></span>
+					<span>Ready to play? <a href="#" class="next3a" onclick="return button_toggle(this);">no</a><span class="other" id="next3b">no</span></span>
+				</p>
+			</div>
 			<p>The game is also an entry to the <a href="http://2013.js13kgames.com">js13kGames 2013</a> game development competition.</p>
 			<p>See the full source and the latest version on the <a href="https://github.com/gheja/untitled13/">GitHub project page</a>.</p>
 		</div>
