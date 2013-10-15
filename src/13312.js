@@ -2512,7 +2512,15 @@ window.onload = function()
 	{
 		A.main_menu_options[0][option] = (!A.main_menu_options[0][option]) | 0;
 		HTML_options_set(A.main_menu_options);
-		// B.options_update(A.main_menu_options[0]);
+		B.options_update(A.main_menu_options[0]);
+	}
+	
+	A.options_update_remote = function(options)
+	{
+		// ensure options are integers before using them
+		A.main_menu_options[1] = [ options[0] | 0, options[1] | 0, options[2] | 0 ];
+		
+		HTML_options_set(A.main_menu_options);
 	}
 	
 	
@@ -2607,6 +2615,11 @@ window.onload = function()
 		A.overlay_message("Disconnected :(");
 	}
 	
+	B.options_update = function(options)
+	{
+		B.socket.emit("options_update", options);
+	}
+	
 	B.start = function()
 	{
 		B.log("connecting to server: " + A.server_url);
@@ -2660,6 +2673,10 @@ window.onload = function()
 		});
 		
 		
+		B.socket.on("menu", function(data) {
+			A.set_status(A.GAME_STATUS_MENU);
+		});
+		
 		B.socket.on("game_started", function(data) {
 			B.log("game started!");
 			
@@ -2672,6 +2689,10 @@ window.onload = function()
 		
 		B.socket.on("message", function(data) {
 			B.receive(data);
+		});
+		
+		B.socket.on("options_update", function(data) {
+			A.options_update_remote(data);
 		});
 		
 		// DEBUG BEGIN
