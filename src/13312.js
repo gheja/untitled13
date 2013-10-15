@@ -2483,6 +2483,7 @@ window.onload = function()
 			break;
 			
 			case A.GAME_STATUS_RUNNING:
+				A.reset();
 			break;
 			
 			case A.GAME_STATUS_PLAYER1_WON:
@@ -2645,8 +2646,6 @@ window.onload = function()
 		
 		B.socket.on("game_started", function(data) {
 			B.log("game started!");
-			
-			A.reset();
 			
 			// data is the game array: [ player1_uid, player2_uid, players_swapped, map ]
 			A.set_player(data[0] == A.player_uid ? 1 : 2);
