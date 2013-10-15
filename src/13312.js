@@ -2438,8 +2438,6 @@ window.onload = function()
 	
 	A.init_ticks = function()
 	{
-		A.last_tick_timestamp = (new Date()).getTime();
-		A.last_frame_timestamp = A.last_tick_timestamp;
 		window.setInterval(A.render_frame, A.frame_interval);
 	}
 	
@@ -2451,6 +2449,14 @@ window.onload = function()
 	
 	A.reset = function()
 	{
+		A.objects = [];
+		A.tick_number = 0;
+		A.frame_number = 0;
+		A.last_tick_timestamp = (new Date()).getTime();
+		A.last_frame_timestamp = A.last_tick_timestamp;
+		A.game_time = 0;
+		A.shake = 0;
+		A.selected_tool = 0;
 		A.reset_map();
 	}
 	
