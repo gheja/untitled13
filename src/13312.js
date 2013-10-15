@@ -44,6 +44,7 @@ window.onload = function()
 	/** @const */ A.GAME_STATUS_WIN_DELAY = 2;
 	/** @const */ A.GAME_STATUS_PLAYER1_WON = 3;
 	/** @const */ A.GAME_STATUS_PLAYER2_WON = 4;
+	/** @const */ A.GAME_STATUS_MENU = 5;
 	/** @const */ A.TEXTURE_SIZE_32X32 = 0;
 	/** @const */ A.TEXTURE_SIZE_64X32 = 1;
 	/** @const */ A.TEXTURE_SIZE_64X64 = 2;
@@ -2471,15 +2472,26 @@ window.onload = function()
 	
 	A.set_status = function(status)
 	{
-		var s;
+		var s = "";
 		
-		if (status == A.GAME_STATUS_PLAYER1_WON)
+		switch (status)
 		{
-			s = A.current_player == 1 ? "Congratulations, you won!" : "Red player won!";
-		}
-		else if (status == A.GAME_STATUS_PLAYER2_WON)
-		{
-			s = A.current_player == 2 ? "Congratulations, you won!" : "Blue player won!";
+			case A.GAME_STATUS_STARTING:
+			break;
+			
+			case A.GAME_STATUS_MENU:
+			break;
+			
+			case A.GAME_STATUS_RUNNING:
+			break;
+			
+			case A.GAME_STATUS_PLAYER1_WON:
+				s = A.current_player == 1 ? "Congratulations, you won!" : "Red player won!";
+			break;
+			
+			case A.GAME_STATUS_PLAYER2_WON:
+				s = A.current_player == 2 ? "Congratulations, you won!" : "Blue player won!";
+			break;
 		}
 		
 		A.status = status;
