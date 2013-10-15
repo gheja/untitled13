@@ -1921,7 +1921,7 @@ window.onload = function()
 		document.getElementById("container").appendChild(A.cv.cv);
 	}
 	
-	A.init_map = function()
+	A.reset_map = function()
 	{
 		var i, j, k, obj;
 		
@@ -2449,12 +2449,17 @@ window.onload = function()
 		document.getElementById("m1").innerHTML = message;
 	}
 	
+	A.reset = function()
+	{
+		A.reset_map();
+	}
+	
 	A.init = function()
 	{
 		A.init_canvas();
-		A.init_map();
 		A.init_textures();
 		A.init_ticks();
+		A.reset();
 		A.set_player(1);
 	}
 	
@@ -2622,6 +2627,8 @@ window.onload = function()
 		
 		B.socket.on("game_started", function(data) {
 			B.log("game started!");
+			
+			A.reset();
 			
 			// data is the game array: [ player1_uid, player2_uid, players_swapped, map ]
 			A.set_player(data[0] == A.player_uid ? 1 : 2);
