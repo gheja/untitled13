@@ -65,12 +65,12 @@
 			{
 				color: #ff0;
 			}
-			#div_next
+			#div_menu
 			{
-				display: none;
 				text-align: center;
+				display: block;
 			}
-			#div_next span
+			#div_menu span
 			{
 				padding: 0 0 0 4px;
 				text-shadow: none;
@@ -79,18 +79,18 @@
 				border: 2px solid #fff;
 				border-radius: 8px;
 			}
-			#div_next a
+			#div_menu a
 			{
 				padding: 0 8px;
 				color: #000;
 				background: #f00;
 				border-radius: 8px 0 0 8px;
 			}
-			#div_next a.yes
+			#div_menu a.yes
 			{
 				background: #0e0;
 			}
-			#div_next span.other
+			#div_menu span.other
 			{
 				padding: 0 8px;
 				background: #aaa;
@@ -99,13 +99,30 @@
 			}
 		</style>
 		<script type="text/javascript">
-			function button_set(obj, value)
+			// called from the game
+			function HTML_options_set(options)
 			{
-				obj.innerHTML = obj.className = value;
+				option_set("option0a", options[0][0], 0);
+				option_set("option1a", options[0][1], 0);
+				option_set("option2a", options[0][2], 0);
+				option_set("option0b", options[1][0], 1);
+				option_set("option1b", options[1][1], 1);
+				option_set("option2b", options[1][2], 1);
 			}
-			function button_toggle(obj)
+			
+			function option_set(id, value, other)
 			{
-				button_set(obj, obj.innerHTML == "no" ? "yes" : "no");
+				var obj = document.getElementById(id);
+				obj.innerHTML = obj.className = value ? "yes" : "no";
+				if (other)
+				{
+					obj.className += " other";
+				}
+			}
+			function option_toggle(option_id)
+			{
+				// find the number in id
+				A.menu_toggle(option_id);
 				return false;
 			}
 		</script>
@@ -115,18 +132,16 @@
 		<div id="overlay">
 			<h1>untitled13</h1>
 			<p id="m1">Initializing...</p>
+			<div id="div_menu">
+				<span>New level? <a href="#" id="option0a" onclick="return option_toggle(0);">no</a><span class="other" id="option0b">no</span></span>
+				<span>Switch sides? <a href="#" id="option1a" onclick="return option_toggle(1);">no</a><span class="other" id="option1b">no</span></span>
+				<span>Ready to play? <a href="#" id="option2a" onclick="return option_toggle(2);">no</a><span class="other" id="option2b">no</span></span>
+			</div>
 			<div id="div_intro">
 				<p>untitled13 is a multiplayer tower attack-defense game.</p>
 				<p>As the Red player you send the creatures to attack the Blue's base. Your mission is to destroy the crystals around the red markers. You have three entry points on the map, represented by three queues on the left.</p>
 				<p>As the Blue player you have to build towers to prevent the creatures from destroying the crystals and keep up until the time is up.</p>
 				<p>If the crystals are still there when the time is up, another one minute is added to the gameplay when no creatures and towers can be bought.</p>
-			</div>
-			<div id="div_next">
-				<p id="next">
-					<span>New level? <a href="#" id="next1a" onclick="return button_toggle(this);">no</a><span class="other" id="next1b">no</span></span>
-					<span>Switch sides? <a href="#" id="next2a" onclick="return button_toggle(this);">no</a><span class="other" id="next2b">no</span></span>
-					<span>Ready to play? <a href="#" class="next3a" onclick="return button_toggle(this);">no</a><span class="other" id="next3b">no</span></span>
-				</p>
 			</div>
 			<p>The game is also an entry to the <a href="http://2013.js13kgames.com">js13kGames 2013</a> game development competition.</p>
 			<p>See the full source and the latest version on the <a href="https://github.com/gheja/untitled13/">GitHub project page</a>.</p>

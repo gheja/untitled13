@@ -25,6 +25,8 @@ window.onload = function()
 {
 	A = {};
 	
+	A.main_menu_options = [ [ 0, 0, 0 ], [ 0, 0, 0 ] ]; // [ [ own_options ], [ partner_options ] ]
+	
 	A.config = {
 		ticks_per_seconds: 30,
 		target_frames_per_seconds: 30,
@@ -2480,6 +2482,8 @@ window.onload = function()
 			break;
 			
 			case A.GAME_STATUS_MENU:
+				document.getElementById("div_intro").style.display = "none";
+				document.getElementById("div_menu").style.display = "block";
 			break;
 			
 			case A.GAME_STATUS_RUNNING:
@@ -2488,10 +2492,14 @@ window.onload = function()
 			
 			case A.GAME_STATUS_PLAYER1_WON:
 				s = A.current_player == 1 ? "Congratulations, you won!" : "Red player won!";
+				
+				// menu is already visible, no need to redisplay it
 			break;
 			
 			case A.GAME_STATUS_PLAYER2_WON:
 				s = A.current_player == 2 ? "Congratulations, you won!" : "Blue player won!";
+				
+				// menu is already visible, no need to redisplay it
 			break;
 		}
 		
@@ -2499,6 +2507,14 @@ window.onload = function()
 		
 		A.overlay_message(s);
 	}
+	
+	A.menu_toggle = function(option)
+	{
+		A.main_menu_options[0][option] = (!A.main_menu_options[0][option]) | 0;
+		HTML_options_set(A.main_menu_options);
+		// B.options_update(A.main_menu_options[0]);
+	}
+	
 	
 	/* client-server communication */
 	B = {};
