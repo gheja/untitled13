@@ -2482,6 +2482,7 @@ window.onload = function()
 			break;
 			
 			case A.GAME_STATUS_MENU:
+				s = "Connected to the other player.";
 				document.getElementById("div_intro").style.display = "none";
 				document.getElementById("div_menu").style.display = "block";
 			break;
