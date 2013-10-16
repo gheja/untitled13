@@ -25,7 +25,7 @@ window.onload = function()
 {
 	A = {};
 	
-	A.main_menu_options = [ [ 0, 0, 0 ], [ 0, 0, 0 ] ]; // [ [ own_options ], [ partner_options ] ]
+	A.main_menu_options = [ [ 1, 0, 0 ], [ 1, 0, 0 ] ]; // [ [ own_options ], [ partner_options ] ]
 	
 	A.config = {
 		ticks_per_seconds: 30,
