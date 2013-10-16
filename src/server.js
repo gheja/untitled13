@@ -188,10 +188,10 @@ io.sockets.on("connection", function(socket) {
 					if (data[1])
 					{
 						// S.games[i].player_swapped should be an integer
-						S.games[i].player_swapped = (!S.games[i].player_swapped) | 0;
+						S.games[i].players_swapped = (!S.games[i].players_swapped) | 0;
 					}
-					socket.emit2("game_started", [ S.games[i].player1_uid, S.games[i].player2_uid, S.games[i].player_swapped, null ]);
-					socket.emit2_partner("game_started", [ S.games[i].player1_uid, S.games[i].player2_uid, S.games[i].player_swapped, null ]);
+					socket.emit2("game_started", [ S.games[i].player1_uid, S.games[i].player2_uid, S.games[i].players_swapped, null ]);
+					socket.emit2_partner("game_started", [ S.games[i].player1_uid, S.games[i].player2_uid, S.games[i].players_swapped, null ]);
 					
 					return;
 				}
