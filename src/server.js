@@ -88,7 +88,7 @@ io.sockets.on("connection", function(socket) {
 		var game = {
 			player1_uid: socket.id,
 			player2_uid: null,
-			players_swapped: Math.random() < 0.5,
+			players_swapped: 0,
 			map: null
 		};
 		
