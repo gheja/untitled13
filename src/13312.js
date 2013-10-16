@@ -25,6 +25,8 @@ window.onload = function()
 {
 	A = {};
 	
+	A.main_menu_options = [ [ 1, 0, 0 ], [ 1, 0, 0 ] ]; // [ [ own_options ], [ partner_options ] ]
+	
 	A.config = {
 		ticks_per_seconds: 30,
 		target_frames_per_seconds: 30,
@@ -44,6 +46,8 @@ window.onload = function()
 	/** @const */ A.GAME_STATUS_WIN_DELAY = 2;
 	/** @const */ A.GAME_STATUS_PLAYER1_WON = 3;
 	/** @const */ A.GAME_STATUS_PLAYER2_WON = 4;
+	/** @const */ A.GAME_STATUS_MENU = 5;
+	/** @const */ A.GAME_STATUS_DISCONNECTED = 6;
 	/** @const */ A.TEXTURE_SIZE_32X32 = 0;
 	/** @const */ A.TEXTURE_SIZE_64X32 = 1;
 	/** @const */ A.TEXTURE_SIZE_64X64 = 2;
@@ -1921,7 +1925,7 @@ window.onload = function()
 		document.getElementById("container").appendChild(A.cv.cv);
 	}
 	
-	A.init_map = function()
+	A.reset_map = function()
 	{
 		var i, j, k, obj;
 		
@@ -2438,8 +2442,6 @@ window.onload = function()
 	
 	A.init_ticks = function()
 	{
-		A.last_tick_timestamp = (new Date()).getTime();
-		A.last_frame_timestamp = A.last_tick_timestamp;
 		window.setInterval(A.render_frame, A.frame_interval);
 	}
 	
@@ -2449,32 +2451,90 @@ window.onload = function()
 		document.getElementById("m1").innerHTML = message;
 	}
 	
+	A.reset = function()
+	{
+		A.objects = [];
+		A.tick_number = 0;
+		A.frame_number = 0;
+		A.last_tick_timestamp = (new Date()).getTime();
+		A.last_frame_timestamp = A.last_tick_timestamp;
+		A.game_time = 0;
+		A.shake = 0;
+		
+		// select the "select" tool
+		A.selected_tool = 1;
+		
+		A.reset_map();
+	}
+	
 	A.init = function()
 	{
 		A.init_canvas();
-		A.init_map();
 		A.init_textures();
 		A.init_ticks();
+		A.reset();
 		A.set_player(1);
 	}
 	
 	A.set_status = function(status)
 	{
-		var s;
+		var s = "";
 		
-		if (status == A.GAME_STATUS_PLAYER1_WON)
+		switch (status)
 		{
-			s = A.current_player == 1 ? "Congratulations, you won!" : "Red player won!";
-		}
-		else if (status == A.GAME_STATUS_PLAYER2_WON)
-		{
-			s = A.current_player == 2 ? "Congratulations, you won!" : "Blue player won!";
+			case A.GAME_STATUS_STARTING:
+			break;
+			
+			case A.GAME_STATUS_MENU:
+				s = "Connected to the other player.";
+				document.getElementById("div_menu").style.display = "block";
+			break;
+			
+			case A.GAME_STATUS_RUNNING:
+				// set "ready to play" to "no"
+				A.menu_toggle(2);
+				
+				A.reset();
+			break;
+			
+			case A.GAME_STATUS_PLAYER1_WON:
+				s = A.current_player == 1 ? "Congratulations, you won!" : "Red player won!";
+				
+				// menu is already visible, no need to redisplay it
+			break;
+			
+			case A.GAME_STATUS_PLAYER2_WON:
+				s = A.current_player == 2 ? "Congratulations, you won!" : "Blue player won!";
+				
+				// menu is already visible, no need to redisplay it
+			break;
+			
+			case A.GAME_STATUS_DISCONNECTED:
+				s = "Disconnected :(";
+				document.getElementById("div_menu").style.display = "none";
+			break;
 		}
 		
 		A.status = status;
 		
 		A.overlay_message(s);
 	}
+	
+	A.menu_toggle = function(option)
+	{
+		A.main_menu_options[0][option] = (!A.main_menu_options[0][option]) | 0;
+		HTML_options_set(A.main_menu_options);
+		B.options_update(A.main_menu_options[0]);
+	}
+	
+	A.options_update_remote = function(options)
+	{
+		// ensure options are integers before using them
+		A.main_menu_options[1] = [ options[0] | 0, options[1] | 0, options[2] | 0 ];
+		
+		HTML_options_set(A.main_menu_options);
+	}
+	
 	
 	/* client-server communication */
 	B = {};
@@ -2563,8 +2623,12 @@ window.onload = function()
 	B.disconnect = function()
 	{
 		B.log("disconnected");
-		A.set_status(A.GAME_STATUS_STARTING);
-		A.overlay_message("Disconnected :(");
+		A.set_status(A.GAME_STATUS_DISCONNECTED);
+	}
+	
+	B.options_update = function(options)
+	{
+		B.socket.emit("options_update", options);
 	}
 	
 	B.start = function()
@@ -2620,11 +2684,22 @@ window.onload = function()
 		});
 		
 		
+		B.socket.on("menu", function(data) {
+			A.set_status(A.GAME_STATUS_MENU);
+		});
+		
 		B.socket.on("game_started", function(data) {
 			B.log("game started!");
 			
 			// data is the game array: [ player1_uid, player2_uid, players_swapped, map ]
-			A.set_player(data[0] == A.player_uid ? 1 : 2);
+			if (data[2] == 0)
+			{
+				A.set_player(data[0] == A.player_uid ? 1 : 2);
+			}
+			else
+			{
+				A.set_player(data[1] == A.player_uid ? 1 : 2);
+			}
 			
 			A.set_status(A.GAME_STATUS_RUNNING);
 			A.overlay_message("");
@@ -2632,6 +2707,10 @@ window.onload = function()
 		
 		B.socket.on("message", function(data) {
 			B.receive(data);
+		});
+		
+		B.socket.on("options_update", function(data) {
+			A.options_update_remote(data);
 		});
 		
 		// DEBUG BEGIN
