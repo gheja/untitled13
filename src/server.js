@@ -154,14 +154,21 @@ io.sockets.on("connection", function(socket) {
 	});
 	
 	socket.on("options_update", function(data) {
-		var i, partner_socket = io.sockets.socket(socket.partner_id);
+		var i, partner_socket;
 		
 		// do some checks before using the options
-		if (data.length != 3)
+		if (data.length != 3 || socket.partner_id == null)
 		{
 			return;
 		}
 		data = [ data[0] | 0, data[1] | 0, data[2] | 0 ];
+		
+		partner_socket = io.sockets.socket(socket.partner_id);
+		
+		if (!partner_socket)
+		{
+			return;
+		}
 		
 		S.log(socket, "options_update: " + data);
 		socket.emit2_partner("options_update", data);
