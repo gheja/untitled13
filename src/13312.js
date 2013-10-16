@@ -47,6 +47,7 @@ window.onload = function()
 	/** @const */ A.GAME_STATUS_PLAYER1_WON = 3;
 	/** @const */ A.GAME_STATUS_PLAYER2_WON = 4;
 	/** @const */ A.GAME_STATUS_MENU = 5;
+	/** @const */ A.GAME_STATUS_DISCONNECTED = 6;
 	/** @const */ A.TEXTURE_SIZE_32X32 = 0;
 	/** @const */ A.TEXTURE_SIZE_64X32 = 1;
 	/** @const */ A.TEXTURE_SIZE_64X64 = 2;
@@ -2508,6 +2509,12 @@ window.onload = function()
 				
 				// menu is already visible, no need to redisplay it
 			break;
+			
+			case A.GAME_STATUS_DISCONNECTED:
+				s = "Disconnected :(";
+				document.getElementById("div_intro").style.display = "block";
+				document.getElementById("div_menu").style.display = "none";
+			break;
 		}
 		
 		A.status = status;
@@ -2618,8 +2625,7 @@ window.onload = function()
 	B.disconnect = function()
 	{
 		B.log("disconnected");
-		A.set_status(A.GAME_STATUS_STARTING);
-		A.overlay_message("Disconnected :(");
+		A.set_status(A.GAME_STATUS_DISCONNECTED);
 	}
 	
 	B.options_update = function(options)
