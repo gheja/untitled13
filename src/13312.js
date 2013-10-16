@@ -2488,6 +2488,9 @@ window.onload = function()
 			break;
 			
 			case A.GAME_STATUS_RUNNING:
+				// set "ready to play" to "no"
+				A.menu_toggle(2);
+				
 				A.reset();
 			break;
 			
