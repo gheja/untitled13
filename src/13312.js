@@ -2487,7 +2487,6 @@ window.onload = function()
 			
 			case A.GAME_STATUS_MENU:
 				s = "Connected to the other player.";
-				document.getElementById("div_intro").style.display = "none";
 				document.getElementById("div_menu").style.display = "block";
 			break;
 			
@@ -2512,7 +2511,6 @@ window.onload = function()
 			
 			case A.GAME_STATUS_DISCONNECTED:
 				s = "Disconnected :(";
-				document.getElementById("div_intro").style.display = "block";
 				document.getElementById("div_menu").style.display = "none";
 			break;
 		}
