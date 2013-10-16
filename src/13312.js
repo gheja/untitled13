@@ -2692,7 +2692,14 @@ window.onload = function()
 			B.log("game started!");
 			
 			// data is the game array: [ player1_uid, player2_uid, players_swapped, map ]
-			A.set_player(data[0] == A.player_uid ? 1 : 2);
+			if (data[2] == 0)
+			{
+				A.set_player(data[0] == A.player_uid ? 1 : 2);
+			}
+			else
+			{
+				A.set_player(data[1] == A.player_uid ? 1 : 2);
+			}
 			
 			A.set_status(A.GAME_STATUS_RUNNING);
 			A.overlay_message("");
