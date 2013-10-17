@@ -2702,7 +2702,6 @@ window.onload = function()
 			}
 			
 			A.set_status(A.GAME_STATUS_RUNNING);
-			A.overlay_message("");
 		});
 		
 		B.socket.on("message", function(data) {
