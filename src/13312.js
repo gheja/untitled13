@@ -840,12 +840,15 @@ window.onload = function()
 	A._mapgen__generate_roads = function(starting_points, target_points, valid_extensions)
 	{
 		var i, j, k, l, x, roads_left = starting_points.length, finished, dist, min_dist, best_road_tiles, temp_road_tiles;
-		
-		
+		/*
+		  starting points: [ [ x, y, target_id ], ... ]
+		  target_points: [ [ x, y ], ... ]
+		  valid_extensions: [ [ [ x1, y1 ], [ x2, y2 ], ... ], ... ]
+		*/
 		
 		for (i=0; i<starting_points.length; i++)
 		{
-			A.map[starting_points[i][0]][starting_points[i][1]] = 2;
+			A.map[starting_points[i][0][0]][starting_points[i][0][1]] = 2;
 			
 			finished = 0;
 			for (x=0; x<100; x++)
@@ -857,16 +860,13 @@ window.onload = function()
 					temp_road_tiles = [];
 					for (l=0; l<valid_extensions[j].length; l++)
 					{
-						p = A._2d_add(starting_points[i], valid_extensions[j][l]);
+						p = A._2d_add(starting_points[i][0], valid_extensions[j][l]);
 						temp_road_tiles.push(p);
-						for (k=0; k<target_points.length; k++)
+						dist = A._distance(p, target_points[starting_points[i][1]]);
+						if (dist < min_dist)
 						{
-							dist = A._distance(p, target_points[k]);
-							if (dist < min_dist)
-							{
-								best_road_tiles = A._array_copy(temp_road_tiles);
-								min_dist = dist;
-							}
+							best_road_tiles = A._array_copy(temp_road_tiles);
+							min_dist = dist;
 						}
 					}
 				}
@@ -875,7 +875,7 @@ window.onload = function()
 				{
 					A.map[best_road_tiles[j][0]][best_road_tiles[j][1]] = 2;
 				}
-				starting_points[i] = A._2d_copy(best_road_tiles[j-1]);
+				starting_points[i][0] = A._2d_copy(best_road_tiles[j-1]);
 				if (min_dist == 0)
 				{
 					break;
@@ -1987,7 +1987,7 @@ window.onload = function()
 		}
 		
 		A._mapgen__generate_roads(
-			[ [ 0, 0 ], [ 0, 9 ], [ 6, 18 ] ],
+			[ [ [ 0, 0 ], 0 ], [ [ 0, 9 ], 0 ], [ [ 6, 18 ], 1 ] ],
 			[ [ 12, 6 ], [ 15, 9 ] ],
 			[
 				[ [ -1, 0 ], [ -2, 0 ], [ -3, 0 ] ],
