@@ -753,6 +753,16 @@ window.onload = function()
 		return result;
 	}
 	
+	A._array_copy = function(array)
+	{
+		var result = [], i;
+		for (i=0; i<array.length; i++)
+		{
+			result[i] = array[i];
+		}
+		return result;
+	}
+	
 	A._cv_gradient = function(c, p1, p2, stops)
 	{
 		var i, gradient;
@@ -829,34 +839,53 @@ window.onload = function()
 	
 	A._mapgen__generate_roads = function(starting_points, target_points, valid_extensions)
 	{
-		var i, j, k, selected_j, roads_left = starting_points.length, finished, dist, min_dist;
+		var i, j, k, l, x, roads_left = starting_points.length, finished, dist, min_dist, best_road_tiles, temp_road_tiles;
+		
+		
 		
 		for (i=0; i<starting_points.length; i++)
 		{
+			A.map[starting_points[i][0]][starting_points[i][1]] = 2;
+			
 			finished = 0;
-			for (l=0; l<100; l++)
+			for (x=0; x<100; x++)
 			{
 				min_dist = 999;
+				best_road_tiles = [];
 				for (j=0; j<valid_extensions.length; j++)
 				{
-					p = A._2d_add(starting_points[i], valid_extensions[j]);
-					for (k=0; k<target_points.length; k++)
+					temp_road_tiles = [];
+					for (l=0; l<valid_extensions[j].length; l++)
 					{
-						dist = A._distance(p, target_points[k]);
-						if (dist < min_dist)
+						p = A._2d_add(starting_points[i], valid_extensions[j][l]);
+						temp_road_tiles.push(p);
+						for (k=0; k<target_points.length; k++)
 						{
-							selected_j = j;
-							min_dist = dist;
+							dist = A._distance(p, target_points[k]);
+							if (dist < min_dist)
+							{
+								best_road_tiles = A._array_copy(temp_road_tiles);
+								min_dist = dist;
+							}
 						}
 					}
 				}
-				starting_points[i] = A._2d_add(starting_points[i], valid_extensions[selected_j]);
-				A.map[starting_points[i][0]][starting_points[i][1]] = 2;
+				
+				for (j=0; j<best_road_tiles.length; j++)
+				{
+					A.map[best_road_tiles[j][0]][best_road_tiles[j][1]] = 2;
+				}
+				starting_points[i] = A._2d_copy(best_road_tiles[j-1]);
 				if (min_dist == 0)
 				{
 					break;
 				}
 			}
+		}
+		
+		for (i=0; i<target_points.length; i++)
+		{
+			A.objects.push(new A.ObjectPlayer1Destination(target_points[i]));
 		}
 	}
 	
@@ -1957,7 +1986,18 @@ window.onload = function()
 			}
 		}
 		
-		A._mapgen__generate_roads([ [ 0, 1 ], [ 0, 14 ], [ 6, 19 ] ], [ [ 17, 6 ], [ 16, 10 ] ], [ [ -1, 0 ], [ 1, 0 ], [ 0, -1 ], [ 0, 1] ]);
+		A._mapgen__generate_roads(
+			[ [ 0, 0 ], [ 0, 9 ], [ 6, 18 ] ],
+			[ [ 12, 6 ], [ 15, 9 ] ],
+			[
+				[ [ -1, 0 ], [ -2, 0 ], [ -3, 0 ] ],
+				[ [  1, 0 ], [  2, 0 ], [  3, 0 ] ],
+				[ [ 0, -1 ], [ 0, -2 ], [ 0, -3 ] ],
+				[ [ 0,  1 ], [ 0,  2 ], [ 0,  3 ] ],
+				[ [ -1, -1 ], [ -2, -2 ], [ -3, -3 ] ],
+				[ [ 1, 1 ], [ 2, 2 ], [ 3, 3 ] ]
+			]
+		);
 		
 		// concrete block generation
 		// TODO: this is a really hackish solution works with the current map only, change that
@@ -1984,9 +2024,6 @@ window.onload = function()
 				}
 			}
 		}
-		
-		A.objects.push(new A.ObjectPlayer1Destination([ 17, 6 ]));
-		A.objects.push(new A.ObjectPlayer1Destination([ 16, 10 ]));
 	}
 	
 	A.init_textures = function()
