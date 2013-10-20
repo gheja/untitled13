@@ -726,28 +726,6 @@ window.onload = function()
 		return obj;
 	}
 	
-	A._place_roads_on_map = function(roads, arrows)
-	{
-		var i, a, b;
-		
-		for (i in roads)
-		{
-			for (a=roads[i][0]; a<=roads[i][2]; a++)
-			{
-				for (b=roads[i][1]; b<=roads[i][3]; b++)
-				{
-					A.map[a][b] = 2;
-				}
-			}
-		}
-		
-		// this should be replaced with auto-placement by the previous road tiles
-		for (i in arrows)
-		{
-			A.objects.push(new A.ObjectPlayer1Switch([ arrows[i][0], arrows[i][1] ], [ arrows[i][2] & 1, arrows[i][2] & 2, arrows[i][2] & 4, arrows[i][2] & 8 ], arrows[i][3]));
-		}
-	}
-	
 	A._array_remove_item = function(array, id)
 	{
 		var i, result = [];
@@ -847,6 +825,39 @@ window.onload = function()
 		m = Math.floor(seconds / 60);
 		s = Math.floor(seconds % 60);
 		return (minus ? "-" : "") + (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+	}
+	
+	A._mapgen__generate_roads = function(starting_points, target_points, valid_extensions)
+	{
+		var i, j, k, selected_j, roads_left = starting_points.length, finished, dist, min_dist;
+		
+		for (i=0; i<starting_points.length; i++)
+		{
+			finished = 0;
+			for (l=0; l<100; l++)
+			{
+				min_dist = 999;
+				for (j=0; j<valid_extensions.length; j++)
+				{
+					p = A._2d_add(starting_points[i], valid_extensions[j]);
+					for (k=0; k<target_points.length; k++)
+					{
+						dist = A._distance(p, target_points[k]);
+						if (dist < min_dist)
+						{
+							selected_j = j;
+							min_dist = dist;
+						}
+					}
+				}
+				starting_points[i] = A._2d_add(starting_points[i], valid_extensions[selected_j]);
+				A.map[starting_points[i][0]][starting_points[i][1]] = 2;
+				if (min_dist == 0)
+				{
+					break;
+				}
+			}
+		}
 	}
 	
 	A.alter_gold = function(amount)
@@ -1946,26 +1957,7 @@ window.onload = function()
 			}
 		}
 		
-		A._place_roads_on_map(
-			[
-				[ 0, 1, 12, 1 ],
-				[ 12, 1, 12, 10 ],
-				[ 13, 6, 17, 6 ],
-				[ 0, 14, 6, 14 ],
-				[ 6, 1, 6, 14 ],
-				[ 6, 10, 12, 10 ],
-				[ 6, 15, 6, 19 ],
-				[ 13, 10, 16, 10 ]
-			],
-			[
-				[ 6, 1, 14, 1 ],
-				[ 12, 1, 12, 2 ],
-				[ 12, 6, 7, 1 ],
-				[ 6, 14, 13, 0 ],
-				[ 6, 10, 7, 1 ],
-				[ 12, 10, 11, 1 ]
-			]
-		);
+		A._mapgen__generate_roads([ [ 0, 1 ], [ 0, 14 ], [ 6, 19 ] ], [ [ 17, 6 ], [ 16, 10 ] ], [ [ -1, 0 ], [ 1, 0 ], [ 0, -1 ], [ 0, 1] ]);
 		
 		// concrete block generation
 		// TODO: this is a really hackish solution works with the current map only, change that
