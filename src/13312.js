@@ -981,7 +981,7 @@ window.onload = function()
 */
 				if (k > 2)
 				{
-					A.objects.push(new A.ObjectPlayer1Switch([ i, j ], a, 1));
+					A.objects.push(new A.ObjectPlayer1Switch([ i, j ], a, a[1] ? 1 : (a[0] ? 0 : (a[2] ? 2 : 3 ))));
 				}
 			}
 		}
@@ -2090,17 +2090,7 @@ window.onload = function()
 			}
 		}
 		
-		r = [
-			1,
-			A._random_int(0, 2, 1) * 3,
-			A._random_int(0, 2, 1) * 3,
-			A._random_int(0, 2, 1) * 3,
-			A._random_int(0, 2, 1) * 3,
-			A._random_int(0, 2, 1) * 3,
-			A._random_int(0, 2, 1) * 3,
-			A._random_int(0, 2, 1) * 3 
-		];
-		switch (r[0])
+		switch (A._random_int(1, 1, 1))
 		{
 			case 1:
 				/*
@@ -2116,7 +2106,7 @@ window.onload = function()
 				start_points = [
 					A._array_pick_random_item([ [ 0,3 ], [ 0,6 ] ]),
 					A._array_pick_random_item([ [ 0,9 ], [ 0,12 ] ]),
-					A._array_pick_random_item([ [ 3,18 ], [ 6,18 ], [ 9,18 ] ])
+					A._array_pick_random_item([ [ 3,18 ], [ 6,18 ] ])
 				];
 			break;
 			
@@ -2128,8 +2118,8 @@ window.onload = function()
 		}
 		
 		target_points = [
-			A._array_pick_random_item([ [ 15,6 ], [ 18,6 ], [ 15,9 ], [ 18,9 ] ]),
-			A._array_pick_random_item([ [ 15,12 ], [ 18,12 ], [ 15,15 ], [ 18,15 ] ])
+			A._array_pick_random_item([ [ 15,6 ], [ 18,6 ], [ 15, 3 ], [ 18, 3 ] ]),
+			A._array_pick_random_item([ [ 15,12 ], [ 18,12 ], [ 15,9 ], [ 18,9 ] ])
 		];
 		
 		road_targets = [ 0, 1, 1 ];
