@@ -763,6 +763,11 @@ window.onload = function()
 		return result;
 	}
 	
+	A._array_pick_random_item = function(array)
+	{
+		return array[A._random_int(0, array.length - 1, 1)];
+	}
+	
 	A._cv_gradient = function(c, p1, p2, stops)
 	{
 		var i, gradient;
@@ -837,18 +842,20 @@ window.onload = function()
 		return (minus ? "-" : "") + (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
 	}
 	
-	A._mapgen__generate_roads = function(starting_points, target_points, valid_extensions)
+	A._mapgen__generate_roads = function(starting_points, target_points, road_targets, valid_extensions)
 	{
-		var i, j, k, l, x, roads_left = starting_points.length, finished, dist, min_dist, best_road_tiles, temp_road_tiles;
+		var a, i, j, k, l, x, roads_left = starting_points.length, finished, dist, min_dist, best_road_tiles, temp_road_tiles;
 		/*
-		  starting points: [ [ x, y, target_id ], ... ]
+		  starting points: [ [ x, y ], ... ]
 		  target_points: [ [ x, y ], ... ]
+		  road_targets: [ target_id_for_starting_point_1, ... ]
 		  valid_extensions: [ [ [ x1, y1 ], [ x2, y2 ], ... ], ... ]
 		*/
 		
+		// create the roads from starting points to target points
 		for (i=0; i<starting_points.length; i++)
 		{
-			A.map[starting_points[i][0][0]][starting_points[i][0][1]] = 2;
+			A.map[starting_points[i][0]][starting_points[i][1]] = 2;
 			
 			finished = 0;
 			for (x=0; x<100; x++)
@@ -860,10 +867,10 @@ window.onload = function()
 					temp_road_tiles = [];
 					for (l=0; l<valid_extensions[j].length; l++)
 					{
-						p = A._2d_add(starting_points[i][0], valid_extensions[j][l]);
+						p = A._2d_add(starting_points[i], valid_extensions[j][l]);
 						temp_road_tiles.push(p);
-						dist = A._distance(p, target_points[starting_points[i][1]]);
-						if (dist < min_dist)
+						dist = A._distance(p, target_points[road_targets[i]]);
+						if (dist <= min_dist)
 						{
 							best_road_tiles = A._array_copy(temp_road_tiles);
 							min_dist = dist;
@@ -875,7 +882,7 @@ window.onload = function()
 				{
 					A.map[best_road_tiles[j][0]][best_road_tiles[j][1]] = 2;
 				}
-				starting_points[i][0] = A._2d_copy(best_road_tiles[j-1]);
+				starting_points[i] = A._2d_copy(best_road_tiles[j-1]);
 				if (min_dist == 0)
 				{
 					break;
@@ -883,6 +890,103 @@ window.onload = function()
 			}
 		}
 		
+		// create road connections between previously generated roads
+		connectors = [ [ 12, 0 ], [ 9, 9 ] ];
+		for (l in connectors)
+		{
+			j = connectors[l][0];
+			k = 0;
+			for (i=connectors[l][1]; i<20; i++)
+			{
+				switch (k)
+				{
+					// skip the empty tiles
+					case 0:
+						if (A.map[j][i] == 2)
+						{
+							k = 1;
+						}
+					break;
+					
+					// walk through the road tiles until the first emtpy one
+					case 1:
+						if (A.map[j][i] == 0)
+						{
+							k = 2;
+							
+							// draw a road
+							A.map[j][i] = 2;
+						}
+					break;
+					
+					// walk through the empty tiles until the first non-empty one
+					case 2:
+						if (A.map[j][i] != 0)
+						{
+							k = 3;
+						}
+						else
+						{
+							// draw a road
+							A.map[j][i] = 2;
+						}
+					break;
+					
+					// do nothing
+				}
+			}
+		}
+		
+		for (i=1; i<A.config.world_width-1; i++)
+		{
+			for (j=1; j<A.config.world_height-1; j++)
+			{
+				if (A.map[i][j] != 2)
+				{
+					continue;
+				}
+				
+				k = 0;
+				a = [ 0, 0, 0, 0 ];
+				
+				if (A.map[i+1][j] == 2)
+				{
+					a[1] = 1;
+					k++;
+				}
+				if (A.map[i-1][j] == 2)
+				{
+					a[3] = 1;
+					k++;
+				}
+				if (A.map[i][j+1] == 2)
+				{
+					a[2] = 1;
+					k++;
+				}
+				if (A.map[i][j-1] == 2)
+				{
+					a[0] = 1;
+					k++;
+				}
+/*
+				if (A.map[i+1][j+1] == 2)
+				{
+					k++;
+				}
+				if (A.map[i-1][j-1] == 2)
+				{
+					k++;
+				}
+*/
+				if (k > 2)
+				{
+					A.objects.push(new A.ObjectPlayer1Switch([ i, j ], a, 1));
+				}
+			}
+		}
+		
+		// place the targets
 		for (i=0; i<target_points.length; i++)
 		{
 			A.objects.push(new A.ObjectPlayer1Destination(target_points[i]));
@@ -1967,7 +2071,7 @@ window.onload = function()
 	
 	A.reset_map = function()
 	{
-		var i, j, k, obj;
+		var i, j, k, r, obj, start_points, target_points;
 		
 		A.game_time = 0;
 		A.golds = [ 1000, 1000 ];
@@ -1986,9 +2090,54 @@ window.onload = function()
 			}
 		}
 		
+		r = [
+			1,
+			A._random_int(0, 2, 1) * 3,
+			A._random_int(0, 2, 1) * 3,
+			A._random_int(0, 2, 1) * 3,
+			A._random_int(0, 2, 1) * 3,
+			A._random_int(0, 2, 1) * 3,
+			A._random_int(0, 2, 1) * 3,
+			A._random_int(0, 2, 1) * 3 
+		];
+		switch (r[0])
+		{
+			case 1:
+				/*
+					valid positions for start_point...
+						... #1: [ [ 0,3 ], [ 0,6 ] ]
+						... #2: [ [ 0,9 ], [ 0,12 ], [ 0,15 ] ]
+						... #3: [ [ 3,18 ], [ 6,18 ], [ 9,18 ] ]
+					
+					valid positions for target_point...
+						... #1 [ [ 15,6 ], [ 18,6 ], [ 15,9 ], [ 18,9 ] ]
+						... #2 [ [ 15,12 ], [ 18,12 ], [ 15,15 ], [ 18,15 ] ]
+				*/
+				start_points = [
+					A._array_pick_random_item([ [ 0,3 ], [ 0,6 ] ]),
+					A._array_pick_random_item([ [ 0,9 ], [ 0,12 ] ]),
+					A._array_pick_random_item([ [ 3,18 ], [ 6,18 ], [ 9,18 ] ])
+				];
+			break;
+			
+			case 2:
+			break;
+			
+			case 3:
+			break;
+		}
+		
+		target_points = [
+			A._array_pick_random_item([ [ 15,6 ], [ 18,6 ], [ 15,9 ], [ 18,9 ] ]),
+			A._array_pick_random_item([ [ 15,12 ], [ 18,12 ], [ 15,15 ], [ 18,15 ] ])
+		];
+		
+		road_targets = [ 0, 1, 1 ];
+		
 		A._mapgen__generate_roads(
-			[ [ [ 0, 0 ], 0 ], [ [ 0, 9 ], 0 ], [ [ 6, 18 ], 1 ] ],
-			[ [ 12, 6 ], [ 15, 9 ] ],
+			start_points,
+			target_points,
+			road_targets,
 			[
 				[ [ -1, 0 ], [ -2, 0 ], [ -3, 0 ] ],
 				[ [  1, 0 ], [  2, 0 ], [  3, 0 ] ],
