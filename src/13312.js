@@ -979,10 +979,19 @@ window.onload = function()
 					k++;
 				}
 */
-				if (k > 2)
+				if (
+					// end of the road
+					(k < 2) || 
+					// horizontal line
+					(a[1] && a[3] && !a[0] && !a[2]) ||
+					// vertical line
+					(a[0] && a[2] && !a[1] && !a[3])
+				)
 				{
-					A.objects.push(new A.ObjectPlayer1Switch([ i, j ], a, a[1] ? 1 : (a[0] ? 0 : (a[2] ? 2 : 3 ))));
+					continue;
 				}
+				
+				A.objects.push(new A.ObjectPlayer1Switch([ i, j ], a, a[1] ? 1 : (a[0] ? 0 : (a[2] ? 2 : 3 ))));
 			}
 		}
 		
