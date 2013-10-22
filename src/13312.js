@@ -30,8 +30,8 @@ window.onload = function()
 	A.config = {
 		ticks_per_seconds: 30,
 		target_frames_per_seconds: 30,
-		world_width: 20,
-		world_height: 20,
+		world_width: 21,
+		world_height: 22,
 		bad_luck_mode: 0,
 		game_duration: 180,
 		overtime_duration: 60
@@ -86,6 +86,7 @@ window.onload = function()
 	A.cursor_position_in_world = [ 10, 10 ]; /* tiles */
 	A.scroll = [ 0, -40 ] /* pixels */
 	A.map = [];
+	A.map_seed = 42;
 	A.tile_statuses = [];
 	A.palette = {
 		0: "rgba(0,0,0,0.2)",
@@ -726,28 +727,6 @@ window.onload = function()
 		return obj;
 	}
 	
-	A._place_roads_on_map = function(roads, arrows)
-	{
-		var i, a, b;
-		
-		for (i in roads)
-		{
-			for (a=roads[i][0]; a<=roads[i][2]; a++)
-			{
-				for (b=roads[i][1]; b<=roads[i][3]; b++)
-				{
-					A.map[a][b] = 2;
-				}
-			}
-		}
-		
-		// this should be replaced with auto-placement by the previous road tiles
-		for (i in arrows)
-		{
-			A.objects.push(new A.ObjectPlayer1Switch([ arrows[i][0], arrows[i][1] ], [ arrows[i][2] & 1, arrows[i][2] & 2, arrows[i][2] & 4, arrows[i][2] & 8 ], arrows[i][3]));
-		}
-	}
-	
 	A._array_remove_item = function(array, id)
 	{
 		var i, result = [];
@@ -773,6 +752,27 @@ window.onload = function()
 		}
 		
 		return result;
+	}
+	
+	A._array_copy = function(array)
+	{
+		var result = [], i;
+		for (i=0; i<array.length; i++)
+		{
+			result[i] = array[i];
+		}
+		return result;
+	}
+	
+	A._array_pick_random_item = function(array)
+	{
+		return array[A._random_int(0, array.length - 1, 1)];
+	}
+	
+	A._array_pick_item_by_seed = function(array, seed, n)
+	{
+		var i = Math.abs((seed * 3518.7621 * n) | 0);
+		return array[i % array.length];
 	}
 	
 	A._cv_gradient = function(c, p1, p2, stops)
@@ -847,6 +847,166 @@ window.onload = function()
 		m = Math.floor(seconds / 60);
 		s = Math.floor(seconds % 60);
 		return (minus ? "-" : "") + (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+	}
+	
+	A._mapgen__generate_roads = function(starting_points, target_points, road_targets, valid_extensions)
+	{
+		var a, i, j, k, l, x, roads_left = starting_points.length, finished, dist, min_dist, best_road_tiles, temp_road_tiles;
+		/*
+		  starting points: [ [ x, y ], ... ]
+		  target_points: [ [ x, y ], ... ]
+		  road_targets: [ target_id_for_starting_point_1, ... ]
+		  valid_extensions: [ [ [ x1, y1 ], [ x2, y2 ], ... ], ... ]
+		*/
+		
+		// create the roads from starting points to target points
+		for (i=0; i<starting_points.length; i++)
+		{
+			A.map[starting_points[i][0]][starting_points[i][1]] = 2;
+			
+			finished = 0;
+			for (x=0; x<100; x++)
+			{
+				min_dist = 999;
+				best_road_tiles = [];
+				for (j=0; j<valid_extensions.length; j++)
+				{
+					temp_road_tiles = [];
+					for (l=0; l<valid_extensions[j].length; l++)
+					{
+						p = A._2d_add(starting_points[i], valid_extensions[j][l]);
+						temp_road_tiles.push(p);
+						dist = A._distance(p, target_points[road_targets[i]]);
+						if (dist <= min_dist)
+						{
+							best_road_tiles = A._array_copy(temp_road_tiles);
+							min_dist = dist;
+						}
+					}
+				}
+				
+				for (j=0; j<best_road_tiles.length; j++)
+				{
+					A.map[best_road_tiles[j][0]][best_road_tiles[j][1]] = 2;
+				}
+				starting_points[i] = A._2d_copy(best_road_tiles[j-1]);
+				if (min_dist == 0)
+				{
+					break;
+				}
+			}
+		}
+		
+		// create road connections between previously generated roads
+		connectors = [ [ 12, 0 ], [ 9, 9 ] ];
+		for (l in connectors)
+		{
+			j = connectors[l][0];
+			k = 0;
+			for (i=connectors[l][1]; i<A.config.world_height; i++)
+			{
+				switch (k)
+				{
+					// skip the empty tiles
+					case 0:
+						if (A.map[j][i] == 2)
+						{
+							k = 1;
+						}
+					break;
+					
+					// walk through the road tiles until the first emtpy one
+					case 1:
+						if (A.map[j][i] == 0)
+						{
+							k = 2;
+							
+							// draw a road
+							A.map[j][i] = 2;
+						}
+					break;
+					
+					// walk through the empty tiles until the first non-empty one
+					case 2:
+						if (A.map[j][i] != 0)
+						{
+							k = 3;
+						}
+						else
+						{
+							// draw a road
+							A.map[j][i] = 2;
+						}
+					break;
+					
+					// do nothing
+				}
+			}
+		}
+		
+		for (i=1; i<A.config.world_width-1; i++)
+		{
+			for (j=1; j<A.config.world_height-1; j++)
+			{
+				if (A.map[i][j] != 2)
+				{
+					continue;
+				}
+				
+				k = 0;
+				a = [ 0, 0, 0, 0 ];
+				
+				if (A.map[i+1][j] == 2)
+				{
+					a[1] = 1;
+					k++;
+				}
+				if (A.map[i-1][j] == 2)
+				{
+					a[3] = 1;
+					k++;
+				}
+				if (A.map[i][j+1] == 2)
+				{
+					a[2] = 1;
+					k++;
+				}
+				if (A.map[i][j-1] == 2)
+				{
+					a[0] = 1;
+					k++;
+				}
+/*
+				if (A.map[i+1][j+1] == 2)
+				{
+					k++;
+				}
+				if (A.map[i-1][j-1] == 2)
+				{
+					k++;
+				}
+*/
+				if (
+					// end of the road
+					(k < 2) || 
+					// horizontal line
+					(a[1] && a[3] && !a[0] && !a[2]) ||
+					// vertical line
+					(a[0] && a[2] && !a[1] && !a[3])
+				)
+				{
+					continue;
+				}
+				
+				A.objects.push(new A.ObjectPlayer1Switch([ i, j ], a, a[1] ? 1 : (a[0] ? 0 : (a[2] ? 2 : 3 ))));
+			}
+		}
+		
+		// place the targets
+		for (i=0; i<target_points.length; i++)
+		{
+			A.objects.push(new A.ObjectPlayer1Destination(target_points[i]));
+		}
 	}
 	
 	A.alter_gold = function(amount)
@@ -1927,11 +2087,10 @@ window.onload = function()
 	
 	A.reset_map = function()
 	{
-		var i, j, k, obj;
+		var i, j, k, r, obj, start_points, target_points, seed = A.map_seed;
 		
 		A.game_time = 0;
 		A.golds = [ 1000, 1000 ];
-		A.player1_queues = [ [ [ 0, 1 ], 1, 40, 40, [], 0 ], [ [ 0, 14 ], 1, 40, 40, [], 0 ], [ [ 6, 19 ], 0, 40, 40, [], 0 ] ];
 		
 		for (j=0; j<A.config.world_width; j++)
 		{
@@ -1946,32 +2105,58 @@ window.onload = function()
 			}
 		}
 		
-		A._place_roads_on_map(
+		switch (A._array_pick_item_by_seed([ 1, 2 ], seed, 1))
+		{
+			case 1:
+				start_points = [
+					A._array_pick_item_by_seed([ [ 0,  5 ], [ 0,  8 ] ], seed, 2),
+					A._array_pick_item_by_seed([ [ 0, 11 ], [ 0, 14 ] ], seed, 3),
+					A._array_pick_item_by_seed([ [ 3, 20 ], [ 6, 20 ] ], seed, 4)
+				];
+			break;
+			
+			case 2:
+				start_points = [
+					A._array_pick_item_by_seed([ [ 3,  2 ], [ 6,  2 ] ], seed, 2),
+					A._array_pick_item_by_seed([ [ 0,  8 ],  [ 0, 11 ], [ 0, 14 ] ], seed, 3),
+					A._array_pick_item_by_seed([ [ 3, 20 ], [ 6, 20 ] ], seed, 4)
+				];
+			break;
+			
+			case 3:
+			break;
+		}
+		
+		A.player1_queues = [ [ start_points[0], 1, 40, 40, [], 0 ], [ start_points[1], 1, 40, 40, [], 0 ], [ start_points[2], 1, 40, 40, [], 0 ] ];
+		
+		target_points = [
+			A._array_pick_item_by_seed([ [ 15,  8 ], [ 18,  8 ], [ 15,  5 ], [ 18,  5 ] ], seed, 5),
+			A._array_pick_item_by_seed([ [ 15, 14 ], [ 18, 14 ], [ 15, 11 ], [ 18, 11 ] ], seed, 6)
+		];
+		
+		road_targets = [ 0, 1, 1 ];
+		
+		A._mapgen__generate_roads(
+			start_points,
+			target_points,
+			road_targets,
 			[
-				[ 0, 1, 12, 1 ],
-				[ 12, 1, 12, 10 ],
-				[ 13, 6, 17, 6 ],
-				[ 0, 14, 6, 14 ],
-				[ 6, 1, 6, 14 ],
-				[ 6, 10, 12, 10 ],
-				[ 6, 15, 6, 19 ],
-				[ 13, 10, 16, 10 ]
-			],
-			[
-				[ 6, 1, 14, 1 ],
-				[ 12, 1, 12, 2 ],
-				[ 12, 6, 7, 1 ],
-				[ 6, 14, 13, 0 ],
-				[ 6, 10, 7, 1 ],
-				[ 12, 10, 11, 1 ]
+				[ [ -1, 0 ], [ -2, 0 ], [ -3, 0 ] ],
+				[ [  1, 0 ], [  2, 0 ], [  3, 0 ] ],
+				[ [ 0, -1 ], [ 0, -2 ], [ 0, -3 ] ],
+				[ [ 0,  1 ], [ 0,  2 ], [ 0,  3 ] ]
+/*
+				[ [ -1, -1 ], [ -2, -2 ], [ -3, -3 ] ],
+				[ [ 1, 1 ], [ 2, 2 ], [ 3, 3 ] ]
+*/
 			]
 		);
 		
 		// concrete block generation
 		// TODO: this is a really hackish solution works with the current map only, change that
-		for (i=12; i<18; i++)
+		for (i=12; i<A.config.world_width - 1; i++)
 		{
-			for (j=2; j<14; j++)
+			for (j=2; j<A.config.world_height - 1; j++)
 			{
 				if (A.map[i][j] == 2)
 				{
@@ -1992,9 +2177,6 @@ window.onload = function()
 				}
 			}
 		}
-		
-		A.objects.push(new A.ObjectPlayer1Destination([ 17, 6 ]));
-		A.objects.push(new A.ObjectPlayer1Destination([ 16, 10 ]));
 	}
 	
 	A.init_textures = function()
@@ -2691,7 +2873,7 @@ window.onload = function()
 		B.socket.on("game_started", function(data) {
 			B.log("game started!");
 			
-			// data is the game array: [ player1_uid, player2_uid, players_swapped, map ]
+			// data is the game array: [ player1_uid, player2_uid, players_swapped, map, map_seed ]
 			if (data[2] == 0)
 			{
 				A.set_player(data[0] == A.player_uid ? 1 : 2);
@@ -2701,6 +2883,7 @@ window.onload = function()
 				A.set_player(data[1] == A.player_uid ? 1 : 2);
 			}
 			
+			A.map_seed = data[4];
 			A.set_status(A.GAME_STATUS_RUNNING);
 		});
 		
