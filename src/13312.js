@@ -771,7 +771,7 @@ window.onload = function()
 	
 	A._array_pick_item_by_seed = function(array, seed, n)
 	{
-		var i = (seed * 3518.7621 * n) | 0;
+		var i = Math.abs((seed * 3518.7621 * n) | 0);
 		return array[i % array.length];
 	}
 	
