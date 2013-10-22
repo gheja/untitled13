@@ -903,7 +903,7 @@ window.onload = function()
 		{
 			j = connectors[l][0];
 			k = 0;
-			for (i=connectors[l][1]; i<20; i++)
+			for (i=connectors[l][1]; i<A.config.world_height; i++)
 			{
 				switch (k)
 				{
@@ -2150,9 +2150,9 @@ window.onload = function()
 		
 		// concrete block generation
 		// TODO: this is a really hackish solution works with the current map only, change that
-		for (i=12; i<18; i++)
+		for (i=12; i<A.config.world_width - 1; i++)
 		{
-			for (j=2; j<14; j++)
+			for (j=2; j<A.config.world_height - 1; j++)
 			{
 				if (A.map[i][j] == 2)
 				{
