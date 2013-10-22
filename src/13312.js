@@ -2084,7 +2084,6 @@ window.onload = function()
 		
 		A.game_time = 0;
 		A.golds = [ 1000, 1000 ];
-		A.player1_queues = [ [ [ 0, 1 ], 1, 40, 40, [], 0 ], [ [ 0, 14 ], 1, 40, 40, [], 0 ], [ [ 6, 19 ], 0, 40, 40, [], 0 ] ];
 		
 		for (j=0; j<A.config.world_width; j++)
 		{
@@ -2125,6 +2124,8 @@ window.onload = function()
 			case 3:
 			break;
 		}
+		
+		A.player1_queues = [ [ start_points[0], 1, 40, 40, [], 0 ], [ start_points[1], 1, 40, 40, [], 0 ], [ start_points[2], 1, 40, 40, [], 0 ] ];
 		
 		target_points = [
 			A._array_pick_random_item([ [ 15,6 ], [ 18,6 ], [ 15, 3 ], [ 18, 3 ] ]),
