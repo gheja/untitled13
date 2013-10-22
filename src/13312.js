@@ -2105,8 +2105,7 @@ window.onload = function()
 			}
 		}
 		
-		// switch (A._array_pick_item_by_seed([ 1, 2, 3 ], seed, 1))
-		switch (1)
+		switch (A._array_pick_item_by_seed([ 1, 2 ], seed, 1))
 		{
 			case 1:
 				start_points = [
@@ -2117,6 +2116,11 @@ window.onload = function()
 			break;
 			
 			case 2:
+				start_points = [
+					A._array_pick_item_by_seed([ [ 3,  2 ], [ 6,  2 ] ], seed, 2),
+					A._array_pick_item_by_seed([ [ 0,  8 ],  [ 0, 11 ], [ 0, 14 ] ], seed, 3),
+					A._array_pick_item_by_seed([ [ 3, 20 ], [ 6, 20 ] ], seed, 4)
+				];
 			break;
 			
 			case 3:
