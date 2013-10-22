@@ -30,8 +30,8 @@ window.onload = function()
 	A.config = {
 		ticks_per_seconds: 30,
 		target_frames_per_seconds: 30,
-		world_width: 20,
-		world_height: 20,
+		world_width: 21,
+		world_height: 22,
 		bad_luck_mode: 0,
 		game_duration: 180,
 		overtime_duration: 60
@@ -2110,9 +2110,9 @@ window.onload = function()
 		{
 			case 1:
 				start_points = [
-					A._array_pick_item_by_seed([ [ 0,3 ], [ 0,6 ] ], seed, 2),
-					A._array_pick_item_by_seed([ [ 0,9 ], [ 0,12 ] ], seed, 3),
-					A._array_pick_item_by_seed([ [ 3,18 ], [ 6,18 ] ], seed, 4)
+					A._array_pick_item_by_seed([ [ 0,  5 ], [ 0,  8 ] ], seed, 2),
+					A._array_pick_item_by_seed([ [ 0, 11 ], [ 0, 14 ] ], seed, 3),
+					A._array_pick_item_by_seed([ [ 3, 20 ], [ 6, 20 ] ], seed, 4)
 				];
 			break;
 			
@@ -2126,8 +2126,8 @@ window.onload = function()
 		A.player1_queues = [ [ start_points[0], 1, 40, 40, [], 0 ], [ start_points[1], 1, 40, 40, [], 0 ], [ start_points[2], 1, 40, 40, [], 0 ] ];
 		
 		target_points = [
-			A._array_pick_item_by_seed([ [ 15,6 ], [ 18,6 ], [ 15, 3 ], [ 18, 3 ] ], seed, 5),
-			A._array_pick_item_by_seed([ [ 15,12 ], [ 18,12 ], [ 15,9 ], [ 18,9 ] ], seed, 6)
+			A._array_pick_item_by_seed([ [ 15,  8 ], [ 18,  8 ], [ 15,  5 ], [ 18,  5 ] ], seed, 5),
+			A._array_pick_item_by_seed([ [ 15, 14 ], [ 18, 14 ], [ 15, 11 ], [ 18, 11 ] ], seed, 6)
 		];
 		
 		road_targets = [ 0, 1, 1 ];
