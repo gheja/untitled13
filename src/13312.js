@@ -86,6 +86,7 @@ window.onload = function()
 	A.cursor_position_in_world = [ 10, 10 ]; /* tiles */
 	A.scroll = [ 0, -40 ] /* pixels */
 	A.map = [];
+	A.map_seed = 42;
 	A.tile_statuses = [];
 	A.palette = {
 		0: "rgba(0,0,0,0.2)",
@@ -2086,7 +2087,7 @@ window.onload = function()
 	
 	A.reset_map = function()
 	{
-		var i, j, k, r, obj, start_points, target_points, seed = 3;
+		var i, j, k, r, obj, start_points, target_points, seed = A.map_seed;
 		
 		A.game_time = 0;
 		A.golds = [ 1000, 1000 ];
@@ -2868,7 +2869,7 @@ window.onload = function()
 		B.socket.on("game_started", function(data) {
 			B.log("game started!");
 			
-			// data is the game array: [ player1_uid, player2_uid, players_swapped, map ]
+			// data is the game array: [ player1_uid, player2_uid, players_swapped, map, map_seed ]
 			if (data[2] == 0)
 			{
 				A.set_player(data[0] == A.player_uid ? 1 : 2);
@@ -2878,6 +2879,7 @@ window.onload = function()
 				A.set_player(data[1] == A.player_uid ? 1 : 2);
 			}
 			
+			A.map_seed = data[4];
 			A.set_status(A.GAME_STATUS_RUNNING);
 		});
 		

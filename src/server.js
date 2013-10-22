@@ -190,8 +190,14 @@ io.sockets.on("connection", function(socket) {
 						// S.games[i].player_swapped should be an integer
 						S.games[i].players_swapped = (!S.games[i].players_swapped) | 0;
 					}
-					socket.emit2("game_started", [ S.games[i].player1_uid, S.games[i].player2_uid, S.games[i].players_swapped, null ]);
-					socket.emit2_partner("game_started", [ S.games[i].player1_uid, S.games[i].player2_uid, S.games[i].players_swapped, null ]);
+					
+					// if "new level" is checked
+					if (data[0])
+					{
+						S.games[i].seed = (Math.random() * 1000000) | 0;
+					}
+					socket.emit2("game_started", [ S.games[i].player1_uid, S.games[i].player2_uid, S.games[i].players_swapped, null, S.games[i].seed ]);
+					socket.emit2_partner("game_started", [ S.games[i].player1_uid, S.games[i].player2_uid, S.games[i].players_swapped, null, S.games[i].seed ]);
 					
 					return;
 				}
