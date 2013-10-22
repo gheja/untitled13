@@ -768,6 +768,12 @@ window.onload = function()
 		return array[A._random_int(0, array.length - 1, 1)];
 	}
 	
+	A._array_pick_item_by_seed = function(array, seed, n)
+	{
+		var i = (seed * 3518.7621 * n) | 0;
+		return array[i % array.length];
+	}
+	
 	A._cv_gradient = function(c, p1, p2, stops)
 	{
 		var i, gradient;
@@ -2080,7 +2086,7 @@ window.onload = function()
 	
 	A.reset_map = function()
 	{
-		var i, j, k, r, obj, start_points, target_points;
+		var i, j, k, r, obj, start_points, target_points, seed = 3;
 		
 		A.game_time = 0;
 		A.golds = [ 1000, 1000 ];
@@ -2098,23 +2104,14 @@ window.onload = function()
 			}
 		}
 		
-		switch (A._random_int(1, 1, 1))
+		// switch (A._array_pick_item_by_seed([ 1, 2, 3 ], seed, 1))
+		switch (1)
 		{
 			case 1:
-				/*
-					valid positions for start_point...
-						... #1: [ [ 0,3 ], [ 0,6 ] ]
-						... #2: [ [ 0,9 ], [ 0,12 ], [ 0,15 ] ]
-						... #3: [ [ 3,18 ], [ 6,18 ], [ 9,18 ] ]
-					
-					valid positions for target_point...
-						... #1 [ [ 15,6 ], [ 18,6 ], [ 15,9 ], [ 18,9 ] ]
-						... #2 [ [ 15,12 ], [ 18,12 ], [ 15,15 ], [ 18,15 ] ]
-				*/
 				start_points = [
-					A._array_pick_random_item([ [ 0,3 ], [ 0,6 ] ]),
-					A._array_pick_random_item([ [ 0,9 ], [ 0,12 ] ]),
-					A._array_pick_random_item([ [ 3,18 ], [ 6,18 ] ])
+					A._array_pick_item_by_seed([ [ 0,3 ], [ 0,6 ] ], seed, 2),
+					A._array_pick_item_by_seed([ [ 0,9 ], [ 0,12 ] ], seed, 3),
+					A._array_pick_item_by_seed([ [ 3,18 ], [ 6,18 ] ], seed, 4)
 				];
 			break;
 			
@@ -2128,8 +2125,8 @@ window.onload = function()
 		A.player1_queues = [ [ start_points[0], 1, 40, 40, [], 0 ], [ start_points[1], 1, 40, 40, [], 0 ], [ start_points[2], 1, 40, 40, [], 0 ] ];
 		
 		target_points = [
-			A._array_pick_random_item([ [ 15,6 ], [ 18,6 ], [ 15, 3 ], [ 18, 3 ] ]),
-			A._array_pick_random_item([ [ 15,12 ], [ 18,12 ], [ 15,9 ], [ 18,9 ] ])
+			A._array_pick_item_by_seed([ [ 15,6 ], [ 18,6 ], [ 15, 3 ], [ 18, 3 ] ], seed, 5),
+			A._array_pick_item_by_seed([ [ 15,12 ], [ 18,12 ], [ 15,9 ], [ 18,9 ] ], seed, 6)
 		];
 		
 		road_targets = [ 0, 1, 1 ];
