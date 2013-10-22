@@ -131,23 +131,24 @@ try cd ..
 
 echo "Done."
 
+echo ""
+
 du -b ./src ./build/client ./build/server ./build/all ./build/${zip_file}_client.zip ./build/${zip_file}_server.zip ./build/${zip_file}_all.zip
 
+echo ""
+
 size=`du -b ./build/${zip_file}_client.zip | awk '{ print $1; }'`
-if [ $size -lt 13312 ]; then
-	echo "Client is smaller than 13 kB, great!"
-else
+if [ $size -gt 13312 ]; then
 	echo "Client is larger thank 13 kB! Build failed!"
 	exit 1
 fi
 
 size=`du -b ./build/${zip_file}_server.zip | awk '{ print $1; }'`
-
-if [ $size -lt 13312 ]; then
-	echo "Server is smaller than 13 kB, great!"
-else
+if [ $size -gt 13312 ]; then
 	echo "Server is larger thank 13 kB! Build failed!"
 	exit 1
 fi
+
+echo "Both client and server are smaller than 13 kB, build was successful!"
 
 exit 0
