@@ -962,7 +962,7 @@ window.onload = function()
 				}
 				
 				k = 0;
-				a = [ 0, 0, 0, 0 ];
+				a = [ 0, 0, 0, 0, 0, 0 ];
 				
 				if (A.map[i+1][j] == 2)
 				{
@@ -971,12 +971,12 @@ window.onload = function()
 				}
 				if (A.map[i-1][j] == 2)
 				{
-					a[3] = 1;
+					a[4] = 1;
 					k++;
 				}
 				if (A.map[i][j+1] == 2)
 				{
-					a[2] = 1;
+					a[3] = 1;
 					k++;
 				}
 				if (A.map[i][j-1] == 2)
@@ -998,9 +998,9 @@ window.onload = function()
 					// end of the road
 					(k < 2) || 
 					// horizontal line
-					(a[1] && a[3] && !a[0] && !a[2]) ||
+					(a[1] && a[4] && !a[0] && !a[3]) ||
 					// vertical line
-					(a[0] && a[2] && !a[1] && !a[3])
+					(a[0] && a[3] && !a[1] && !a[4])
 				)
 				{
 					continue;
