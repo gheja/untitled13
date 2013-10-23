@@ -2204,12 +2204,16 @@ window.onload = function()
 		A.gfx__texture_create(18, "pvwGQHlMtO7V3e0k7p8uu0nzXuNbJ.p8wVUfdmR.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost3 sprite
 		A.gfx__texture_create("a0", "p00jPvbvP.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.gfx__texture_create("a1", "p00vcqr0o.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
-		A.gfx__texture_create("a2", "p00PjPvbv.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
-		A.gfx__texture_create("a3", "p00TTJZPi.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("a2", "p00cvn2qs.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("a3", "p00PjPvbv.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("a4", "p00TTJZPi.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("a5", "p00ZJTSiP.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.gfx__texture_create("b0", "p9ajPvbvP.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.gfx__texture_create("b1", "p9avcqr0o.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
-		A.gfx__texture_create("b2", "p9aPjPvbv.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
-		A.gfx__texture_create("b3", "p9aTTJZPi.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("b2", "p9acvn2qs.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("b3", "p9aPjPvbv.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("b4", "p9aTTJZPi.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("b5", "p9aZJTSiP.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.gfx__texture_create(20, "pbb3337/s/o.aAFpdbY7Y/3733.aAFpdbAwA0Y/Y7.aAFpdbIlAwY733/oog.", A.TEXTURE_SIZE_64X64); // ObjectPlayer2* concrete base tile
 		A.gfx__texture_create(21, "peebgYrftmrjg.pfeLiutmV.peecabgfjjgia.pfeaTUete.peeeRcafciagR.pcffIYMYQZRfUkRmOkK.", A.TEXTURE_SIZE_64X64); // ObjectPlayer2Tower1
 		A.gfx__texture_create(22, "pllbgYrftmrjg.pmlLiutmV.pllcabgfjjgia.pmlaTUete.plleRcafciagR.pcmfIYMYQZRfUkRmOkK.", A.TEXTURE_SIZE_64X64); // ObjectPlayer2Tower2
