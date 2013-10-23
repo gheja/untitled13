@@ -450,6 +450,14 @@ window.onload = function()
 			{
 				this.sprites.push([ this.direction == 3 ? "b3" : "a3", -32, -16 ]);
 			}
+			if (valid_directions[4])
+			{
+				this.sprites.push([ this.direction == 4 ? "b4" : "a4", -32, -16 ]);
+			}
+			if (valid_directions[5])
+			{
+				this.sprites.push([ this.direction == 5 ? "b5" : "a5", -32, -16 ]);
+			}
 		}
 		
 		obj.on_collision_middle = function(obj2, i, distance)
@@ -470,7 +478,7 @@ window.onload = function()
 			
 			while (first || this.valid_directions[this.direction] == 0)
 			{
-				this.direction = (this.direction + 1) % 4;
+				this.direction = (this.direction + 1) % 6;
 				first = 0;
 			}
 			
@@ -954,7 +962,7 @@ window.onload = function()
 				}
 				
 				k = 0;
-				a = [ 0, 0, 0, 0 ];
+				a = [ 0, 0, 0, 0, 0, 0 ];
 				
 				if (A.map[i+1][j] == 2)
 				{
@@ -963,12 +971,12 @@ window.onload = function()
 				}
 				if (A.map[i-1][j] == 2)
 				{
-					a[3] = 1;
+					a[4] = 1;
 					k++;
 				}
 				if (A.map[i][j+1] == 2)
 				{
-					a[2] = 1;
+					a[3] = 1;
 					k++;
 				}
 				if (A.map[i][j-1] == 2)
@@ -976,23 +984,25 @@ window.onload = function()
 					a[0] = 1;
 					k++;
 				}
-/*
 				if (A.map[i+1][j+1] == 2)
 				{
+					a[2] = 1;
 					k++;
 				}
 				if (A.map[i-1][j-1] == 2)
 				{
+					a[5] = 1;
 					k++;
 				}
-*/
 				if (
 					// end of the road
 					(k < 2) || 
 					// horizontal line
-					(a[1] && a[3] && !a[0] && !a[2]) ||
+					(a[1] && a[4] && !a[0] && !a[3]) ||
 					// vertical line
-					(a[0] && a[2] && !a[1] && !a[3])
+					(!a[1] && !a[4] && a[0] && a[3]) ||
+					// diagonal line
+					(!a[1] && !a[4] && !a[0] && !a[3] && a[5] && a[2])
 				)
 				{
 					continue;
@@ -2144,11 +2154,9 @@ window.onload = function()
 				[ [ -1, 0 ], [ -2, 0 ], [ -3, 0 ] ],
 				[ [  1, 0 ], [  2, 0 ], [  3, 0 ] ],
 				[ [ 0, -1 ], [ 0, -2 ], [ 0, -3 ] ],
-				[ [ 0,  1 ], [ 0,  2 ], [ 0,  3 ] ]
-/*
+				[ [ 0,  1 ], [ 0,  2 ], [ 0,  3 ] ],
 				[ [ -1, -1 ], [ -2, -2 ], [ -3, -3 ] ],
 				[ [ 1, 1 ], [ 2, 2 ], [ 3, 3 ] ]
-*/
 			]
 		);
 		
@@ -2204,12 +2212,16 @@ window.onload = function()
 		A.gfx__texture_create(18, "pvwGQHlMtO7V3e0k7p8uu0nzXuNbJ.p8wVUfdmR.", A.TEXTURE_SIZE_32X32); // ObjectPlayer1Ghost3 sprite
 		A.gfx__texture_create("a0", "p00jPvbvP.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.gfx__texture_create("a1", "p00vcqr0o.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
-		A.gfx__texture_create("a2", "p00PjPvbv.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
-		A.gfx__texture_create("a3", "p00TTJZPi.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("a2", "p00cvn2qs.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("a3", "p00PjPvbv.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("a4", "p00TTJZPi.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("a5", "p00ZJTSiP.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.gfx__texture_create("b0", "p9ajPvbvP.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.gfx__texture_create("b1", "p9avcqr0o.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
-		A.gfx__texture_create("b2", "p9aPjPvbv.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
-		A.gfx__texture_create("b3", "p9aTTJZPi.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("b2", "p9acvn2qs.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("b3", "p9aPjPvbv.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("b4", "p9aTTJZPi.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
+		A.gfx__texture_create("b5", "p9aZJTSiP.", A.TEXTURE_SIZE_64X32); // ObjectPlayer1Switch sprite
 		A.gfx__texture_create(20, "pbb3337/s/o.aAFpdbY7Y/3733.aAFpdbAwA0Y/Y7.aAFpdbIlAwY733/oog.", A.TEXTURE_SIZE_64X64); // ObjectPlayer2* concrete base tile
 		A.gfx__texture_create(21, "peebgYrftmrjg.pfeLiutmV.peecabgfjjgia.pfeaTUete.peeeRcafciagR.pcffIYMYQZRfUkRmOkK.", A.TEXTURE_SIZE_64X64); // ObjectPlayer2Tower1
 		A.gfx__texture_create(22, "pllbgYrftmrjg.pmlLiutmV.pllcabgfjjgia.pmlaTUete.plleRcafciagR.pcmfIYMYQZRfUkRmOkK.", A.TEXTURE_SIZE_64X64); // ObjectPlayer2Tower2
@@ -2480,11 +2492,21 @@ window.onload = function()
 			}
 			else if (A.objects[i].direction == 2)
 			{
+				A.objects[i].position[0] += moved;
 				A.objects[i].position[1] += moved;
 			}
 			else if (A.objects[i].direction == 3)
 			{
+				A.objects[i].position[1] += moved;
+			}
+			else if (A.objects[i].direction == 4)
+			{
 				A.objects[i].position[0] -= moved;
+			}
+			else if (A.objects[i].direction == 5)
+			{
+				A.objects[i].position[0] -= moved;
+				A.objects[i].position[1] -= moved;
 			}
 			A.objects[i].position_on_layer = A._world_position_to_layer_position(A.objects[i].position);
 		}
