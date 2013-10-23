@@ -984,23 +984,25 @@ window.onload = function()
 					a[0] = 1;
 					k++;
 				}
-/*
 				if (A.map[i+1][j+1] == 2)
 				{
+					a[2] = 1;
 					k++;
 				}
 				if (A.map[i-1][j-1] == 2)
 				{
+					a[5] = 1;
 					k++;
 				}
-*/
 				if (
 					// end of the road
 					(k < 2) || 
 					// horizontal line
 					(a[1] && a[4] && !a[0] && !a[3]) ||
 					// vertical line
-					(a[0] && a[3] && !a[1] && !a[4])
+					(!a[1] && !a[4] && a[0] && a[3]) ||
+					// diagonal line
+					(!a[1] && !a[4] && !a[0] && !a[3] && a[5] && a[2])
 				)
 				{
 					continue;
