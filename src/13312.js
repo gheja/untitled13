@@ -450,6 +450,14 @@ window.onload = function()
 			{
 				this.sprites.push([ this.direction == 3 ? "b3" : "a3", -32, -16 ]);
 			}
+			if (valid_directions[4])
+			{
+				this.sprites.push([ this.direction == 4 ? "b4" : "a4", -32, -16 ]);
+			}
+			if (valid_directions[5])
+			{
+				this.sprites.push([ this.direction == 5 ? "b5" : "a5", -32, -16 ]);
+			}
 		}
 		
 		obj.on_collision_middle = function(obj2, i, distance)
@@ -470,7 +478,7 @@ window.onload = function()
 			
 			while (first || this.valid_directions[this.direction] == 0)
 			{
-				this.direction = (this.direction + 1) % 4;
+				this.direction = (this.direction + 1) % 6;
 				first = 0;
 			}
 			
@@ -2484,11 +2492,21 @@ window.onload = function()
 			}
 			else if (A.objects[i].direction == 2)
 			{
+				A.objects[i].position[0] += moved;
 				A.objects[i].position[1] += moved;
 			}
 			else if (A.objects[i].direction == 3)
 			{
+				A.objects[i].position[1] += moved;
+			}
+			else if (A.objects[i].direction == 4)
+			{
 				A.objects[i].position[0] -= moved;
+			}
+			else if (A.objects[i].direction == 5)
+			{
+				A.objects[i].position[0] -= moved;
+				A.objects[i].position[1] -= moved;
 			}
 			A.objects[i].position_on_layer = A._world_position_to_layer_position(A.objects[i].position);
 		}
