@@ -857,14 +857,15 @@ window.onload = function()
 		return (minus ? "-" : "") + (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
 	}
 	
-	A._mapgen__generate_roads = function(starting_points, target_points, road_targets, valid_extensions)
+	A._mapgen__generate_roads = function(starting_points, target_points, road_targets, valid_extensions, starting_direction_for_extensions)
 	{
-		var a, i, j, k, l, x, roads_left = starting_points.length, finished, dist, min_dist, best_road_tiles, temp_road_tiles;
+		var a, i, j, k, l, x, roads_left = starting_points.length, finished, dist, min_dist, best_road_tiles, temp_road_tiles, best_j, first_roads;
 		/*
 		  starting points: [ [ x, y ], ... ]
 		  target_points: [ [ x, y ], ... ]
 		  road_targets: [ target_id_for_starting_point_1, ... ]
 		  valid_extensions: [ [ [ x1, y1 ], [ x2, y2 ], ... ], ... ]
+		  starting_direction_for_extensions: [ dir1, dir2, ... ]
 		*/
 		
 		// create the roads from starting points to target points
@@ -873,6 +874,7 @@ window.onload = function()
 			A.map[starting_points[i][0]][starting_points[i][1]] = 2;
 			
 			finished = 0;
+			first_roads = 1;
 			for (x=0; x<100; x++)
 			{
 				min_dist = 999;
@@ -888,6 +890,7 @@ window.onload = function()
 						if (dist <= min_dist)
 						{
 							best_road_tiles = A._array_copy(temp_road_tiles);
+							best_j = j;
 							min_dist = dist;
 						}
 					}
@@ -897,7 +900,17 @@ window.onload = function()
 				{
 					A.map[best_road_tiles[j][0]][best_road_tiles[j][1]] = 2;
 				}
+				
 				starting_points[i] = A._2d_copy(best_road_tiles[j-1]);
+				
+				// only update the starting direction once
+				if (first_roads)
+				{
+					// starting direction (TODO: move away this from here...)
+					A.player1_queues[i][1] = starting_direction_for_extensions[best_j];
+					first_roads = 0;
+				}
+				
 				if (min_dist == 0)
 				{
 					break;
@@ -2157,7 +2170,8 @@ window.onload = function()
 				[ [ 0,  1 ], [ 0,  2 ], [ 0,  3 ] ],
 				[ [ -1, -1 ], [ -2, -2 ], [ -3, -3 ] ],
 				[ [ 1, 1 ], [ 2, 2 ], [ 3, 3 ] ]
-			]
+			],
+			[ 4, 1, 0, 3, 5, 2 ]
 		);
 		
 		// concrete block generation
