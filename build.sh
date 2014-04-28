@@ -36,7 +36,7 @@ if [ ! -e build/compiler/compiler.jar ]; then
 	
 	if [ ! -e compiler-latest.zip ]; then
 		echo "* Downloading Closure Compiler..."
-		try wget http://closure-compiler.googlecode.com/files/compiler-latest.zip
+		try wget http://dl.google.com/closure-compiler/compiler-latest.zip
 	fi
 	
 	echo "* Unzipping Closure Compiler... "
